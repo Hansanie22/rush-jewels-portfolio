@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Rush Jewels - Luxury Jewelry Collection</title>
+    <link rel="canonical" href="https://rushjewels.com/" />
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <meta name="description"
+          content="Discover exquisite luxury jewelry at Rush Jewels. Handcrafted pieces with precious gemstones and metals.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Google Fonts (Merged) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Config (Merged) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated Color Palette
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        // Brand Colors
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Water Animation Styles & Flash Sale Styles -->
+    <style>
+        /* --- Flash Sale Specific Animations --- */
+        /* Elegant Fade In */
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Gentle Bounce for the Discount */
+        @keyframes floatBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: floatBounce 2s ease-in-out infinite;
+        }
+
+        /* Rhythmic Pulse for the Timer */
+        @keyframes subtlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-scale-pulse {
+            animation: subtlePulse 1.5s ease-in-out infinite;
+        }
+
+        /* Ensure Flash Sale Sharp Edges only apply to popup to protect other site elements */
+        #flash-sale-popup * { border-radius: 0 !important; }
+
+        /* --- Existing Site Styles --- */
+
+
+        /* Carousel Dot Animations */
+        .carousel-dot {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 0;
+        }
+
+        .carousel-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(212, 175, 55, 0.3);
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+        }
+
+        .carousel-dot:hover::before {
+            width: 200%;
+            height: 200%;
+        }
+
+        .carousel-dot.bg-gold {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+            border-color: #D4AF37;
+            background-color: #D4AF37 !important;
+        }
+
+        /* Horizontal Product Scroll Styling */
+        .products-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .products-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .products-scroll::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            transition: background 0.3s ease;
+        }
+
+        .products-scroll::-webkit-scrollbar-thumb:hover {
+            background: #b8941f;
+        }
+
+        /* Smooth scroll behavior */
+        .products-scroll {
+            scroll-behavior: smooth;
+        }
+
+        /* Responsive Carousel Image Positioning */
+        @media (max-width: 640px) {
+            .carousel-slide img {
+                object-position: center center !important;
+                min-height: 100vh;
+            }
+        }
+
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .carousel-slide img {
+                object-position: center center !important;
+                min-height: 100vh;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .carousel-slide img {
+                object-position: center center !important;
+                min-height: 100vh;
+            }
+        }
+
+        /* Ensure full height coverage on all devices */
+        .carousel-slide {
+            min-height: 100vh;
+            width: 100vw;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            object-fit: cover;
+        }
+
+        /* Flowing Text Stripe Animation */
+        @keyframes flowText {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .flowing-stripe {
+            background: linear-gradient(45deg, #D4AF37, #F4E7A1, #D4AF37, #B8941F);
+            background-size: 400% 400%;
+            animation: gradientShift 5s ease infinite;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .flowing-text {
+            display: inline-block;
+            animation: flowText 45s linear infinite;
+            animation-delay: 0s;
+            font-weight: 600;
+            letter-spacing: 3px;
+            word-spacing: 8px;
+            text-transform: uppercase;
+            will-change: transform;
+        }
+
+        /* Cart Count Blinking Animation */
+        @keyframes cartBlink {
+
+            0%,
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            25% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+
+            75% {
+                opacity: 0.9;
+                transform: scale(0.95);
+            }
+        }
+
+        .cart-blink {
+            animation: cartBlink 1.5s ease-in-out infinite;
+        }
+
+        /* Hide cart count when empty */
+        .cart-count-hidden {
+            display: none !important;
+        }
+
+        .cart-count-visible {
+            display: flex !important;
+        }
+
+        /* Floating Cart Animation */
+        .floating-cart-item {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            font-size: 24px;
+            color: #d4af37;
+            animation: floatToCart 1.5s ease-out forwards;
+        }
+
+        @keyframes floatToCart {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2) translateY(-20px);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.3) translateY(-100px) translateX(50px);
+            }
+        }
+
+        /* End Sliding Search Panel */
+
+        .no-scroll {
+            overflow: hidden !important;
+            height: 100vh;
+        }
+
+        /* Mobile responsive panels */
+
+        /* Cart quantity controls */
+        .qty-controls {
+            border: 1px solid #e5e7eb;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: #f9fafb;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .qty-btn:hover {
+            background: #D4AF37;
+            color: white;
+        }
+
+        .qty-input {
+            border: none;
+            outline: none;
+            text-align: center;
+            width: 60px;
+            padding: 0.5rem 0.25rem;
+            background: white;
+        }
+
+        /* Cart item animations */
+        .cart-item {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .cart-item:hover {
+            background: #f9fafb;
+        }
+
+        .remove-item {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .cart-item:hover .remove-item {
+            opacity: 1;
+        }
+
+        /* Sticky summary */
+        .cart-summary {
+            background: #f8f9fa;
+            border-top: 2px solid #D4AF37;
+        }
+
+        /* Modal Scroll Prevention */
+        .modal-open {
+            overflow: hidden !important;
+            position: fixed !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Prevent touch scrolling on modal background */
+        .modal-overlay {
+            touch-action: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Prevent body scroll when popup is open */
+        .popup-open {
+            overflow: hidden !important;
+        }
+
+        /* Consistent navbar hover effects */
+        .nav-hover {
+            transition: all 0.3s ease;
+        }
+
+        .nav-hover:hover {
+            color: #D4AF37;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Categories dropdown hover */
+        .dropdown-item:hover {
+            background-color: #F8F8F8;
+            color: #D4AF37;
+            transition: all 0.2s ease;
+        }
+
+        /* Cute categories dropdown effects */
+        .categories-dropdown {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: top left;
+        }
+
+        .categories-dropdown:before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+            filter: drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .cute-dropdown-item {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+        }
+
+        .cute-dropdown-item:before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cute-dropdown-item:hover:before {
+            left: 100%;
+        }
+
+        .cute-dropdown-item:hover {
+            background: linear-gradient(135deg, #F8F8F8 0%, #FEFEFE 50%, #F8F8F8 100%);
+            color: #D4AF37;
+            transform: translateX(8px) scale(1.02);
+            text-shadow: 0 1px 3px rgba(212, 175, 55, 0.2);
+            box-shadow: inset 3px 0 0 #D4AF37;
+        }
+
+        .cute-dropdown-item i {
+            transition: all 0.3s ease;
+            margin-right: 8px;
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .cute-dropdown-item:hover i {
+            opacity: 1;
+            transform: translateX(0) rotate(360deg);
+        }
+
+        /* Hide main page scrollbar */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            -ms-overflow-style: none;
+            /* Internet Explorer 10+ */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        html {
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="font-poppins text-dark bg-white">
+
+<script src="js/loader.js"></script>
+
+<div id="navbar-container"></div>
+
+<main id="main-content" style="display: none;">
+<!-- Hero Section with Carousel -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <div id="carousel-container" class="relative w-full h-full">
+        </div>
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    </div>
+
+    <div class="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <h1 class="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-playfair font-bold mb-4 sm:mb-6 animate__animated animate__fadeInDown leading-tight">
+            Timeless Elegance
+        </h1>
+        <p class="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 animate__animated animate__fadeInUp animate__delay-1s max-w-3xl mx-auto leading-relaxed">
+            Discover our exclusive collection of handcrafted luxury jewelry
+        </p>
+        <div class="flex flex-col xs:flex-row justify-center gap-3 sm:gap-4 animate__animated animate__fadeInUp animate__delay-2s max-w-lg mx-auto">
+            <a href="shop.html" class="bg-gold text-white px-6 sm:px-8 py-3 sm:py-4 font-medium hover:bg-opacity-90 transition-all transform hover:scale-105 flex items-center justify-center text-sm sm:text-base">
+                Shop Collection
+            </a>
+            <a href="about.html" class="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 font-medium hover:bg-white hover:text-dark transition-all flex items-center justify-center text-sm sm:text-base">
+                Learn More
+            </a>
+        </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+        <div id="carousel-dots" class="flex space-x-3">
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-6 sm:py-8 lg:py-10 bg-light-gray">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-6 sm:mb-8 lg:mb-10">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-playfair font-bold mb-3 sm:mb-4">Featured Products</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base px-4">Explore our handpicked selection of
+                exquisite jewelry pieces crafted with precision and passion</p>
+        </div>
+
+        <!-- Horizontal Scrolling Products Container -->
+        <div class="relative w-full">
+            <!-- Added p-6 to ensure hover effects (translateY) don't get clipped -->
+            <div class="bg-white shadow-lg w-full">
+                <div id="featured-products-wrapper" class="flex overflow-x-auto gap-6 p-6 products-scroll">
+                    <div class="w-full text-center text-gold py-10">
+                        <i class="fas fa-circle-notch fa-spin text-2xl"></i> Loading...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-6 sm:mt-8 lg:mt-10">
+            <a href="shop.html"
+               class="inline-block border-2 border-gold text-gold px-6 sm:px-8 py-3 font-medium hover:bg-gold hover:text-white transition-all text-sm sm:text-base">View
+                All Products</a>
+        </div>
+    </div>
+</section>
+<!-- Flowing Text Stripe -->
+<section class="flowing-stripe py-4 sm:py-6">
+    <div class="flowing-text text-white text-lg sm:text-xl md:text-2xl">
+        •&nbsp;&nbsp;&nbsp;Chains&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Rings&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Bracelets&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Pendants&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Customize
+        Pendants&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Earrings&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Necklaces&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Watches&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Diamond
+        Sets&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Gold Jewelry&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Silver
+        Collection&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Wedding Bands&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Engagement
+        Rings&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Chains&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Rings&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Bracelets&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Pendants&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Customize
+        Pendants&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Earrings&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Necklaces&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Watches&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Diamond
+        Sets&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Gold Jewelry&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Silver
+        Collection&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Wedding Bands&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;Engagement
+        Rings
+    </div>
+</section>
+
+<!-- Banner Section - New Arrivals -->
+<section class="py-6 sm:py-8 lg:py-10 bg-dark text-white">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
+        <!-- Main New Arrivals Content -->
+        <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-8 mb-8 lg:mb-12">
+            <div class="w-full lg:w-3/5 order-2 lg:order-1 relative overflow-hidden shadow-2xl">
+                <!-- Local Video - New Arrivals Showcase -->
+                <div class="relative w-full h-80 sm:h-96 lg:h-[500px] xl:h-[600px]">
+                    <video
+                            src="video/new.mp4"
+                            class="absolute inset-0 w-full h-full object-cover"
+                            autoplay
+                            muted
+                            loop
+                            playsinline>
+                        Your browser does not support the video tag.
+                    </video>
+                    <!-- Video overlay for better text contrast -->
+                    <div class="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
+                </div>
+            </div>
+            <div class="w-full lg:w-2/5 text-center lg:text-left order-1 lg:order-2 lg:pl-8 xl:pl-12">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold mb-4 sm:mb-6">New Arrivals</h2>
+                <p class="mb-8 text-gray-300 text-base sm:text-lg leading-relaxed">Be the first to explore our
+                    latest collection of exquisite jewelry
+                    pieces, handcrafted with the finest materials and attention to detail.</p>
+                <a href="shop.html?sort=newest"
+                   class="inline-block bg-gold text-white px-8 sm:px-10 py-4 font-medium hover:bg-opacity-90 transition-all transform hover:scale-105 text-base sm:text-lg">Shop
+                    New Arrivals</a>
+            </div>
+        </div>
+
+        <!-- New Arrivals Product Section -->
+        <div class="border-t border-gray-700 pt-12 lg:pt-16">
+            <h3 class="text-2xl sm:text-3xl font-playfair font-bold text-center mb-8 lg:mb-12">Featured New Arrivals</h3>
+
+            <!-- Added p-6 to ensure hover effects don't get clipped -->
+            <div class="bg-white shadow-lg w-full">
+                <div id="new-arrivals-wrapper" class="flex overflow-x-auto gap-6 p-6 products-scroll">
+                    <div class="w-full text-center text-gold py-10">
+                        <i class="fas fa-circle-notch fa-spin text-2xl"></i> Loading...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Banner Section - Sale -->
+<section id="seasonal-sale-section" class="py-6 sm:py-8 lg:py-10 bg-white">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row-reverse items-center gap-6 lg:gap-8">
+            <div class="w-full lg:w-1/2 order-2 lg:order-1">
+                <!-- Added ID to image -->
+                <img id="sale-image"
+                     src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                     alt="Seasonal Sale Jewelry"
+                     onerror="this.src='https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80'"
+                     class="shadow-lg w-full h-64 sm:h-80 lg:h-96 object-cover" loading="lazy">
+            </div>
+            <div class="w-full lg:w-1/2 text-center lg:text-left order-1 lg:order-2 lg:pr-8 xl:pr-12">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-playfair font-bold mb-3 sm:mb-4">Seasonal Sale</h2>
+                <!-- Added ID to description -->
+                <p id="sale-description" class="mb-6 text-gray-600 text-sm sm:text-base leading-relaxed">
+                    Enjoy up to 30% off on selected items. Limited time offer. Don't miss your chance to own a piece of luxury at an exceptional price.
+                </p>
+                <a href="shop.html?sale=true"
+                   class="inline-block bg-gold text-white px-6 sm:px-8 py-3 font-medium hover:bg-opacity-90 transition-all transform hover:scale-105 text-sm sm:text-base">Shop
+                    Sale</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-8 sm:py-10 lg:py-12 bg-gray-100">
+    <div class="w-full px-4">
+        <div class="text-center mb-6 sm:mb-8">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-4 text-dark">What Our Clients Say</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Discover the experiences of our valued customers who have
+                found their perfect piece of jewelry at Rush Jewels</p>
+        </div>
+
+        <div class="relative max-w-4xl mx-auto">
+            <div class="overflow-hidden">
+                <div class="flex transition-transform duration-500 ease-in-out" id="testimonials-slider">
+                </div>
+            </div>
+
+            <button
+                    class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white hover:bg-gold text-gray-600 hover:text-white w-12 h-12 shadow-lg transition-all duration-300 z-10 flex items-center justify-center group"
+                    id="testimonials-prev">
+                <i class="fas fa-chevron-left transition-transform group-hover:scale-110"></i>
+            </button>
+            <button
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white hover:bg-gold text-gray-600 hover:text-white w-12 h-12 shadow-lg transition-all duration-300 z-10 flex items-center justify-center group"
+                    id="testimonials-next">
+                <i class="fas fa-chevron-right transition-transform group-hover:scale-110"></i>
+            </button>
+
+            <div class="flex justify-center mt-8 space-x-3" id="carousel-dots-testimonials">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Blogs Section -->
+<section class="py-8 sm:py-10 lg:py-12 bg-white" id="blog">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-6 sm:mb-8 lg:mb-10">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-playfair font-bold mb-3 sm:mb-4">Latest from Our Blog</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base px-4">
+                Discover the latest trends, styling tips, and stories from the world of luxury jewelry
+            </p>
+        </div>
+
+        <div id="latest-blog-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 min-h-[400px]">
+            <!-- Loading State -->
+            <div class="col-span-full flex flex-col items-center justify-center text-gray-400">
+                <i class="fas fa-circle-notch fa-spin text-4xl text-gold mb-3"></i>
+                <p>Loading latest updates...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section id="newsletter-section" class="py-6 sm:py-8 lg:py-10 bg-dark text-white hidden">
+    <div class="w-full px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-playfair font-bold mb-3 sm:mb-4">
+            Join Our Newsletter
+        </h2>
+
+        <p class="mb-6 sm:mb-8 max-w-2xl mx-auto text-gray-300 text-sm sm:text-base px-4">
+            Subscribe to receive updates on new collections, exclusive offers, and special events
+        </p>
+
+        <form id="newsletter-form"
+              class="max-w-md mx-auto flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <input id="newsletter-email" type="email" placeholder="Your email address"
+                   class="flex-grow px-4 py-3 text-dark focus:outline-none focus:ring-2 focus:ring-gold text-sm sm:text-base">
+
+            <button type="submit"
+                    class="bg-gold text-white px-6 sm:px-8 py-3 font-medium hover:bg-opacity-90 transition-all transform hover:scale-105 text-sm sm:text-base">
+                Subscribe
+            </button>
+        </form>
+    </div>
+</section>
+</main>
+<!-- Footer -->
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+
+<div id="flash-sale-popup" class="fixed inset-0 bg-brand-dark bg-opacity-90 flex items-center justify-center z-[120] p-4 fade-in font-lato hidden">
+
+    <div class="bg-white w-full max-w-lg shadow-2xl border border-brand-gold relative">
+
+        <!-- Decorative Gold Border Line -->
+        <div class="absolute top-2 left-2 right-2 bottom-2 border border-gray-100 pointer-events-none"></div>
+
+        <!-- Close Button -->
+        <button id="close-flash-sale"
+                class="absolute top-0 right-0 p-4 text-brand-dark hover:text-brand-gold transition-colors z-20">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+
+        <!-- Header -->
+        <div class="bg-brand-dark text-brand-gold p-8 text-center border-b border-brand-gold">
+            <p class="text-[10px] uppercase tracking-[4px] text-white mb-2">Exclusive Invitation</p>
+            <h2 class="text-4xl md:text-5xl font-bodoni font-bold italic">Flash Event</h2>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 md:p-10 text-center relative z-10 bg-white">
+
+            <!-- Animated Discount Section -->
+            <div class="mb-8 animate-float">
+                <p class="font-playfair text-brand-dark text-xl italic mb-1">Up to</p>
+                <p class="text-6xl font-bodoni font-bold text-brand-dark leading-none">
+                    <span class="flash-sale-discount">50%</span> <span class="text-4xl">OFF</span>
+                </p>
+                <p class="text-xs uppercase tracking-widest text-brand-muted mt-4 border-t border-gray-200 inline-block pt-2">
+                    <span class="flash-sale-name">Selected Diamond Collections</span>
+                </p>
+            </div>
+
+            <!-- Countdown -->
+            <div class="mb-8 animate-scale-pulse">
+                <p class="text-[10px] uppercase tracking-widest mb-4 text-brand-gold font-bold">Offer Expires In</p>
+                <div class="flex justify-center items-center space-x-6 text-brand-dark">
+                    <div class="flex flex-col">
+                        <span id="days" class="text-3xl font-playfair font-bold">00</span>
+                        <span class="text-[9px] uppercase tracking-widest text-gray-400 mt-1">Days</span>
+                    </div>
+                    <span class="text-2xl font-light text-brand-gold mb-4">:</span>
+                    <div class="flex flex-col">
+                        <span id="hours" class="text-3xl font-playfair font-bold">00</span>
+                        <span class="text-[9px] uppercase tracking-widest text-gray-400 mt-1">Hours</span>
+                    </div>
+                    <span class="text-2xl font-light text-brand-gold mb-4">:</span>
+                    <div class="flex flex-col">
+                        <span id="minutes" class="text-3xl font-playfair font-bold">00</span>
+                        <span class="text-[9px] uppercase tracking-widest text-gray-400 mt-1">Mins</span>
+                    </div>
+                    <span class="text-2xl font-light text-brand-gold mb-4">:</span>
+                    <div class="flex flex-col">
+                        <span id="seconds" class="text-3xl font-playfair font-bold">00</span>
+                        <span class="text-[9px] uppercase tracking-widest text-gray-400 mt-1">Secs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <!-- IMPORTANT: id="shop-flash-sale" added below -->
+                <a href="#" id="shop-flash-sale"
+                   class="block w-full bg-brand-dark text-white py-4 text-xs font-bold uppercase tracking-[2px] hover:bg-brand-gold transition-all duration-300 cursor-pointer">
+                    Shop The Collection
+                </a>
+
+                <button id="decline-flash-sale"
+                        class="block w-full py-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-brand-dark transition-colors">
+                    No Thanks, I Prefer Full Price
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cookieOverlay" class="fixed inset-0 bg-black/60 z-[1999] hidden backdrop-blur-sm"></div>
+
+<!-- PART 2: YOUR EXACT DESIGN -->
+<div id="cookieBanner" class="fixed bottom-0 left-0 w-full bg-dark text-white p-4 z-[2000] transform transition-transform duration-500 translate-y-full flex flex-col md:flex-row items-center justify-between shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-gold hidden">
+    <div class="mb-4 md:mb-0 md:mr-4 text-sm text-gray-300 text-center md:text-left">
+        <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies. <a href="privacy-policy.html" class="text-gold hover:underline font-bold">Privacy Policy</a></p>
+    </div>
+    <div class="flex gap-4">
+        <button onclick="acceptCookies()" class="bg-gold hover:bg-yellow-600 text-dark font-bold py-2 px-6 transition duration-300 text-sm uppercase tracking-wider rounded-sm">
+            Accept
+        </button>
+        <button onclick="closeCookieBanner()" class="text-gray-400 hover:text-white text-sm underline decoration-gold">
+            Decline
+        </button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="/js/main.js"></script>
+<script src="/js/animations.js"></script>
+<script src="/js/load-sale-banner.js"></script>
+<script src="/js/hero-carousel.js"></script>
+<script src="/js/testimonials-carousel.js"></script>
+<script src="/js/blog-loader.js"></script>
+<script src="/js/flash-sale.js"></script>
+<script src="js/cookie-manager.js"></script>
+<script type="module" src="/js/cart.js"></script>
+<script type="module" src="/js/search.js"></script>
+<script type="module" src="/js/home-data-loader.js"></script>
+<script src="js/flying-animation.js"></script>
+<script type="module" src="/js/social-login.js"></script>
+
+
+<!-- ✅ 1. Load Components.js -->
+<script src="/js/components.js"></script>
+<script type="module" src="/js/navbar.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.componentLoader && typeof window.componentLoader.loadAllComponents === 'function') {
+            window.componentLoader.loadAllComponents();
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // 1. ලෝඩරය වහාම පෙන්වීම
+        if (window.loader) window.loader.show();
+
+        try {
+            // 2. සියලුම පද්ධති 6 එකවර ලෝඩ් වන තෙක් බලා සිටීම
+            await Promise.all([
+                window.initHeroCarousel ? window.initHeroCarousel() : Promise.resolve(),
+                window.fetchStorefrontData ? window.fetchStorefrontData() : Promise.resolve(),
+                window.loadSeasonalSale ? window.loadSeasonalSale() : Promise.resolve(),
+                window.loadLatestBlogs ? window.loadLatestBlogs() : Promise.resolve(),
+                window.initTestimonialsCarousel ? window.initTestimonialsCarousel() : Promise.resolve(),
+                window.loadFlashSale ? window.loadFlashSale() : Promise.resolve(),
+                window.componentLoader ? window.componentLoader.loadAllComponents() : Promise.resolve()
+            ]);
+
+            // මූලික පරීක්ෂාවන් සිදු කිරීම (Newsletter visibility ආදිය)
+            if (typeof checkOAuth2Success === 'function') checkOAuth2Success();
+            if (typeof checkNewsletterVisibility === 'function') checkNewsletterVisibility();
+            if (typeof setupNewsletterForm === 'function') setupNewsletterForm();
+
+        } catch (error) {
+            console.error("Home page data loading failed:", error);
+        } finally {
+            // 3. ✅ සියල්ල සාර්ථක වූ පසු පිටුව පෙන්වීම
+            const main = document.getElementById('main-content');
+            if (main) {
+                main.style.display = 'block';
+                main.classList.add('animate__animated', 'animate__fadeIn');
+            }
+
+            if (window.loader) {
+                // Carousel සහ Video එක සූදානම් වීමට තත්පර 0.6ක සහනයක් ලබා දෙන්න
+                setTimeout(() => {
+                    window.loader.hide();
+                }, 600);
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

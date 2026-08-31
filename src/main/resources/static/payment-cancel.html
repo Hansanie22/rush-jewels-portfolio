@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Payment Cancelled - Rush Jewels</title>
+    <meta name="description" content="Payment cancelled.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#D4AF37',
+                        'dark': '#121212',
+                        'light-gray': '#F8F8F8'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'fadeInUp': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated Color Palette
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        // Brand Colors
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .cancel-icon-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            background-color: #FEF2F2; /* Red-50 */
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+        }
+        .cancel-icon-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid #FECACA; /* Red-200 */
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-poppins bg-light-gray flex flex-col min-h-screen">
+
+<div id="navbar-container"></div>
+
+<main id="main-content" style="display: none;" class="flex-grow flex items-center justify-center px-4 py-16">
+    <div class="max-w-xl w-full bg-white shadow-2xl overflow-hidden text-center animate-fadeInUp border-t-4 border-red-500">
+
+        <div class="p-8 sm:p-12">
+            <div class="cancel-icon-wrapper">
+                <i class="fas fa-times text-5xl text-red-500"></i>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-playfair font-bold text-dark mb-4">Payment Cancelled</h1>
+            <p class="text-gray-500 mb-8 text-lg">Your payment process was interrupted or declined. No charges have been made to your account.</p>
+
+            <div class="bg-gray-50 border border-gray-100 p-6 rounded-lg mb-8 text-left">
+                <h3 class="text-sm font-bold text-dark uppercase tracking-wider mb-3">
+                    <i class="fas fa-info-circle text-gold mr-2"></i>Possible Reasons:
+                </h3>
+                <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside">
+                    <li>You manually cancelled the payment.</li>
+                    <li>The transaction was declined by your bank.</li>
+                    <li>Internet connection was lost during the process.</li>
+                    <li>The session timed out.</li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="checkout.html" class="flex-1 px-8 py-3.5 bg-dark text-white font-bold uppercase tracking-widest text-xs hover:bg-gold transition-colors duration-300 shadow-lg flex items-center justify-center group">
+                    <span>Try Again</span>
+                    <i class="fas fa-redo ml-2 group-hover:rotate-180 transition-transform duration-500"></i>
+                </a>
+
+                <a href="shop.html" class="flex-1 px-8 py-3.5 bg-white text-dark border border-gray-200 font-bold uppercase tracking-widest text-xs hover:bg-gray-50 hover:border-dark transition-all duration-300 flex items-center justify-center">
+                    <i class="fas fa-shopping-bag mr-2"></i>
+                    <span>Continue Shopping</span>
+                </a>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-gray-100">
+                <p class="text-sm text-gray-500">
+                    Need help completing your order? <br>
+                    <a href="contact.html" class="text-gold font-bold hover:text-dark transition-colors inline-flex items-center mt-1">
+                        <i class="fas fa-headset mr-1"></i> Contact Support
+                    </a>
+                    <span class="mx-1">or call</span>
+                    <span class="font-bold text-dark">076 492 1325</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+
+<script src="/js/main.js"></script>
+<script src="/js/components.js"></script>
+<script src="/js/animations.js"></script>
+<script src="/js/loader.js"></script>
+<script src="/js/components.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. පිටුව පටන් ගන්නා විට ලෝඩරය පෙන්වීම
+        if (window.loader) window.loader.show();
+
+        // Navbar සහ Footer ලෝඩ් කිරීම (Promise භාවිතා කර දෙකම ඉවර වන තෙක් බලා සිටිමු)
+        const loadNavbar = fetch('navbar.html')
+            .then(res => res.text())
+            .then(data => document.getElementById('navbar-container').innerHTML = data);
+
+        const loadFooter = fetch('footer.html')
+            .then(res => res.text())
+            .then(data => document.getElementById('footer-container').innerHTML = data);
+
+        // ✅ සියල්ල අවසන් වූ පසු ක්‍රියාත්මක වන කොටස
+        Promise.all([loadNavbar, loadFooter])
+            .then(() => {
+                const main = document.getElementById('main-content');
+                if (main) {
+                    main.style.display = 'flex'; // flex-grow පාවිච්චි කර ඇති නිසා
+                    main.classList.add('animate__animated', 'animate__fadeIn');
+                }
+
+                if (window.loader) {
+                    // තත්පර 0.5ක සහනයක් ලබා දී ලෝඩරය අයින් කිරීම
+                    setTimeout(() => {
+                        window.loader.hide();
+                    }, 500);
+                }
+            })
+            .catch(err => {
+                console.error('Loading error:', err);
+                if (window.loader) window.loader.hide(); // Error එකක් ආවත් හිර නොවී අයින් කරන්න
+            });
+    });
+</script>
+</body>
+</html>

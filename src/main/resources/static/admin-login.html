@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Admin Login - Rush Jewels</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#D4AF37',
+                        'dark': '#121212',
+                        'light-gray': '#F8F8F8'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Sharp edge styling */
+        .sharp-input { border-radius: 0 !important; }
+        .sharp-button { border-radius: 0 !important; }
+        .sharp-card { border-radius: 0 !important; }
+
+        .focus-gold:focus {
+            outline: none;
+            border-color: #D4AF37;
+            box-shadow: 0 0 0 1px #D4AF37;
+        }
+
+        .admin-bg {
+            background-color: #fcfcfc;
+            background-image: radial-gradient(#D4AF37 0.5px, transparent 0.5px), radial-gradient(#D4AF37 0.5px, #fcfcfc 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 1;
+        }
+        .bg-overlay {
+            background: rgba(255,255,255,0.96);
+        }
+
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: white; border: 1px solid #e5e7eb; border-left: 4px solid #d4af37; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 16px; display: flex; align-items: center; min-width: 250px; transform: translateX(100%); transition: transform 0.3s ease-out; }
+        .toast.show { transform: translateX(0); }
+
+        /* ========== RESPONSIVE DESIGN ENHANCEMENTS ========== */
+
+        /* Mobile - ≤ 480px */
+        @media (max-width: 480px) {
+            /* Navigation responsive */
+            nav .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            nav .text-2xl {
+                font-size: 1.25rem;
+            }
+
+            nav .text-sm {
+                font-size: 0.75rem;
+            }
+
+            nav .hidden.sm\:block {
+                display: none !important;
+            }
+
+            /* Login card mobile optimization */
+            .flex-grow {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            .max-w-md {
+                max-width: 100%;
+                margin-left: 0.5rem;
+                margin-right: 0.5rem;
+            }
+
+            /* Form padding mobile */
+            .p-8 {
+                padding: 1.5rem;
+            }
+
+            .pt-12 {
+                padding-top: 2.5rem;
+            }
+
+            /* Heading responsive */
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+
+            /* Input fields - prevent zoom on iOS */
+            input[type="email"],
+            input[type="password"] {
+                font-size: 16px;
+            }
+
+            /* Button responsive */
+            .py-3\.5 {
+                padding-top: 0.875rem;
+                padding-bottom: 0.875rem;
+            }
+
+            /* Toast container mobile */
+            #toast-container {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+
+            .toast {
+                min-width: 0;
+                width: 100%;
+            }
+
+            /* Footer text sizing */
+            footer .text-xs {
+                font-size: 0.65rem;
+            }
+
+            /* Icon sizing */
+            .w-12.h-12 {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .text-xl {
+                font-size: 1rem;
+            }
+
+            /* Alert padding */
+            .p-4 {
+                padding: 0.75rem;
+            }
+
+            /* Checkbox label */
+            .text-xs {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Tablet - 481px to 768px */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .flex-grow {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .max-w-md {
+                max-width: 90%;
+            }
+
+            nav .container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+
+        /* Laptop - 769px to 1200px */
+        @media (min-width: 769px) and (max-width: 1200px) {
+            .container {
+                max-width: 100%;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
+        /* Desktop - 1201px to 1920px */
+        @media (min-width: 1201px) and (max-width: 1920px) {
+            .container {
+                max-width: 1200px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Ultra-wide - > 1920px */
+        @media (min-width: 1921px) {
+            .container {
+                max-width: 1400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .max-w-md {
+                max-width: 500px;
+            }
+        }
+
+        /* Landscape mobile optimization */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .flex-grow {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+
+            .pt-12 {
+                padding-top: 1.5rem;
+            }
+
+            .mb-8 {
+                margin-bottom: 1rem;
+            }
+
+            .mb-6 {
+                margin-bottom: 0.75rem;
+            }
+        }
+
+        /* Prevent horizontal scroll */
+        body {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+
+        /* Ensure proper box sizing */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* Background pattern responsive scaling */
+        @media (max-width: 480px) {
+            .admin-bg {
+                background-size: 15px 15px;
+                background-position: 0 0, 7.5px 7.5px;
+            }
+        }
+
+        /* Navigation flex behavior on small screens */
+        @media (max-width: 480px) {
+            nav .flex.justify-between {
+                gap: 0.5rem;
+            }
+
+            nav .flex.items-center {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Shadow adjustments for mobile */
+        @media (max-width: 480px) {
+            .shadow-2xl {
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            }
+        }
+
+        /* Form spacing optimization */
+        @media (max-width: 640px) {
+            .mb-6 {
+                margin-bottom: 1rem;
+            }
+
+            .mb-8 {
+                margin-bottom: 1.25rem;
+            }
+
+            .space-y-6 > * + * {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Icon positioning adjustments */
+        @media (max-width: 480px) {
+            .absolute.-top-6 {
+                top: -1.25rem;
+            }
+        }
+
+        /* Error alert responsive */
+        @media (max-width: 480px) {
+            .border-l-4 {
+                border-left-width: 3px;
+            }
+        }
+
+        /* Footer responsive */
+        @media (max-width: 640px) {
+            footer {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-poppins text-dark admin-bg min-h-screen flex flex-col">
+
+<div class="fixed inset-0 bg-overlay z-[-1]"></div>
+
+<nav class="bg-black shadow-md py-4 border-b-2 border-gold">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <a href="index.html" class="flex items-center text-white hover:opacity-80 transition-opacity">
+                <span class="text-2xl font-playfair font-bold text-gold">Rush</span>
+                <span class="text-2xl font-playfair font-bold ml-1">Jewels</span>
+            </a>
+            <span class="ml-4 px-2 py-0.5 bg-gold text-black text-xs font-bold uppercase tracking-wider hidden sm:block">
+                Admin Portal
+            </span>
+        </div>
+
+        <a href="index.html" class="text-gray-300 hover:text-gold transition-colors text-sm flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Shop
+        </a>
+    </div>
+</nav>
+
+<div class="flex-grow flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md bg-white shadow-2xl border-t-4 border-gold relative animate__animated animate__fadeIn">
+
+        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-black text-gold w-12 h-12 flex items-center justify-center shadow-lg">
+            <i class="fas fa-user-shield text-xl"></i>
+        </div>
+
+        <div class="p-8 pt-12">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-playfair font-bold mb-2">Welcome Back</h1>
+                <p class="text-gray-500 text-sm">Please enter your credentials to access the dashboard.</p>
+            </div>
+
+            <!-- ✅ FORM: Removed inline onsubmit to rely on JS listener -->
+            <form id="admin-login-form">
+                <div id="error-alert" class="hidden bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700">Invalid credentials. Please try again.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="email" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                        Admin Email
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input type="email" id="email"
+                               class="sharp-input w-full pl-10 pr-3 py-3 border border-gray-300 text-sm focus-gold transition-colors"
+                               placeholder="admin@rushjewels.com">
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="password" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                        Password
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" id="password"
+                               class="sharp-input w-full pl-10 pr-10 py-3 border border-gray-300 text-sm focus-gold transition-colors"
+                               placeholder="••••••••">
+                        <button type="button" id="toggle-password-btn"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gold transition-colors focus:outline-none">
+                            <i class="fas fa-eye" id="eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-8">
+                    <label class="flex items-center text-sm text-gray-600 cursor-pointer hover:text-dark">
+                        <input type="checkbox" id="remember-me" class="form-checkbox h-4 w-4 text-gold rounded-none border-gray-300 focus:ring-gold">
+                        <span class="ml-2 text-xs">Keep me logged in</span>
+                    </label>
+                </div>
+
+                <button type="submit" id="submit-btn"
+                        class="sharp-button w-full bg-gold text-white py-3.5 text-sm font-bold uppercase tracking-widest hover:bg-black hover:text-gold transition-all duration-300 shadow-md">
+                    Access Dashboard
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-gray-50 p-4 text-center border-t border-gray-100">
+            <p class="text-xs text-gray-400">
+                <i class="fas fa-lock mr-1"></i> Secure SSL Connection
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-black text-white py-6 mt-auto">
+    <div class="container mx-auto px-4 text-center">
+        <p class="text-gray-500 text-xs">
+            &copy; 2023 Rush Jewels Administration. Authorized personnel only.
+        </p>
+    </div>
+</footer>
+
+<!-- ✅ Toast Container is here, but now styled in <style> tag above -->
+<div id="toast-container"></div>
+
+<!-- Load admin logic -->
+<script type="module" src="/js/admin.js"></script>
+
+</body>
+</html>

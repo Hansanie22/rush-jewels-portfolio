@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Checkout - Rush Jewels</title>
+    <meta name="description" content="Complete your purchase at Rush Jewels with secure checkout.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Use the SANDBOX PayHere JS while testing -->
+    <script src="https://www.payhere.lk/lib/payhere.js"></script>    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="js/components.js"></script>
+
+    <style>
+        /* Checkout Page Specific Styles */
+        .checkout-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            /* Ensure overflow doesn't break sticky positioning */
+            overflow: visible !important;
+        }
+
+        /* Override global overflow hidden if it exists on body/html */
+        body, html {
+            overflow-x: clip; /* Better than hidden for sticky */
+            overflow-y: visible;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            height: 48px;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(17, 24, 39, 0.18);
+            background: #ffffff;
+            font-size: 0.95rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .form-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 2.5rem;
+        }
+        
+        textarea.form-input {
+            height: auto;
+            min-height: 80px;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #111827;
+            box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.12);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .checkout-section {
+            background: #ffffff;
+            border: 1px solid rgba(17, 24, 39, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #D4AF37;
+        }
+
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+        }
+
+        .payment-method {
+            border: 2px solid rgba(17, 24, 39, 0.12);
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
+        }
+
+        .payment-method:hover {
+            border-color: #D4AF37;
+        }
+
+        .payment-method.active {
+            border-color: #D4AF37;
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .btn-primary {
+            background: #D4AF37;
+            color: #111827;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: #c99d2f;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #111827;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            border: 2px solid rgba(17, 24, 39, 0.18);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(17, 24, 39, 0.04);
+            border-color: rgba(17, 24, 39, 0.3);
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .success-icon {
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .order-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 1px solid rgba(17, 24, 39, 0.1);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(17, 24, 39, 0.1);
+            border-top: 3px solid #D4AF37;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Sticky Bottom Buttons on Mobile */
+        @media (max-width: 640px) {
+            .checkout-buttons-mobile {
+                position: relative;
+                background: white;
+                padding: 1rem;
+                margin-top: 1.5rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(17, 24, 39, 0.1);
+                border-radius: 8px;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .checkout-section {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* --- UPDATED STICKY CSS --- */
+        @media (min-width: 1024px) {
+            .order-summary-sticky {
+                position: -webkit-sticky !important; /* Safari Support */
+                position: sticky !important;
+                /* Adjust top to clear Navbar (approx 80px-100px) */
+                top: 100px !important;
+                /* Ensure it stays within viewport height */
+                max-height: calc(100vh - 120px) !important;
+                overflow-y: auto !important;
+                /* Styling scrollbar */
+                scrollbar-width: thin;
+                scrollbar-color: #D4AF37 #f3f4f6;
+                z-index: 40; /* Keep above standard elements */
+            }
+
+            .order-summary-sticky::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .order-summary-sticky::-webkit-scrollbar-track {
+                background: #f3f4f6;
+                border-radius: 3px;
+            }
+
+            .order-summary-sticky::-webkit-scrollbar-thumb {
+                background: #D4AF37;
+                border-radius: 3px;
+            }
+
+            .order-summary-sticky::-webkit-scrollbar-thumb:hover {
+                background: #c99d2f;
+            }
+        }
+    </style>
+
+    <!-- Google Fonts (Merged) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Config (Merged) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated Color Palette
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        // Brand Colors
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-poppins bg-light-gray">
+<div id="navbar-container"></div>
+
+<!-- Checkout Header -->
+<section id="checkout-header" class="bg-dark text-white py-8 sm:py-12" style="display: none;">
+    <div class="checkout-container px-4 sm:px-6">
+        <div class="text-center">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-playfair font-bold mb-3 text-white">Secure Checkout
+            </h1>
+            <p class="text-white text-sm sm:text-base">Complete your purchase securely</p>
+        </div>
+
+        <!-- Checkout Steps -->
+        <div class="flex justify-center items-center mt-8 space-x-2 sm:space-x-4">
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-gold text-dark rounded-full flex items-center justify-center font-bold transition-colors duration-300" id="step-1-indicator">
+                    1
+                </div>
+                <span class="ml-2 text-sm sm:text-base hidden sm:inline text-gold transition-colors duration-300" id="step-1-text">Information</span>
+            </div>
+            <div class="w-8 sm:w-16 h-0.5 bg-gray-600"></div>
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold transition-colors duration-300"
+                     id="step-2-indicator">
+                    2
+                </div>
+                <span class="ml-2 text-sm sm:text-base hidden sm:inline text-white transition-colors duration-300" id="step-2-text">Payment</span>
+            </div>
+            <div class="w-8 sm:w-16 h-0.5 bg-gray-600"></div>
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold transition-colors duration-300"
+                     id="step-3-indicator">
+                    3
+                </div>
+                <span class="ml-2 text-sm sm:text-base hidden sm:inline text-white transition-colors duration-300" id="step-3-text">Confirm</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Checkout Content -->
+<main id="main-content" style="display: none;" class="checkout-container px-4 sm:px-6 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <!-- Left Column - Checkout Form -->
+        <div class="lg:col-span-2">
+            <!-- ADDED novalidate to prevent default browser validation -->
+            <form id="checkout-form" novalidate>
+                <!-- Contact Information -->
+                <div class="checkout-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-user mr-2 text-gold"></i>Contact Information
+                    </h2>
+
+                    <!-- "Sign in" block removed as user is already logged in -->
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input" required
+                               placeholder="Loading your email..." autocomplete="email" readonly>
+                        <span class="error-message" id="email-error"></span>
+                        <p class="text-xs text-gray-500 mt-1">Order confirmation will be sent to your account email.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" class="form-input"
+                               placeholder="+1 (555) 123-4567" autocomplete="tel">
+                        <span class="error-message" id="phone-error"></span>
+                        <p class="text-xs text-gray-500 mt-1">For delivery updates and order notifications</p>
+                    </div>
+
+                    <div id="subscribe-wrapper" class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="subscribe" name="subscribe" class="mr-2 w-4 h-4">
+                            <label for="subscribe" class="text-sm text-gray-600">Email me with news and exclusive offers</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="checkout-section" id="shipping-address-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-shipping-fast mr-2 text-gold"></i>Shipping Address
+                    </h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" class="form-input"
+                                   placeholder="John" autocomplete="given-name">
+                            <span class="error-message" id="firstName-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" class="form-input"
+                                   placeholder="Doe" autocomplete="family-name">
+                            <span class="error-message" id="lastName-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="form-label">Address *</label>
+                        <input type="text" id="address" name="address" class="form-input"
+                               placeholder="123 Main Street" autocomplete="street-address">
+                        <span class="error-message" id="address-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apartment" class="form-label">Apartment, suite, etc. (optional)</label>
+                        <input type="text" id="apartment" name="apartment" class="form-input" placeholder="Apt 4B" autocomplete="address-line2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country" class="form-label">Country *</label>
+                        <select id="country" name="country" class="form-select"  disabled>
+                            <option value="">Loading countries...</option>
+                        </select>
+                        <span class="error-message" id="country-error"></span>
+                    </div>
+
+                    <!-- Reordered Grid: State -> City -> Zip -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                        <!-- 1. Province/State -->
+                        <div class="form-group" id="state-wrapper">
+                            <label for="state" class="form-label" id="state-label">State / Province *</label>
+                            <select id="state" name="state" class="form-select"  disabled>
+                                <option value="">Select a country first</option>
+                            </select>
+                            <span class="error-message" id="state-error"></span>
+                        </div>
+
+                        <!-- 2. City -->
+                        <div class="form-group" id="city-wrapper">
+                            <label for="city" class="form-label" id="city-label">City *</label>
+                            <select id="city" name="city" class="form-select"  disabled>
+                                <option value="">Select a country first</option>
+                            </select>
+                            <span class="error-message" id="city-error"></span>
+                        </div>
+
+                        <!-- 3. Zip Code -->
+                        <div class="form-group">
+                            <label for="zip" class="form-label">ZIP / Postal Code *</label>
+                            <input type="text" id="zip" name="zip" class="form-input"  placeholder="10001" autocomplete="postal-code">
+                            <span class="error-message" id="zip-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center p-3 bg-gray-50 rounded">
+                        <input type="checkbox" id="saveAddress" name="saveAddress" class="mr-2 w-4 h-4">
+                        <label for="saveAddress" class="text-sm text-gray-700">
+                            <i class="fas fa-bookmark text-gold mr-1"></i>Save this address for future orders
+                        </label>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" id="differentBilling" name="differentBilling" class="mr-2 w-4 h-4">
+                            <label for="differentBilling" class="text-sm font-semibold text-gray-700">Use a different billing address</label>
+                        </div>
+
+                        <div id="billing-address-section" class="hidden space-y-4 p-4 bg-gray-50 rounded">
+                            <p class="text-sm text-gray-600 mb-3">Enter your billing address below:</p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label for="billingFirstName" class="form-label">First Name *</label>
+                                    <input type="text" id="billingFirstName" name="billingFirstName" class="form-input" placeholder="John" autocomplete="billing given-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="billingLastName" class="form-label">Last Name *</label>
+                                    <input type="text" id="billingLastName" name="billingLastName" class="form-input" placeholder="Doe" autocomplete="billing family-name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="billingAddress" class="form-label">Address *</label>
+                                <input type="text" id="billingAddress" name="billingAddress" class="form-input" placeholder="123 Main Street" autocomplete="billing street-address">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="billingApartment" class="form-label">Apartment, suite, etc. (optional)</label>
+                                <input type="text" id="billingApartment" name="billingApartment" class="form-input" placeholder="Apt 4B" autocomplete="billing address-line2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="billingCountry" class="form-label">Country *</label>
+                                <select id="billingCountry" name="billingCountry" class="form-select"  disabled>
+                                    <option value="">Select a country</option>
+                                </select>
+                                <span class="error-message" id="billingCountry-error"></span>
+                            </div>
+
+                            <!-- Reordered Billing Grid: State -> City -> Zip -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                                <!-- 1. Billing Province/State -->
+                                <div class="form-group" id="billing-state-wrapper">
+                                    <label for="billingState" class="form-label" id="billing-state-label">State / Province *</label>
+                                    <select id="billingState" name="billingState" class="form-select"  disabled>
+                                        <option value="">Select a country first</option>
+                                    </select>
+                                    <span class="error-message" id="billingState-error"></span>
+                                </div>
+
+                                <!-- 2. Billing City -->
+                                <div class="form-group" id="billing-city-wrapper">
+                                    <label for="billingCity" class="form-label" id="billing-city-label">City *</label>
+                                    <select id="billingCity" name="billingCity" class="form-select"  disabled>
+                                        <option value="">Select a country first</option>
+                                    </select>
+                                    <span class="error-message" id="billingCity-error"></span>
+                                </div>
+
+                                <!-- 3. Billing Zip -->
+                                <div class="form-group">
+                                    <label for="billingZip" class="form-label">ZIP / Postal Code *</label>
+                                    <input type="text" id="billingZip" name="billingZip" class="form-input" placeholder="10001" autocomplete="billing postal-code">                                    <span class="error-message" id="billingZip-error"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Method -->
+                <div class="checkout-section">
+                    <h2 class="section-title" id="shipping-method-heading">
+                        <i class="fas fa-truck mr-2 text-gold"></i>Shipping Method
+                    </h2>
+
+                    <div class="space-y-3"
+                         role="radiogroup"
+                         aria-labelledby="shipping-method-heading"
+                         id="shipping-methods-container">
+
+                        <p class="text-sm text-gray-500">Loading shipping options...</p>
+
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="checkout-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-credit-card mr-2 text-gold"></i>Payment Method
+                    </h2>
+
+                    <div class="space-y-3 mb-4"
+                         role="radiogroup"
+                         aria-labelledby="payment-method-heading"
+                         id="payment-methods-container">
+
+                        <p class="text-sm text-gray-500">Loading payment options...</p>
+
+                    </div>
+                    
+                    <!-- Bank Transfer Details (Hidden by Default) -->
+                    <div id="bank-transfer-details" class="hidden mt-4 p-4 border border-gold rounded bg-yellow-50">
+                        <h3 class="font-bold text-gray-800 mb-2">Bank Transfer Details</h3>
+                        <div class="text-sm text-gray-700 space-y-1 mb-4">
+                            <p><strong>Bank:</strong> HNB Bank</p>
+                            <p><strong>Branch:</strong> Pilimathalawa (පිළිමතලාව)</p>
+                            <p><strong>A/C No:</strong> 141020128489</p>
+                            <p><strong>Name:</strong> A.W.R.S.S. Nishshanka</p>
+                        </div>
+                        <div class="form-group mb-0">
+                            <label for="bankSlip" class="form-label font-semibold">Upload Payment Slip (Image/PDF) *</label>
+                            <input type="file" id="bankSlip" accept="image/*,application/pdf" class="form-input p-2 bg-white border border-gray-300 rounded cursor-pointer">
+                            <p id="bankSlip-error" class="error-message"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Order Notes -->
+                <div class="checkout-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-comment mr-2 text-gold"></i>Additional Options
+                    </h2>
+
+                    <!-- Gift Options -->
+                    <div class="mb-4 p-4 border border-gray-200 rounded">
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" id="isGift" name="isGift" class="mr-2 w-4 h-4">
+                            <label for="isGift" class="text-sm font-semibold text-gray-700">
+                                <i class="fas fa-gift text-gold mr-1"></i>This is a gift
+                            </label>
+                        </div>
+
+                        <div id="gift-options" class="hidden space-y-3">
+                            <div class="form-group">
+                                <label for="giftMessage" class="form-label">Gift Message (Optional)</label>
+                                <textarea id="giftMessage" name="giftMessage" rows="3" class="form-input"
+                                          placeholder="Write a personal message for the recipient..." maxlength="200"></textarea>
+                                <p class="text-xs text-gray-500 mt-1">Max 200 characters</p>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="giftWrap" name="giftWrap" class="mr-2 w-4 h-4">
+                                <label for="giftWrap" class="text-sm text-gray-700">Add premium gift wrapping (+LKR 500)</label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="hidePrice" name="hidePrice" class="mr-2 w-4 h-4">
+                                <label for="hidePrice" class="text-sm text-gray-700">Hide prices on packing slip</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Notes -->
+                    <div class="form-group">
+                        <label for="orderNotes" class="form-label">Order Notes (Optional)</label>
+                        <textarea id="orderNotes" name="orderNotes" rows="4" class="form-input"
+                                  placeholder="Special delivery instructions, preferences, or additional information..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Terms and Privacy -->
+                <div class="checkout-section bg-light-gray">
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <input type="checkbox" id="agreeTerms" name="agreeTerms" class="mr-2 w-4 h-4 mt-1">
+                            <label for="agreeTerms" class="text-sm text-gray-700">
+                                I agree to the <a href="/terms&conditions.html" class="text-gold hover:underline">Terms & Conditions</a> and <a href="/privacy.html" class="text-gold hover:underline">Privacy Policy</a> *
+                            </label>
+                        </div>
+                    </div>
+                    <span class="error-message" id="terms-error"></span>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="hidden sm:flex flex-col sm:flex-row gap-4">
+                    <button type="button" class="btn-secondary" onclick="window.history.back()">
+                        <i class="fas fa-arrow-left mr-2"></i>Return to Cart
+                    </button>
+                    <!-- ADDED formnovalidate HERE -->
+                    <button type="submit" class="btn-primary" id="submit-order" formnovalidate>
+                        <i class="fas fa-lock mr-2"></i>Complete Order
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Column - Order Summary -->
+        <div class="lg:col-span-1">
+            <div class="checkout-section order-summary-sticky">
+                <h2 class="section-title">
+                    <i class="fas fa-shopping-bag mr-2 text-gold"></i>Order Summary
+                </h2>
+
+                <div id="order-items" class="mb-4">
+                    <div class="text-center py-8 text-gray-500">
+                        <div class="spinner mx-auto mb-4"></div>
+                        <p>Loading cart items...</p>
+                    </div>
+                </div>
+
+                <div class="mb-4 pb-4 border-b border-gray-200">
+                    <label for="discount-code" class="form-label">Discount Code</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="discount-code" class="form-input" placeholder="Enter code">
+                        <button type="button" class="bg-dark text-white px-4 py-2 font-semibold hover:bg-gray-800"
+                                id="apply-discount">
+                            Apply
+                        </button>
+                    </div>
+                    <div id="discount-message" class="text-sm mt-2"></div>
+                </div>
+
+                <div class="space-y-2 mb-4 pb-4 border-b border-gray-200">
+                    <div class="flex justify-between text-sm">
+                        <span>Subtotal</span>
+                        <span id="subtotal">LKR 0.00</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Shipping</span>
+                        <span id="shipping-cost">LKR 500.00</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-green-600" id="discount-row"
+                         style="display: none;">
+                        <span>Discount</span>
+                        <span id="discount-amount">- LKR 0.00</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-lg font-bold mb-4">
+                    <span>Total</span>
+                    <span class="text-gold" id="total">LKR 0.00</span>
+                </div>
+
+                <div id="installment-details" class="mt-4"></div>
+                <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-calendar-check text-green-600 mt-0.5 mr-2"></i>
+                        <div class="text-sm">
+                            <div class="font-semibold text-green-800">Estimated Delivery</div>
+                            <div class="text-green-700" id="estimated-delivery">Select shipping method</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2 pt-6 border-t border-gray-200">
+                    <div class="bg-light-gray p-5 rounded-lg mb-4">
+                        <div class="grid grid-cols-3 gap-3 text-xs text-center mb-4">
+                            <div class="flex flex-col items-center">
+                                <i class="fas fa-shield-alt text-2xl text-gold mb-1"></i>
+                                <span class="font-medium text-gray-800">SSL Secure</span>
+                                <span class="text-gray-500 text-[10px]">256-bit</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <i class="fas fa-lock text-2xl text-gold mb-1"></i>
+                                <span class="font-medium text-gray-800">Protected</span>
+                                <span class="text-gray-500 text-[10px]">Payment</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <i class="fas fa-truck text-2xl text-gold mb-1"></i>
+                                <span class="font-medium text-gray-800">Fast Ship</span>
+                                <span class="text-gray-500 text-[10px]">2-5 Days</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-300 pt-3 text-center">
+                            <div class="flex items-center justify-center text-green-600 mb-1">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                <span class="text-xs font-semibold">100% Money Back Guarantee</span>
+                            </div>
+                            <p class="text-[10px] text-gray-600">30-day hassle-free returns</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center space-x-3 mb-3">
+                        <i class="fab fa-cc-visa text-3xl text-gray-400 hover:text-gray-600 transition-colors"></i>
+                        <i class="fab fa-cc-mastercard text-3xl text-gray-400 hover:text-gray-600 transition-colors"></i>
+                        <i class="fab fa-cc-amex text-3xl text-gray-400 hover:text-gray-600 transition-colors"></i>
+                        <i class="fab fa-cc-paypal text-3xl text-gray-400 hover:text-gray-600 transition-colors"></i>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-[10px] text-gray-500 flex items-center justify-center">
+                            <i class="fas fa-lock text-gold mr-1"></i>
+                            Your payment information is encrypted and secure
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Sticky Buttons (Outside grid, below order summary) -->
+    <div class="sm:hidden checkout-buttons-mobile">
+        <div class="flex flex-col gap-3">
+            <!-- ADDED formnovalidate HERE -->
+            <button type="submit" class="btn-primary" id="submit-order-mobile" form="checkout-form" formnovalidate>
+                <i class="fas fa-lock mr-2"></i>Complete Order
+            </button>
+            <button type="button" class="btn-secondary" onclick="window.history.back()">
+                <i class="fas fa-arrow-left mr-2"></i>Return to Cart
+            </button>
+        </div>
+    </div>
+</main>
+
+<!-- Success Modal -->
+<div id="success-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+    <div class="bg-white max-w-md w-full mx-4 p-8 text-center">
+        <div class="success-icon mb-4">
+            <i class="fas fa-check-circle text-6xl text-green-500"></i>
+        </div>
+        <h2 class="text-2xl font-playfair font-bold mb-3">Order Placed Successfully!</h2>
+        <p class="text-gray-600 mb-2">Thank you for your purchase.</p>
+        <p class="text-sm text-gray-500 mb-6">Order #<span id="order-number">12345</span></p>
+        <p class="text-sm text-gray-600 mb-6">We've sent a confirmation email with your order details.</p>
+        <div class="flex flex-col gap-3">
+            <button onclick="window.location.href='index.html'" class="btn-primary">
+                Continue Shopping
+            </button>
+            <button onclick="window.location.href='orders.html'" class="btn-secondary">
+                View Orders
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+
+<!-- JavaScript -->
+<script src="/js/main.js"></script>
+<script src="/js/animations.js"></script>
+<script type="module" src="/js/cart.js"></script>
+<script type="module" src="/js/search.js"></script>
+<script src="js/flying-animation.js"></script>
+
+<script src="js/loader.js"></script>
+<script src="/js/components.js"></script>
+<script type="module" src="js/navbar.js"></script>
+<script type="module" src="/js/checkout.js"></script>
+
+</body>
+
+</html>

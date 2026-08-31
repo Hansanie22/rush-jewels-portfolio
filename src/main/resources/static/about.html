@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>About Us - Rush Jewels | Our Story & Craftsmanship</title>
+    <meta name="description"
+          content="Learn about Rush Jewels' heritage, craftsmanship, and commitment to creating exquisite luxury jewelry in Sri Lanka.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated Color Palette
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        // Brand Colors
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Hero parallax effect */
+        .parallax-hero {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Timeline styles */
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: #D4AF37;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: linear-gradient(180deg, #D4AF37 0%, rgba(212, 175, 55, 0.1) 100%);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        /* Stats counter animation */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-item {
+            animation: countUp 0.8s ease-out forwards;
+        }
+
+        /* Team card hover effect */
+        .team-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .team-card:hover .team-image {
+            filter: grayscale(0%);
+        }
+
+        .team-image {
+            filter: grayscale(20%);
+            transition: filter 0.4s ease;
+        }
+
+        /* Value cards */
+        .value-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .value-card:hover {
+            border-color: #D4AF37;
+            background: linear-gradient(135deg, #FEFEFE 0%, #F8F8F8 100%);
+            transform: translateY(-5px);
+        }
+
+        .value-icon {
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .value-card:hover .value-icon {
+            transform: scale(1.15) rotate(5deg);
+            color: #D4AF37;
+        }
+
+        /* Certification badges */
+        .cert-badge {
+            transition: all 0.3s ease;
+        }
+
+        .cert-badge:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800">
+
+<!-- Navigation (Include component) -->
+<div id="navbar-container"></div>
+
+<main id="main-content" style="display: none;">
+
+<!-- Hero Section -->
+<section class="relative h-[70vh] flex items-center justify-center overflow-hidden parallax-hero"
+         style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600');">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <h1 class="text-5xl md:text-7xl font-playfair text-white mb-6 animate_animated animate_fadeInDown">
+            Our Story
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto animate_animated animatefadeInUp animate_delay-1s">
+            Crafting Timeless Elegance Since 1995
+        </p>
+        <div class="mt-8 animate__animated animate__fadeInUp animate_delay-2s">
+            <i class="fas fa-gem text-gold text-4xl"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Introduction Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-playfair text-dark mb-6">Welcome to Rush Jewels</h2>
+            <div class="w-24 h-1 bg-gold mx-auto mb-8"></div>
+            <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                For over three decades, Rush Jewels has been Sri Lanka's premier destination for exquisite,
+                handcrafted jewelry. Located in the heart of Colombo, we combine traditional craftsmanship
+                with contemporary design to create pieces that tell your unique story.
+            </p>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Every piece in our collection is meticulously crafted by master artisans who pour their
+                passion and expertise into creating jewelry that transcends generations. From ethically
+                sourced gemstones to conflict-free diamonds, we are committed to excellence in every facet.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-gradient-to-r from-dark via-gray-900 to-dark text-white">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="stat-item">
+                <div class="text-5xl font-bold text-gold mb-2">30+</div>
+                <div class="text-gray-300 text-sm uppercase tracking-wider">Years of Excellence</div>
+            </div>
+            <div class="stat-item" style="animation-delay: 0.1s;">
+                <div class="text-5xl font-bold text-gold mb-2">15K+</div>
+                <div class="text-gray-300 text-sm uppercase tracking-wider">Happy Customers</div>
+            </div>
+            <div class="stat-item" style="animation-delay: 0.2s;">
+                <div class="text-5xl font-bold text-gold mb-2">500+</div>
+                <div class="text-gray-300 text-sm uppercase tracking-wider">Unique Designs</div>
+            </div>
+            <div class="stat-item" style="animation-delay: 0.3s;">
+                <div class="text-5xl font-bold text-gold mb-2">100%</div>
+                <div class="text-gray-300 text-sm uppercase tracking-wider">Satisfaction Guarantee</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Journey Timeline -->
+<section class="py-20 bg-light-gray">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-playfair text-dark mb-4">Our Journey</h2>
+            <div class="w-24 h-1 bg-gold mx-auto"></div>
+        </div>
+
+        <div class="max-w-3xl mx-auto space-y-12">
+            <div class="timeline-item">
+                <h3 class="text-2xl font-playfair text-gold mb-2">1995 - The Beginning</h3>
+                <p class="text-gray-600">
+                    Founded by master jeweler Chaminda Perera in a small workshop in Colombo,
+                    Rush Jewels began with a vision to bring world-class jewelry to Sri Lanka.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3 class="text-2xl font-playfair text-gold mb-2">2003 - Expansion</h3>
+                <p class="text-gray-600">
+                    Opened our flagship showroom in Colombo 07, showcasing our expanded collection
+                    of bridal jewelry, gemstone pieces, and custom designs.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3 class="text-2xl font-playfair text-gold mb-2">2010 - International Recognition</h3>
+                <p class="text-gray-600">
+                    Received the Sri Lankan Gem & Jewelry Excellence Award, establishing Rush Jewels
+                    as a leader in innovative design and ethical sourcing.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3 class="text-2xl font-playfair text-gold mb-2">2018 - Digital Transformation</h3>
+                <p class="text-gray-600">
+                    Launched our online platform, bringing our exquisite collections to customers
+                    across Sri Lanka and beyond, with secure delivery and authentication.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3 class="text-2xl font-playfair text-gold mb-2">2025 - Sustainable Future</h3>
+                <p class="text-gray-600">
+                    Committed to 100% ethical sourcing and carbon-neutral operations, pioneering
+                    sustainable luxury in Sri Lanka's jewelry industry.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Values -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-playfair text-dark mb-4">Our Values</h2>
+            <div class="w-24 h-1 bg-gold mx-auto mb-4"></div>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                The principles that guide every piece we create
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Value 1 -->
+            <div class="value-card bg-light-gray p-8 text-center">
+                <div class="value-icon text-5xl text-gray-700 mb-4">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h3 class="text-2xl font-playfair text-dark mb-4">Ethical Sourcing</h3>
+                <p class="text-gray-600">
+                    We work only with certified, conflict-free suppliers who uphold the highest
+                    environmental and social standards.
+                </p>
+            </div>
+
+            <!-- Value 2 -->
+            <div class="value-card bg-light-gray p-8 text-center">
+                <div class="value-icon text-5xl text-gray-700 mb-4">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3 class="text-2xl font-playfair text-dark mb-4">Master Craftsmanship</h3>
+                <p class="text-gray-600">
+                    Every piece is handcrafted by skilled artisans with decades of experience,
+                    ensuring unparalleled quality and attention to detail.
+                </p>
+            </div>
+
+            <!-- Value 3 -->
+            <div class="value-card bg-light-gray p-8 text-center">
+                <div class="value-icon text-5xl text-gray-700 mb-4">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="text-2xl font-playfair text-dark mb-4">Lifetime Guarantee</h3>
+                <p class="text-gray-600">
+                    We stand behind our work with comprehensive warranties, free inspections,
+                    and lifetime maintenance services.
+                </p>
+            </div>
+
+            <!-- Value 4 -->
+            <div class="value-card bg-light-gray p-8 text-center">
+                <div class="value-icon text-5xl text-gray-700 mb-4">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3 class="text-2xl font-playfair text-dark mb-4">Custom Design</h3>
+                <p class="text-gray-600">
+                    Transform your vision into reality with our bespoke design service,
+                    creating one-of-a-kind pieces that reflect your personal story.
+                </p>
+            </div>
+
+            <!-- Value 5 -->
+            <div class="value-card bg-light-gray p-8 text-center">
+                <div class="value-icon text-5xl text-gray-700 mb-4">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3 class="text-2xl font-playfair text-dark mb-4">Certified Quality</h3>
+                <p class="text-gray-600">
+                    All precious stones and metals come with internationally recognized
+                    certifications and detailed authenticity documentation.
+                </p>
+            </div>
+
+            <!-- Value 6 -->
+            <div class="value-card bg-light-gray p-8 text-center">
+                <div class="value-icon text-5xl text-gray-700 mb-4">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="text-2xl font-playfair text-dark mb-4">Customer First</h3>
+                <p class="text-gray-600">
+                    Your satisfaction is our priority. We offer personalized consultations
+                    and exceptional after-sales support.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Certifications & Memberships -->
+<section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-playfair text-dark mb-4">Certifications & Memberships</h2>
+            <div class="w-24 h-1 bg-gold mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            <div class="cert-badge bg-white p-6 shadow-lg text-center">
+                <i class="fas fa-award text-gold text-4xl mb-3"></i>
+                <p class="text-sm font-semibold text-gray-700">GIA Certified</p>
+            </div>
+            <div class="cert-badge bg-white p-6 shadow-lg text-center">
+                <i class="fas fa-medal text-gold text-4xl mb-3"></i>
+                <p class="text-sm font-semibold text-gray-700">ISO 9001:2015</p>
+            </div>
+            <div class="cert-badge bg-white p-6 shadow-lg text-center">
+                <i class="fas fa-globe text-gold text-4xl mb-3"></i>
+                <p class="text-sm font-semibold text-gray-700">Kimberley Process</p>
+            </div>
+            <div class="cert-badge bg-white p-6 shadow-lg text-center">
+                <i class="fas fa-leaf text-gold text-4xl mb-3"></i>
+                <p class="text-sm font-semibold text-gray-700">RJC Member</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Meet Our Team -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-playfair text-dark mb-4">Meet Our Team</h2>
+            <div class="w-24 h-1 bg-gold mx-auto mb-4"></div>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                The passionate artisans and experts behind Rush Jewels
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+            <!-- Team Member 1 -->
+            <div class="team-card bg-light-gray overflow-hidden shadow-lg">
+                <div class="h-80 bg-gradient-to-br from-gray-300 to-gray-400 team-image flex items-center justify-center">
+                    <i class="fas fa-user-tie text-white text-6xl"></i>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-2xl font-playfair text-dark mb-2">Chaminda Perera</h3>
+                    <p class="text-gold text-sm font-semibold uppercase tracking-wider mb-3">Founder & Master Jeweler</p>
+                    <p class="text-gray-600 text-sm mb-4">
+                        With over 35 years of experience, Chaminda's vision and craftsmanship
+                        have shaped Rush Jewels into what it is today.
+                    </p>
+                    <div class="flex justify-center gap-4 text-gray-500">
+                        <a href="#" class="hover:text-gold transition"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="https://www.instagram.com/rush.jewels" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="team-card bg-light-gray overflow-hidden shadow-lg">
+                <div class="h-80 bg-gradient-to-br from-gray-300 to-gray-400 team-image flex items-center justify-center">
+                    <i class="fas fa-user text-white text-6xl"></i>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-2xl font-playfair text-dark mb-2">Sanduni Fernando</h3>
+                    <p class="text-gold text-sm font-semibold uppercase tracking-wider mb-3">Head Designer</p>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Sanduni brings contemporary elegance to traditional designs, creating pieces
+                        that resonate with modern sensibilities.
+                    </p>
+                    <div class="flex justify-center gap-4 text-gray-500">
+                        <a href="#" class="hover:text-gold transition"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="https://www.instagram.com/rush.jewels" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="team-card bg-light-gray overflow-hidden shadow-lg">
+                <div class="h-80 bg-gradient-to-br from-gray-300 to-gray-400 team-image flex items-center justify-center">
+                    <i class="fas fa-user text-white text-6xl"></i>
+                </div>
+                <div class="p-6 text-center">
+                    <h3 class="text-2xl font-playfair text-dark mb-2">Rohan Silva</h3>
+                    <p class="text-gold text-sm font-semibold uppercase tracking-wider mb-3">Gemologist</p>
+                    <p class="text-gray-600 text-sm mb-4">
+                        A certified gemologist with expertise in sourcing and authenticating
+                        the world's finest gemstones.
+                    </p>
+                    <div class="flex justify-center gap-4 text-gray-500">
+                        <a href="#" class="hover:text-gold transition"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="https://www.instagram.com/rush.jewels" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-20 bg-gradient-to-r from-dark via-gray-900 to-dark text-white text-center">
+    <div class="container mx-auto px-6">
+        <i class="fas fa-gem text-gold text-5xl mb-6"></i>
+        <h2 class="text-4xl md:text-5xl font-playfair mb-6">Experience the Rush Jewels Difference</h2>
+        <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Visit our showroom or explore our collections online to find the perfect piece
+            that tells your unique story.
+        </p>
+        <div class="flex justify-center">
+            <a href="/shop.html" class="bg-gold hover:bg-yellow-600 text-dark font-bold py-4 px-8 transition duration-300 uppercase tracking-wider">
+                Explore Collections
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Info Section -->
+<section class="py-16 bg-light-gray" id="contact">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-12">
+            <div>
+                <i class="fas fa-map-marker-alt text-gold text-3xl mb-4"></i>
+                <h3 class="text-xl font-playfair text-dark mb-2">Visit Us</h3>
+                <p class="text-gray-600">454/5 Daulagala Road<br>Pilimathalawa, Sri Lanka</p>
+                <button onclick="getDirections()" class="mt-4 bg-gold hover:bg-yellow-600 text-dark font-semibold py-2 px-6 transition duration-300 text-sm uppercase tracking-wider">
+                    <i class="fas fa-directions mr-2"></i>Get Directions
+                </button>
+            </div>
+            <div>
+                <i class="fas fa-phone-alt text-gold text-3xl mb-4"></i>
+                <h3 class="text-xl font-playfair text-dark mb-2">Call Us</h3>
+                <p class="text-gray-600">0754832960<br>Mon-Sat: 9AM - 7PM</p>
+                <a href="tel:0764921325" class="inline-block mt-4 bg-gold hover:bg-yellow-600 text-dark font-semibold py-2 px-6 transition duration-300 text-sm uppercase tracking-wider">
+                    <i class="fas fa-phone mr-2"></i>Call Now
+                </a>
+            </div>
+            <div>
+                <i class="fas fa-envelope text-gold text-3xl mb-4"></i>
+                <h3 class="text-xl font-playfair text-dark mb-2">Email Us</h3>
+                <p class="text-gray-600">rushjewelsofficial@gmail.com</p>
+                <a href="mailto:rushjewelsofficial@gmail.com" class="inline-block mt-4 bg-gold hover:bg-yellow-600 text-dark font-semibold py-2 px-6 transition duration-300 text-sm uppercase tracking-wider">
+                    <i class="fas fa-envelope mr-2"></i>Send Email
+                </a>
+            </div>
+        </div>
+
+        <!-- Google Map Section -->
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-playfair text-dark mb-4">Find Us on the Map</h3>
+                <div class="w-24 h-1 bg-gold mx-auto mb-4"></div>
+                <p class="text-gray-600">Located in the heart of Pilimathalawa, easily accessible from Kandy and surrounding areas</p>
+            </div>
+
+            <div class="bg-white shadow-xl overflow-hidden border-4 border-gold/20">
+                <div id="map" class="w-full h-96"></div>
+            </div>
+
+            <!-- Distance Info Display -->
+            <div id="distance-info" class="hidden mt-6 bg-white p-6 shadow-lg border-l-4 border-gold">
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-route text-gold text-2xl mt-1"></i>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-playfair text-dark mb-2">Route to Rush Jewels</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500 uppercase text-xs">Distance:</span>
+                                <p class="text-lg font-bold text-dark" id="route-distance">--</p>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 uppercase text-xs">Duration:</span>
+                                <p class="text-lg font-bold text-dark" id="route-duration">--</p>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 uppercase text-xs">Mode:</span>
+                                <p class="text-lg font-bold text-dark">Driving</p>
+                            </div>
+                        </div>
+                        <button onclick="openGoogleMapsDirections()" class="mt-4 bg-dark hover:bg-gray-800 text-gold font-semibold py-2 px-6 transition duration-300 text-sm uppercase">
+                            <i class="fas fa-external-link-alt mr-2"></i>Open in Google Maps
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+<!-- Footer (Include component) -->
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+<!-- Scripts -->
+<script>
+    // Rush Jewels Location
+    // UPDATED COORDINATES: 7°15'52.9"N 80°33'22.7"E
+    const rushJewelsLocation = {
+        lat: 7.264694,
+        lng: 80.556306,
+        address: '454/5 Daulagala Road, Pilimathalawa, Sri Lanka'
+    };
+
+    let map;
+    let directionsService;
+    let directionsRenderer;
+    let userLocation = null;
+
+    // Initialize Google Map
+    function initMap() {
+        // Create map centered on Rush Jewels
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: rushJewelsLocation,
+            styles: [
+                {
+                    featureType: 'poi',
+                    elementType: 'labels',
+                    stylers: [{ visibility: 'off' }]
+                }
+            ]
+        });
+
+        // Add marker for Rush Jewels
+        const marker = new google.maps.Marker({
+            position: rushJewelsLocation,
+            map: map,
+            title: 'Rush Jewels',
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 12,
+                fillColor: '#D4AF37',
+                fillOpacity: 1,
+                strokeColor: '#121212',
+                strokeWeight: 2
+            },
+            animation: google.maps.Animation.DROP
+        });
+
+        // Info window for the marker
+        const infoWindow = new google.maps.InfoWindow({
+            content: `
+                    <div style="padding: 10px; font-family: 'Poppins', sans-serif;">
+                        <h3 style="font-size: 18px; font-weight: bold; color: #121212; margin-bottom: 8px;">
+                            <i class="fas fa-gem" style="color: #D4AF37;"></i> Rush Jewels
+                        </h3>
+                        <p style="color: #666; margin-bottom: 8px; font-size: 14px;">
+                            454/5 Daulagala Road<br>Pilimathalawa, Sri Lanka
+                        </p>
+                        <p style="color: #D4AF37; font-weight: 600; font-size: 13px;">
+                            <i class="fas fa-clock"></i> Mon-Sat: 9AM - 7PM
+                        </p>
+                    </div>
+                `
+        });
+
+        // Open info window on marker click
+        marker.addListener('click', () => {
+            infoWindow.open(map, marker);
+        });
+
+        // Show info window by default
+        infoWindow.open(map, marker);
+
+        // Initialize directions service
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: false,
+            polylineOptions: {
+                strokeColor: '#D4AF37',
+                strokeWeight: 5
+            }
+        });
+    }
+
+    // Get user's current location and calculate route
+    function getDirections() {
+        if (navigator.geolocation) {
+            // Show loading state
+            const distanceInfo = document.getElementById('distance-info');
+            distanceInfo.classList.remove('hidden');
+            document.getElementById('route-distance').textContent = 'Calculating...';
+            document.getElementById('route-duration').textContent = 'Please wait...';
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Calculate and display route
+                    calculateRoute(userLocation, rushJewelsLocation);
+                },
+                (error) => {
+                    console.error('Error getting location:', error);
+                    alert('Unable to get your location. Please enable location services and try again.');
+                    document.getElementById('distance-info').classList.add('hidden');
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by your browser. Please use the "Open in Google Maps" button instead.');
+        }
+    }
+
+    // Calculate route using Google Directions API
+    function calculateRoute(origin, destination) {
+        const request = {
+            origin: origin,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC
+        };
+
+        directionsService.route(request, (result, status) => {
+            if (status === 'OK') {
+                directionsRenderer.setDirections(result);
+
+                // Extract route information
+                const route = result.routes[0].legs[0];
+                document.getElementById('route-distance').textContent = route.distance.text;
+                document.getElementById('route-duration').textContent = route.duration.text;
+
+                // Scroll to map
+                document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                console.error('Directions request failed:', status);
+                alert('Could not calculate route. Please try again or use the "Open in Google Maps" button.');
+                document.getElementById('distance-info').classList.add('hidden');
+            }
+        });
+    }
+
+    // Open Google Maps in new tab with directions
+    function openGoogleMapsDirections() {
+        const destination = encodeURIComponent('Rush Jewels, 454/5 Daulagala Road, Pilimathalawa, Sri Lanka');
+
+        if (userLocation) {
+            const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${destination}&travelmode=driving`;
+            window.open(mapsUrl, '_blank');
+        } else {
+            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${destination}`;
+            window.open(mapsUrl, '_blank');
+        }
+    }
+
+    // Initialize map when page loads (called by Maps API callback)
+    window.initMap = initMap;
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Counter animation on scroll
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statItems = entry.target.querySelectorAll('.stat-item');
+                statItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const statsSection = document.querySelector('.stat-item').closest('section');
+    if (statsSection) {
+        observer.observe(statsSection);
+    }
+</script>
+
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/flying-animation.js"></script>
+<script type="module" src="/js/cart.js"></script>
+<script type="module" src="/js/search.js"></script>
+<script type="module" src="/js/navbar.js"></script>
+<script src="/js/components.js"></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASSSiqo7cf0J3BExr1bKpyoUR_ZwSkWhc&libraries=places,geometry&callback=initMap" async defer></script>
+
+<script>
+    /**
+     * 🚀 Master Initialization Logic
+     * මෙමඟින් Navbar/Footer සහ සියලුම දත්ත පිරෙන තෙක් ලෝඩරය රඳවා තබා ගනී.
+     */
+    document.addEventListener('DOMContentLoaded', async () => {
+        // 1. වහාම ලෝඩරය පෙන්වීම
+        if (window.loader) window.loader.show();
+
+        try {
+            // 2. Navbar සහ Footer (Categories සමඟ) පූරණය වන තෙක් බලා සිටීම
+            if (window.componentLoader) {
+                // Navbar එක මඟ හැරීමට අවශ්‍ය නැති නිසා window.skipNavbarLoad භාවිතා නොකරයි
+                await window.componentLoader.loadAllComponents();
+            }
+
+            // 3. පිටුව පෙන්වීම (Content Reveal)
+            const main = document.getElementById('main-content');
+            if (main) {
+                main.style.display = 'block';
+                main.classList.add('animate__animated', 'animate__fadeIn');
+            }
+
+        } catch (error) {
+            console.error("Initialization failed:", error);
+            // දෝෂයක් ආවත් කළු තිරය අයින් කර Content එක පෙන්වයි
+            const main = document.getElementById('main-content');
+            if (main) main.style.display = 'block';
+        } finally {
+            // 4. සියල්ල අවසන් වූ පසු පමණක් ලෝඩරය ඉවත් කිරීම
+            if (window.loader) {
+                setTimeout(() => {
+                    window.loader.hide();
+                }, 400); // සුමට බව සඳහා තත්පර 0.4ක ප්‍රමාදයක්
+            }
+        }
+    });
+</script>
+
+</body>
+
+</html>

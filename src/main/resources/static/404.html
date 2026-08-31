@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Page Not Found - Rush Jewels</title>
+    <meta name="description"
+          content="The page you're looking for couldn't be found. Explore our luxury jewelry collection at Rush Jewels.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#D4AF37',
+                        'dark': '#121212',
+                        'light-gray': '#F8F8F8'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
+
+    <style>
+        /* Custom animations for 404 page */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -468px 0;
+            }
+            100% {
+                background-position: 468px 0;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .animate-fadeInDown {
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.8s ease-out;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-sparkle {
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .shimmer-effect {
+            background: linear-gradient(to right, #d4af37 0%, #f4e7a1 50%, #d4af37 100%);
+            background-size: 468px 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 2s infinite linear;
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #d4af37;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #d4af37;
+        }
+
+        .sparkle:nth-child(1) {
+            top: 10%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .sparkle:nth-child(2) {
+            top: 20%;
+            right: 20%;
+            animation-delay: 0.5s;
+        }
+
+        .sparkle:nth-child(3) {
+            bottom: 30%;
+            left: 25%;
+            animation-delay: 1s;
+        }
+
+        .sparkle:nth-child(4) {
+            bottom: 15%;
+            right: 15%;
+            animation-delay: 1.5s;
+        }
+
+        .sparkle:nth-child(5) {
+            top: 50%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        .sparkle:nth-child(6) {
+            top: 60%;
+            right: 10%;
+            animation-delay: 2.5s;
+        }
+
+        /* Jewelry icon styles */
+        .jewelry-icon {
+            color: #d4af37;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            opacity: 0.6;
+        }
+
+        /* Background gradient animation */
+        .bg-gradient-animated {
+            background: linear-gradient(-45deg, #f8f8f8, #ffffff, #f0f0f0, #fafafa);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Button hover effects */
+        .btn-primary:hover {
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="font-poppins text-dark bg-gradient-animated min-h-screen overflow-x-hidden">
+<!-- Navbar -->
+<div id="navbar-container"></div>
+
+<main id="main-content" style="display: none;">
+<!-- 404 Error Section -->
+<section class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 min-h-screen relative">
+    <!-- Floating sparkles -->
+    <div class="sparkle animate-sparkle"></div>
+    <div class="sparkle animate-sparkle"></div>
+    <div class="sparkle animate-sparkle"></div>
+    <div class="sparkle animate-sparkle"></div>
+    <div class="sparkle animate-sparkle"></div>
+    <div class="sparkle animate-sparkle"></div>
+
+    <div class="max-w-4xl mx-auto text-center relative">
+        <!-- 404 Number with Jewelry Icons -->
+        <div class="animate-fadeInDown mb-8">
+            <div class="flex items-center justify-center mb-6">
+                <i class="fas fa-ring jewelry-icon animate-float" style="animation-delay: 0s;"></i>
+                <i class="fas fa-gem jewelry-icon animate-float" style="animation-delay: 0.2s;"></i>
+                <i class="fas fa-crown jewelry-icon animate-float" style="animation-delay: 0.4s;"></i>
+            </div>
+            <h1 class="text-8xl sm:text-9xl lg:text-[12rem] font-playfair font-bold shimmer-effect leading-none mb-4">
+                404
+            </h1>
+            <div class="flex items-center justify-center">
+                <i class="fas fa-heart jewelry-icon animate-float" style="animation-delay: 0.6s;"></i>
+                <i class="fas fa-star jewelry-icon animate-float" style="animation-delay: 0.8s;"></i>
+                <i class="fas fa-diamond jewelry-icon animate-float" style="animation-delay: 1s;"></i>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="animate-fadeInUp mb-12" style="animation-delay: 0.2s;">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold text-dark mb-6">
+                Oops! This Gem is Missing
+            </h2>
+            <p class="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                The page you're looking for seems to have slipped away like a precious stone.
+                But don't worry, our collection of beautiful jewelry is still here waiting for you.
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="animate-scaleIn" style="animation-delay: 0.4s;">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                <a href="index.html"
+                   class="btn-primary bg-gold text-white px-8 py-4 font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center">
+                    <i class="fas fa-home mr-3"></i>
+                    Back to Home
+                </a>
+                <a href="shop.html"
+                   class="btn-secondary border-2 border-gold text-gold px-8 py-4 font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:bg-gold hover:text-white flex items-center">
+                    <i class="fas fa-shopping-bag mr-3"></i>
+                    Browse Jewelry
+                </a>
+            </div>
+        </div>
+
+        <!-- Additional Navigation Options -->
+        <div class="animate-fadeInUp glass-effect rounded-lg p-8 shadow-lg" style="animation-delay: 0.6s;">
+            <h3 class="text-xl font-playfair font-semibold text-dark mb-6">Explore Our Collections</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                <a href="#"
+                   class="group flex flex-col items-center p-4 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-ring text-3xl text-gold mb-3 group-hover:scale-110 transition-transform duration-300"></i>
+                    <span class="text-dark font-medium group-hover:text-gold transition-colors duration-300">Rings</span>
+                </a>
+                <a href="#"
+                   class="group flex flex-col items-center p-4 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-gem text-3xl text-gold mb-3 group-hover:scale-110 transition-transform duration-300"></i>
+                    <span class="text-dark font-medium group-hover:text-gold transition-colors duration-300">Necklaces</span>
+                </a>
+                <a href="#"
+                   class="group flex flex-col items-center p-4 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-circle text-3xl text-gold mb-3 group-hover:scale-110 transition-transform duration-300"></i>
+                    <span class="text-dark font-medium group-hover:text-gold transition-colors duration-300">Earrings</span>
+                </a>
+                <a href="#"
+                   class="group flex flex-col items-center p-4 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300">
+                    <i class="fas fa-link text-3xl text-gold mb-3 group-hover:scale-110 transition-transform duration-300"></i>
+                    <span class="text-dark font-medium group-hover:text-gold transition-colors duration-300">Bracelets</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <div class="animate-fadeInUp mt-12" style="animation-delay: 0.8s;">
+            <div class="max-w-md mx-auto">
+                <h4 class="text-lg font-semibold text-dark mb-4">Looking for something specific?</h4>
+                <div class="relative">
+                    <input type="text"
+                           placeholder="Search for jewelry..."
+                           class="w-full px-6 py-4 pr-12 border-2 border-gray-200 rounded-lg focus:border-gold focus:outline-none text-lg transition-all duration-300">
+                    <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gold text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all duration-300">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+
+<!-- JavaScript for animations -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- 1. ලෝඩරය පාලනය කිරීම ---
+        const main = document.getElementById('main-content');
+        if (main) {
+            main.style.display = 'block';
+            main.classList.add('animate__animated', 'animate__fadeIn');
+        }
+
+        // ලෝඩරය අයින් කරන්න (300ms ප්‍රමදයක් සහිතව)
+        if (window.loader && typeof window.loader.hide === 'function') {
+            setTimeout(() => {
+                window.loader.hide();
+            }, 300);
+        }
+
+        // --- 2. ඔබේ අනෙකුත් Animations (දැනට තිබෙන ඒවා) ---
+        const jewelryIcons = document.querySelectorAll('.jewelry-icon');
+        jewelryIcons.forEach((icon, index) => {
+            setTimeout(() => {
+                icon.classList.add('animate__animated', 'animate__bounceIn');
+            }, index * 200);
+        });
+
+        // Add shimmer effect to 404 text after a delay
+        setTimeout(() => {
+            const errorText = document.querySelector('.shimmer-effect');
+            if (errorText) {
+                errorText.style.animation = 'shimmer 2s infinite linear';
+            }
+        }, 1000);
+
+        // Add navigation hover effects
+        const navItems = document.querySelectorAll('.nav-hover');
+        navItems.forEach(item => {
+            item.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-2px)';
+                this.style.textShadow = '0 0 8px rgba(212, 175, 55, 0.5)';
+            });
+
+            item.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+                this.style.textShadow = 'none';
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchButton = document.querySelector('button i.fa-search').parentElement;
+
+        searchButton.addEventListener('click', function () {
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm) {
+                // Redirect to shop page with search parameter
+                window.location.href = `shop.html?search=${encodeURIComponent(searchTerm)}`;
+            }
+        });
+
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.trim();
+                if (searchTerm) {
+                    window.location.href = `shop.html?search=${encodeURIComponent(searchTerm)}`;
+                }
+            }
+        });
+    });
+</script>
+<script type="module" src="/js/cart.js"></script>
+<script type="module" src="/js/search.js"></script>
+<script type="module" src="/js/navbar.js"></script>
+<script src="/js/components.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/flying-animation.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Rush Jewels | Blog Post</title>
+    <meta name="description" content="Read the latest stories and trends from Rush Jewels.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F9F9F9',
+                        'border-gray': '#E5E5E5'
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles for Typography (overriding prose defaults for better mobile exp) -->
+    <style>
+        /* Base typography improvements */
+        body { -webkit-font-smoothing: antialiased; }
+
+        /* Prose Content Styling */
+        .prose p { margin-bottom: 1.25em; line-height: 1.75; font-size: 1rem; }
+        @media (min-width: 768px) {
+            .prose p { margin-bottom: 1.5em; line-height: 1.8; font-size: 1.125rem; }
+        }
+
+        .prose h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-top: 1.5em; margin-bottom: 0.75em; color: #111; line-height: 1.3; }
+        @media (min-width: 768px) {
+            .prose h2 { font-size: 1.8rem; margin-top: 2em; margin-bottom: 1em; }
+        }
+
+        .prose ul { list-style-type: disc; padding-left: 1.25em; margin-bottom: 1.5em; }
+        .prose img { border-radius: 4px; width: 100%; height: auto; margin: 1.5em 0; }
+
+        /* Smooth Fade In */
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-white text-rush-dark selection:bg-rush-gold selection:text-white flex flex-col min-h-screen">
+
+<!-- Navigation Placeholder -->
+<div id="navbar-container" class="sticky top-0 z-50"></div>
+
+<!-- Main Content -->
+<main id="main-content" style="display: none;" class="flex-grow pt-20 pb-12 md:pt-28 md:pb-20">
+
+    <!-- Error State -->
+    <div id="error-state" class="hidden container mx-auto px-4 py-12 md:py-20 text-center">
+        <div class="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-red-50 text-red-500 mb-4 md:mb-6">
+            <i class="fas fa-exclamation-triangle text-xl md:text-2xl"></i>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-serif mb-3 md:mb-4">Article Not Found</h1>
+        <p class="text-gray-500 mb-6 md:mb-8 text-sm md:text-base">We couldn't load the requested article.</p>
+        <a href="index.html" class="inline-block border border-rush-dark px-6 py-2.5 md:px-8 md:py-3 text-xs md:text-sm tracking-widest hover:bg-rush-dark hover:text-white transition-all duration-300">RETURN HOME</a>
+    </div>
+
+    <!-- Article Container -->
+    <article id="blog-content" class="opacity-0 transition-opacity duration-700">
+
+        <!-- Breadcrumbs -->
+        <div class="container mx-auto px-4 mb-8 md:mb-12 text-center">
+            <nav class="text-[10px] md:text-xs tracking-widest uppercase text-gray-400 font-medium">
+                <a href="index.html" class="hover:text-rush-gold transition-colors">Home</a>
+                <span class="mx-1 md:mx-2">•</span>
+                <a href="index.html#blog" class="hover:text-rush-gold transition-colors">Blog</a>
+                <span class="mx-1 md:mx-2">•</span>
+                <span class="text-rush-gold truncate max-w-[150px] inline-block align-bottom" id="breadcrumb-title">...</span>
+            </nav>
+        </div>
+
+        <!-- Header -->
+        <header class="container mx-auto px-4 max-w-4xl text-center mb-8 md:mb-12">
+            <div class="mb-4 md:mb-6 flex flex-wrap justify-center gap-2" id="tags-container">
+                <!-- Tags will be injected here -->
+            </div>
+
+            <h1 id="post-title" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-medium leading-tight mb-4 md:mb-8 text-gray-900 break-words">
+                <!-- Title loads here -->
+            </h1>
+
+            <div class="flex flex-wrap items-center justify-center text-xs md:text-sm text-gray-500 font-medium tracking-wide uppercase gap-y-2">
+                <span id="post-date"></span>
+                <span class="mx-2 md:mx-3 text-rush-gold">•</span>
+                <span id="post-readtime"></span>
+            </div>
+        </header>
+
+        <!-- Hero Image -->
+        <div class="container mx-auto px-4 max-w-6xl mb-8 md:mb-16">
+            <div class="aspect-[16/9] w-full overflow-hidden bg-gray-100 shadow-lg md:shadow-xl">
+                <img id="post-image" src="" alt="Blog Cover" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" loading="lazy">
+            </div>
+        </div>
+
+        <!-- Body Content -->
+        <div class="container mx-auto px-4 max-w-3xl">
+            <!-- Used 'prose' for base styles and 'md:prose-lg' for larger screens -->
+            <div id="post-body" class="prose prose-slate md:prose-lg mx-auto font-serif text-gray-700 max-w-none break-words">
+                <!-- Content loads here -->
+            </div>
+        </div>
+
+        <!-- SHOP THE LOOK SECTION -->
+        <div id="shop-the-look-container" class="hidden container mx-auto px-4 max-w-5xl mt-12 md:mt-20 pt-10 md:pt-16 border-t border-gray-200">
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-2xl md:text-3xl font-serif text-gray-900 mb-3 md:mb-4">Shop The Look</h2>
+                <div class="h-0.5 md:h-1 w-16 md:w-20 bg-rush-gold mx-auto"></div>
+                <p class="mt-3 md:mt-4 text-sm md:text-base text-gray-500 font-light">Featured pieces from this article</p>
+            </div>
+
+            <!-- Product Grid - Responsive Columns -->
+            <div id="related-items-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Items injected via JS -->
+            </div>
+        </div>
+
+        <!-- Footer / Share -->
+        <div class="container mx-auto px-4 max-w-3xl mt-10 md:mt-16 pt-8 border-t border-gray-100 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+
+                <div class="text-xs md:text-sm font-sans text-gray-500 italic text-center md:text-left">
+                    Published in <span id="post-category" class="text-rush-gold not-italic font-medium uppercase tracking-wider block md:inline mt-1 md:mt-0"></span>
+                </div>
+
+                <div class="flex items-center gap-3 md:gap-4">
+                    <span class="text-[10px] md:text-xs uppercase tracking-widest font-bold text-gray-400">Share</span>
+                    <a href="https://web.facebook.com/bridaljewellerypilimathalawa/?_rdc=1&_rdr" target="_blank" class="w-9 h-9 md:w-8 md:h-8 flex items-center justify-center border border-gray-200 md:rounded-none hover:bg-rush-gold hover:text-white hover:border-rush-gold transition-all duration-300" aria-label="Share on Facebook">
+                        <i class="fab fa-facebook-f text-sm"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@rushjewels" target="_blank" class="w-9 h-9 md:w-8 md:h-8 flex items-center justify-center border border-gray-200 md:rounded-none hover:bg-rush-gold hover:text-white hover:border-rush-gold transition-all duration-300" aria-label="Visit TikTok">
+                        <i class="fab fa-tiktok text-sm"></i>
+                    </a>
+                    <a href="https://api.whatsapp.com/send/?phone=94760221796&text&type=phone_number&app_absent=0" target="_blank" class="w-9 h-9 md:w-8 md:h-8 flex items-center justify-center border border-gray-200 md:rounded-none hover:bg-rush-gold hover:text-white hover:border-rush-gold transition-all duration-300" aria-label="Share via WhatsApp">
+                        <i class="fab fa-whatsapp text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+</main>
+
+<!-- Footer Placeholder -->
+<div id="footer-container"></div>
+<div id="backtotop-container"></div>
+
+<!-- Scripts -->
+<script src="/js/main.js"></script>
+<script src="/js/animations.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/blog-post-loader.js"></script>
+<script type="module" src="/js/cart.js"></script>
+<script type="module" src="/js/search.js"></script>
+<script src="js/flying-animation.js"></script>
+<script src="/js/components.js"></script>
+<script type="module" src="/js/navbar.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // 1. ලෝඩරය වහාම පෙන්වීම
+        if (window.loader) window.loader.show();
+
+        try {
+            // 2. Navbar, Footer සහ Blog Article එකවර ලෝඩ් වන තෙක් බලා සිටීම
+            await Promise.all([
+                window.componentLoader ? window.componentLoader.loadAllComponents() : Promise.resolve(),
+                window.loadBlogPost ? window.loadBlogPost() : Promise.resolve()
+            ]);
+        } catch (error) {
+            console.error("Blog page data failed:", error);
+        } finally {
+            // 3. සියල්ල අවසන් වූ පසු (හෝ Error ආවත්) පිටුව පෙන්වීම
+            const main = document.getElementById('main-content');
+            if (main) {
+                main.style.display = 'block';
+                main.classList.add('animate__animated', 'animate__fadeIn');
+            }
+
+            if (window.loader) {
+                // පින්තූර සම්පූර්ණයෙන් පෙනීමට තත්පර 0.5ක සුළු සහනයක් ලබා දෙන්න
+                setTimeout(() => window.loader.hide(), 500);
+            }
+        }
+    });
+</script>
+</body>
+</html>

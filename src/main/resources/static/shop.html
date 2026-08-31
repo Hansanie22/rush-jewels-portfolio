@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Shop - Rush Jewels</title>
+    <meta name="description"
+          content="Explore the Rush Jewels collection with premium rings, necklaces, earrings, and more.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated Color Palette
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        // Brand Colors
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body class="font-poppins text-dark bg-white">
+
+<div id="navbar-container"></div>
+<main id="main-content" style="display: none;">
+<div class="bg-light-gray py-12">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl md:text-4xl font-playfair font-bold">Shop Our Collection</h1>
+        <div class="flex items-center mt-2 text-gray-600">
+            <a href="index.html" class="hover:text-gold">Home</a>
+            <i class="fas fa-chevron-right mx-2 text-sm"></i>
+            <span>Shop</span>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row gap-6">
+        <div id="filters-sidebar" class="md:w-1/4 mb-8 md:mb-0 hidden md:block">
+            <div class="bg-white p-6 rounded-none shadow-md mb-6 filters-panel">
+                <div class="flex items-center justify-between mb-4 md:hidden">
+                    <span class="text-base font-semibold uppercase tracking-wide text-gray-900">Filters</span>
+                    <button id="mobile-filter-close" type="button"
+                            class="text-gray-500 hover:text-black transition-colors">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+                <h3 class="text-xl font-playfair font-bold mb-4 hidden md:block">Filter Products</h3>
+
+                <div class="mb-6">
+                    <h4 class="font-semibold mb-3">Category</h4>
+                    <ul id="categoryList" class="space-y-2" role="list">
+                    </ul>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-semibold mb-3">Gemstone</h4>
+                    <ul id="gemstoneList" class="space-y-2" role="list">
+                    </ul>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-semibold mb-3">Price Range</h4>
+                    <div class="mb-3">
+                        <input type="range" id="price-range" min="0" max="10000" value="10000" class="w-full accent-gold">
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600">
+                        <span>LKR 0</span>
+                        <span id="price-value">LKR 10,000</span>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-semibold mb-3">Metal Type</h4>
+                    <ul id="colorList" class="space-y-2" role="list">
+                    </ul>
+                </div>
+
+                <button id="apply-filters"
+                        class="w-full bg-gold text-white py-2 rounded-none font-medium hover:bg-opacity-90 transition-colors">
+                    Apply Filters
+                </button>
+                <button id="clear-filters"
+                        class="w-full mt-2 border border-gray-300 text-gray-700 py-2 rounded-none font-medium hover:border-gold hover:text-gold transition-colors">
+                    Clear All Filters
+                </button>
+            </div>
+        </div>
+
+        <div class="md:w-3/4">
+            <div class="mb-6">
+                <div class="flex items-center justify-between gap-3 md:hidden">
+                    <button id="filter-toggle" type="button"
+                            class="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-none text-sm font-medium text-gray-800 shadow-sm hover:border-gold hover:text-gold transition-colors">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Filters</span>
+                    </button>
+                    <div class="relative flex-1">
+                        <button id="sort-toggle" type="button"
+                                class="w-full flex items-center justify-between border border-gray-200 rounded-none px-4 py-2 text-sm font-medium text-gray-800 bg-white shadow-sm hover:border-gold hover:text-gold transition-colors">
+                            <span id="sort-toggle-label" class="flex-1 text-left truncate">Best Selling</span>
+                            <i class="fas fa-chevron-down text-gray-500 ml-2"></i>
+                        </button>
+                        <select id="sort-select" class="sr-only">
+                            <option value="popularity">Best Selling</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="hidden md:flex justify-between items-center mt-4">
+                    <p class="text-gray-600" id="product-count">Showing 12 of 48 products</p>
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-600">Sort by:</span>
+                        <select id="sort-select-desktop"
+                                class="border border-gray-300 rounded-none px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gold">
+                            <option value="popularity">Popularity</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                 id="products-grid"></div>
+
+            <div class="flex justify-center mt-12" id="pagination-wrapper">
+                <nav class="flex items-center flex-wrap gap-2 justify-center" id="pagination-nav"></nav>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="mobile-sheet-overlay" class="mobile-sheet-overlay"></div>
+<div id="mobile-sort-sheet" class="mobile-sheet-panel" role="dialog" aria-modal="true"
+     aria-labelledby="mobile-sort-title">
+    <div class="sort-sheet-content">
+        <div class="flex items-center justify-between mb-6 md:hidden">
+                    <span id="mobile-sort-title" class="text-base font-semibold uppercase tracking-wide text-gray-900">Sort
+                        by</span>
+            <button id="mobile-sort-close" type="button" class="text-2xl text-gray-600 nav-hover"
+                    aria-label="Close sort options">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sort-sheet-body">
+            <ul id="mobile-sort-options" class="sort-option-list">
+            </ul>
+        </div>
+    </div>
+</div>
+    </main>
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/loadCategory.js"></script>
+<script src="js/loadGemstone.js"></script>
+<script src="js/loadColor.js"></script>
+
+<script type="module" src="/js/cart.js"></script>
+<script src="js/flying-animation.js"></script>
+<script type="module" src="/js/products.js"></script>
+<script type="module" src="/js/search.js"></script>
+
+<!-- ✅ 1. Load Components.js -->
+<script type="module" src="/js/navbar.js"></script>
+<script src="/js/components.js"></script>
+
+<!-- ✅ 2. Safety Trigger (navbar.js REMOVED to prevent conflict) -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.componentLoader && typeof window.componentLoader.loadAllComponents === 'function') {
+            window.componentLoader.loadAllComponents();
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // CRITICAL FIX: The mobile sheet logic is now handled in products.js.
+        // We use the open/close functions exposed by products.js in the DOMContentLoaded phase.
+
+        const filterToggle = document.getElementById('filter-toggle');
+        const mobileFilterClose = document.getElementById('mobile-filter-close');
+        const mobileSheetOverlay = document.getElementById('mobile-sheet-overlay');
+        const sortToggle = document.getElementById('sort-toggle');
+        const mobileSortClose = document.getElementById('mobile-sort-close');
+
+        // Re-wire mobile sheet events to products.js functions
+        if (filterToggle && window.openFilterSheet) filterToggle.addEventListener('click', window.openFilterSheet);
+        if (mobileFilterClose && window.closeFilterSheet) mobileFilterClose.addEventListener('click', window.closeFilterSheet);
+
+        if (sortToggle && window.openSortSheet) sortToggle.addEventListener('click', window.openSortSheet);
+        if (mobileSortClose && window.closeSortSheet) mobileSortClose.addEventListener('click', window.closeSortSheet);
+
+        // Overlay close: uses products.js closeActiveSheet
+        if (mobileSheetOverlay && window.closeActiveSheet) mobileSheetOverlay.addEventListener('click', window.closeActiveSheet);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.loader) window.loader.show();
+
+        try {
+            await Promise.all([
+                window.componentLoader ? window.componentLoader.loadAllComponents() : Promise.resolve(),
+                window.fetchProducts ? window.fetchProducts() : Promise.resolve(),
+                typeof loadCategory === 'function' ? loadCategory() : Promise.resolve(),
+                typeof loadGemstone === 'function' ? loadGemstone() : Promise.resolve(),
+                typeof loadColor === 'function' ? loadColor() : Promise.resolve()
+            ]);
+        } finally {
+            // 3. දැන් ලෝඩරය අයින් කරලා පිටුව පෙන්වන්න
+            const main = document.getElementById('main-content');
+            if (main) {
+                main.style.display = 'block';
+                main.classList.add('animate__animated', 'animate__fadeIn');
+            }
+            if (window.loader) setTimeout(() => window.loader.hide(), 500);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rush Jewels - Touch POS</title>
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Anti-FOUC */
+        body {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        :root {
+            /* Light Theme (Clean, High Contrast) */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F3F4F6;
+            --accent-color: #D4AF37;
+            --accent-hover: #C5A028;
+
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --border-color: #E5E7EB;
+            --success-color: #10B981;
+            --success-hover: #059669;
+            --error-color: #EF4444;
+            --error-hover: #DC2626;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #18181B;
+            --bg-secondary: #27272A;
+            --accent-color: #F3C343;
+            --text-primary: #F9FAFB;
+            --text-secondary: #9CA3AF;
+            --border-color: #3F3F46;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+            /* Prevent text selection on touch */
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .pos-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Streamlined Sidebar */
+        .sidebar {
+            width: 90px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 10;
+        }
+
+        .logo {
+            color: var(--accent-color);
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-decoration: none;
+        }
+
+        .sidebar-btn {
+            color: var(--text-secondary);
+            width: 100%;
+            padding: 15px 0;
+            cursor: pointer;
+            border: none;
+            background: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .sidebar-btn i {
+            font-size: 24px;
+        }
+
+        .sidebar-btn span {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .sidebar-btn:hover,
+        .sidebar-btn.active {
+            color: var(--accent-color);
+            background: rgba(212, 175, 55, 0.1);
+            border-right: 4px solid var(--accent-color);
+        }
+
+        .sidebar-btn.red:hover {
+            color: var(--error-color);
+            background: rgba(239, 68, 68, 0.1);
+            border-right: 4px solid var(--error-color);
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        /* Main Workspace */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Massive Search Bar */
+        .search-area {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-area i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 24px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 20px 20px 20px 60px;
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 20px;
+            outline: none;
+            transition: all 0.2s;
+            user-select: text;
+            /* Allow typing */
+        }
+
+        .search-bar:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+            background-color: var(--bg-primary);
+        }
+
+        .search-bar::placeholder {
+            font-weight: 300;
+        }
+
+        /* Quick Category Filters */
+        .quick-filters {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .quick-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #000;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 10px;
+            align-content: start;
+        }
+
+        .product-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .product-grid::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 8px;
+        }
+
+        .product-card {
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.1s;
+        }
+
+        .product-card:active {
+            transform: scale(0.96);
+        }
+
+        .product-card.out-of-stock {
+            opacity: 0.4;
+            filter: grayscale(1);
+            pointer-events: none;
+        }
+
+        .prod-img {
+            height: 140px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--accent-color);
+            overflow: hidden;
+        }
+
+        .prod-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .prod-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.2;
+            flex: 1;
+        }
+
+        .prod-price {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-color);
+        }
+
+        .prod-stock {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Cart Panel (Massive & Clear) */
+        .cart-panel {
+            width: 450px;
+            background-color: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.05);
+            z-index: 5;
+        }
+
+        .cart-header {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .cart-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icon-btn.danger {
+            color: var(--error-color);
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .icon-btn:active {
+            transform: scale(0.9);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cart-item {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cart-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .item-name {
+            font-size: 16px;
+            font-weight: 600;
+            max-width: 70%;
+            line-height: 1.2;
+        }
+
+        .item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--bg-secondary);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: var(--bg-primary);
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .qty-val {
+            font-size: 18px;
+            font-weight: 700;
+            width: 30px;
+            text-align: center;
+        }
+
+        /* Payment Area */
+        .cart-footer {
+            background-color: var(--bg-primary);
+            padding: 15px;
+            border-top: 2px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .total-box {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(212, 175, 55, 0.05) 100%);
+            padding: 15px 20px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            margin-bottom: 15px;
+        }
+
+        .total-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .total-amount {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text-primary);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .pay-method {
+            padding: 8px 0;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: 0.1s;
+        }
+
+        .pay-method i {
+            font-size: 24px;
+        }
+
+        .pay-method.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #000;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Smart Cash Area */
+        .cash-area {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .cash-area.visible {
+            display: flex;
+        }
+
+        .quick-cash {
+            display: flex;
+            gap: 8px;
+        }
+
+        .cash-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            background: var(--success-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cash-btn.exact {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        .cash-btn:active {
+            transform: scale(0.95);
+        }
+
+        .cash-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .tendered-input {
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: right;
+            user-select: text;
+        }
+
+        .tendered-input::-webkit-inner-spin-button,
+        .tendered-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .clear-cash {
+            width: 40px;
+            height: 40px;
+            background: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .change-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .change-ok {
+            color: var(--success-color);
+        }
+
+        .change-bad {
+            color: var(--error-color);
+            animation: shake 0.4s;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 18px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .checkout-btn.ready:hover::before {
+            left: 100%;
+        }
+
+        .checkout-btn.ready {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #FFFFFF;
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.4);
+            border-bottom: 5px solid #047857;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .checkout-btn.ready:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+        }
+
+        .checkout-btn.ready:active {
+            transform: translateY(2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+            border-bottom-width: 0px;
+            margin-top: 5px;
+        }
+
+        .checkout-btn.disabled {
+            background: rgba(229, 231, 235, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #9CA3AF;
+            border: 2px dashed #D1D5DB;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        [data-theme="dark"] .checkout-btn.disabled {
+            background: rgba(39, 39, 42, 0.6);
+            border-color: #3F3F46;
+            color: #71717A;
+        }
+
+        /* Modals & Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .glass-panel {
+            background: rgba(24, 24, 27, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 30px;
+            border-radius: 20px;
+            width: 450px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .modal p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+        }
+
+        .modal-btn.cancel {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .modal-btn.confirm {
+            background: var(--error-color);
+            color: white;
+        }
+
+        /* Print only */
+        #receipt {
+            display: none;
+        }
+
+        @media print {
+            @page {
+                margin: 0;
+                size: 80mm auto;
+            }
+
+            body * {
+                visibility: hidden;
+            }
+
+            #receipt,
+            #receipt * {
+                visibility: visible;
+            }
+
+            #receipt {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 80mm;
+                max-width: 100%;
+                box-sizing: border-box;
+                background: white !important;
+                color: black !important;
+                font-family: 'Courier New', Courier, monospace;
+                padding: 5mm;
+                /* 5mm padding for thermal printer safe zone */
+                font-size: 12px;
+                line-height: 1.4;
+                margin: 0;
+            }
+
+            .r-header {
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            .r-logo {
+                max-width: 120px;
+                margin-bottom: 10px;
+                filter: grayscale(100%);
+            }
+
+            .r-title {
+                font-size: 20px;
+                font-weight: 900;
+                margin: 0 0 5px 0;
+                letter-spacing: 1px;
+            }
+
+            .r-info {
+                font-size: 11px;
+                margin: 0;
+                color: #333;
+            }
+
+            .r-divider {
+                border-top: 1px dashed #000;
+                margin: 10px 0;
+            }
+
+            .r-divider-thick {
+                border-top: 2px solid #000;
+                margin: 10px 0;
+            }
+
+            .r-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 4px;
+            }
+
+            .r-col-left {
+                text-align: left;
+                flex: 1;
+                padding-right: 10px;
+            }
+
+            .r-col-right {
+                text-align: right;
+                white-space: nowrap;
+            }
+
+            .r-item-name {
+                font-weight: bold;
+                font-size: 13px;
+            }
+
+            .r-item-meta {
+                font-size: 10px;
+                color: #555;
+            }
+
+            .r-total-row {
+                font-size: 16px;
+                font-weight: 900;
+                margin: 5px 0;
+            }
+
+            .r-footer {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 11px;
+            }
+
+            .r-barcode {
+                text-align: center;
+                margin-top: 15px;
+                font-family: monospace;
+                font-size: 20px;
+                letter-spacing: -1px;
+            }
+        }
+
+        /* ========== RESPONSIVE DESIGN ========== */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            backdrop-filter: blur(2px);
+        }
+
+        .mobile-overlay.active {
+            display: block;
+        }
+
+        .mobile-cart-btn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            color: #000;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 90;
+            border: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .mobile-cart-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--error-color);
+            color: #fff;
+            font-size: 12px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid var(--bg-primary);
+        }
+
+        .mobile-header {
+            display: none;
+            padding: 15px 20px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .mobile-header button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .mobile-header h1 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .cart-panel {
+                position: fixed;
+                right: -450px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                z-index: 105;
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .cart-panel.open {
+                right: 0;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+            }
+
+            .mobile-cart-btn {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -90px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                z-index: 105;
+                transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .sidebar.open {
+                left: 0;
+                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .cart-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .cart-panel.open {
+                right: 0;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+            }
+
+            .main-content {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .quick-filters {
+                padding-bottom: 5px;
+            }
+
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            .search-bar {
+                padding: 15px 15px 15px 50px;
+                font-size: 16px;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+</head>
+
+<body>
+    <!-- Mobile Overlays & Buttons -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeAllDrawers()"></div>
+
+    <button class="mobile-cart-btn" onclick="toggleCartDrawer()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="mobile-cart-badge" id="mobileCartBadge">0</span>
+    </button>
+
+    <div class="pos-wrapper">
+        <!-- Simplified Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <a href="admin.html" class="logo"><i class="fa-regular fa-gem"></i></a>
+
+            <button class="sidebar-btn" onclick="window.location.href='admin.html'">
+                <i class="fas fa-arrow-left"></i><span>Back</span>
+            </button>
+
+            <button class="sidebar-btn" onclick="openPickupsModal()">
+                <i class="fas fa-box-open"></i><span>Pickups</span>
+            </button>
+
+            <button class="sidebar-btn" onclick="openReturnsModal()">
+                <i class="fas fa-undo"></i><span>Returns</span>
+            </button>
+
+            <button class="sidebar-btn" onclick="openStockModal()">
+                <i class="fas fa-search"></i><span>Stock</span>
+            </button>
+
+            <button class="sidebar-btn" onclick="openHeldOrdersModal()">
+                <i class="fas fa-hand-holding"></i><span>Held</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="sidebar-btn" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i><span>Theme</span>
+            </button>
+
+            <button class="sidebar-btn red" onclick="openEndDayModal()">
+                <i class="fas fa-power-off"></i><span>End Day</span>
+            </button>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="main-content">
+
+            <!-- Mobile Header -->
+            <div class="mobile-header">
+                <button onclick="toggleSidebarDrawer()"><i class="fas fa-bars"></i></button>
+                <h1>Rush Jewels POS</h1>
+            </div>
+
+            <!-- Top Info Bar -->
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; background:var(--bg-secondary); padding:15px 20px; border-radius:15px; border:1px solid var(--border-color);">
+                <div style="display:flex; align-items:center; gap:10px; font-weight:600; font-size:18px;">
+                    <i class="far fa-clock" style="color:var(--accent-color);"></i>
+                    <span id="liveClock">Loading time...</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <i class="fas fa-user-circle" style="color:var(--text-secondary); font-size:24px;"></i>
+                    <input type="text" id="cashierName" placeholder="Cashier Name" readonly
+                        style="background:transparent; border:none; outline:none; font-weight:600; font-size:16px; color:var(--text-primary); border-bottom:1px solid var(--border-color); padding:5px; width:auto; max-width:200px; text-overflow:ellipsis; text-align:left;">
+                </div>
+            </div>
+
+            <!-- Big Search -->
+            <div class="search-area">
+                <i class="fas fa-barcode"></i>
+                <input type="text" id="searchInput" class="search-bar" placeholder="Scan Barcode or Search..."
+                    autofocus>
+            </div>
+
+            <!-- Quick Filters -->
+            <div class="quick-filters">
+                <button class="filter-btn active" onclick="filterData('All', this)">All Items</button>
+                <button class="filter-btn" onclick="filterData('Ring', this)">Rings</button>
+                <button class="filter-btn" onclick="filterData('Necklace', this)">Necklaces</button>
+                <button class="filter-btn" onclick="filterData('Earring', this)">Earrings</button>
+                <button class="filter-btn" onclick="filterData('Bracelet', this)">Bracelets</button>
+                <button class="filter-btn" onclick="filterData('Collection', this)">Collections</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid" id="productGrid">
+                <!-- Loaded dynamically -->
+                <div
+                    style="grid-column:1/-1; text-align:center; padding:100px; font-size:24px; color:var(--text-secondary);">
+                    <i class="fas fa-spinner fa-spin"></i> Loading Inventory...
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Custom Alert Modal -->
+        <div id="customAlertModal"
+            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+            <div
+                style="background:var(--bg-primary); padding:25px; border-radius:12px; width:350px; text-align:center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+                <div id="customAlertIcon" style="font-size:40px; margin-bottom:15px;"></div>
+                <h3 id="customAlertTitle" style="font-size:20px; font-weight:bold; margin-bottom:10px;">Alert</h3>
+                <p id="customAlertMessage" style="font-size:14px; color:var(--text-secondary); margin-bottom:20px;"></p>
+                <button onclick="document.getElementById('customAlertModal').style.display='none'"
+                    style="padding:10px 30px; background:var(--accent-color); color:#000; border:none; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">OK</button>
+            </div>
+        </div>
+
+        <!-- Custom Confirm Modal -->
+        <div id="customConfirmModal"
+            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+            <div
+                style="background:var(--bg-primary); padding:25px; border-radius:12px; width:350px; text-align:center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+                <div style="font-size:40px; margin-bottom:15px; color:var(--accent-color);"><i
+                        class="fas fa-question-circle"></i></div>
+                <h3 id="customConfirmTitle" style="font-size:20px; font-weight:bold; margin-bottom:10px;">Confirm</h3>
+                <p id="customConfirmMessage" style="font-size:14px; color:var(--text-secondary); margin-bottom:20px;">
+                </p>
+                <div style="display:flex; justify-content:space-between; gap:10px;">
+                    <button onclick="closeCustomConfirm(false)"
+                        style="flex:1; padding:10px; background:var(--border-color); color:var(--text-primary); border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Cancel</button>
+                    <button onclick="closeCustomConfirm(true)"
+                        style="flex:1; padding:10px; background:var(--accent-color); color:#000; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCRIPTS -->
+        <!-- Right Cart Panel -->
+        <div class="cart-panel" id="cartPanel">
+            <div class="cart-header">
+                <h2>Current Sale <span id="cartCount"
+                        style="font-size:14px; background:var(--accent-color); color:#000; padding:2px 8px; border-radius:12px; vertical-align:middle; margin-left:10px; display:none;">0
+                        Items</span></h2>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="holdOrder()" title="Hold Order"><i
+                            class="fas fa-pause"></i></button>
+                    <button class="icon-btn danger" onclick="showClearConfirm()" title="Clear Cart"><i
+                            class="fas fa-trash"></i></button>
+                </div>
+            </div>
+
+            <!-- Customer Selection Block (Glassmorphism) -->
+            <div class="glass-panel" style="margin: 10px 15px; padding: 12px 15px;">
+                <div
+                    style="font-size:12px; font-weight:700; color:var(--text-secondary); margin-bottom:8px; text-transform:uppercase; display:flex; justify-content:space-between; align-items:center; letter-spacing: 0.5px;">
+                    <span><i class="fas fa-user-tag" style="margin-right:5px; color:var(--accent-color);"></i> Customer
+                        Info</span>
+                    <span id="custStatusBadge"
+                        style="display:none; background:linear-gradient(135deg, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0.1) 100%); color:var(--success-color); padding:3px 8px; border-radius:6px; font-size:10px; font-weight:800; border: 1px solid rgba(16,185,129,0.3);"><i
+                            class="fas fa-check-circle"></i> Registered</span>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <div style="position:relative; flex:1;">
+                        <i class="fas fa-phone-alt"
+                            style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary); font-size: 12px;"></i>
+                        <input type="text" id="custMobile" placeholder="Phone No." onblur="fetchCustomer()"
+                            onkeyup="if(event.key==='Enter') fetchCustomer()"
+                            style="width:100%; box-sizing:border-box; padding:10px 10px 10px 30px; border-radius:10px; border:1px solid rgba(0,0,0,0.1); background:rgba(255,255,255,0.5); color:var(--text-primary); outline:none; font-size:13px; font-weight:600; transition:0.2s;"
+                            onfocus="this.style.background='var(--bg-primary)'; this.style.borderColor='var(--accent-color)';"
+                            onblur="fetchCustomer(); this.style.background='rgba(255,255,255,0.5)'; this.style.borderColor='rgba(0,0,0,0.1)';">
+                    </div>
+                    <div style="position:relative; flex:1.5;">
+                        <i class="fas fa-user"
+                            style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary); font-size: 12px;"></i>
+                        <input type="text" id="custName" placeholder="Name" readonly
+                            style="width:100%; box-sizing:border-box; padding:10px 10px 10px 30px; border-radius:10px; border:1px solid rgba(0,0,0,0.1); background:rgba(255,255,255,0.5); color:var(--text-primary); outline:none; font-size:13px; font-weight:600; transition:0.2s;">
+                    </div>
+                    <button onclick="openAddCustomerModal()"
+                        style="width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg, var(--accent-color) 0%, #C5A028 100%); color:#000; border:none; cursor:pointer; font-size:16px; display:flex; justify-content:center; align-items:center; transition:0.2s; box-shadow: 0 4px 10px rgba(212,175,55,0.3);"
+                        onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="cart-items" id="cartItems">
+                <!-- Empty state -->
+                <div
+                    style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; color:var(--text-secondary); opacity:0.5;">
+                    <i class="fas fa-shopping-basket" style="font-size:80px; margin-bottom:20px;"></i>
+                    <h3 style="font-size:24px; font-weight:600;">Cart is Empty</h3>
+                    <p>Scan items to begin</p>
+                </div>
+            </div>
+
+            <div class="cart-footer">
+                <div class="total-box" style="position: relative;">
+                    <span class="total-label">Total Due <button onclick="openDiscountModal()"
+                            style="margin-left:10px; padding:3px 10px; background:var(--accent-color); color:#000; border:none; border-radius:12px; font-weight:bold; cursor:pointer; font-size:12px;">+
+                            Add Discount</button></span>
+                    <span class="total-amount" id="totalDue">Rs. 0</span>
+                </div>
+                <div id="discountDisplay"
+                    style="display:none; color:var(--error-color); font-weight:bold; font-size:14px; text-align:right; margin-top:-10px; padding-right:20px;">
+                    Discount applied: <span id="discountAmountText">0</span>
+                </div>
+
+                <button class="checkout-btn disabled" id="proceedBtn" onclick="openPaymentModal()">PROCEED TO PAYMENT <i
+                        class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div> <!-- Close pos-wrapper -->
+
+    <!-- Payment Modal -->
+    <div class="overlay" id="paymentModal" style="z-index:9999;">
+        <div class="modal" style="max-width: 500px; text-align: left; position: relative;">
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+                <h2 style="margin:0; font-size:22px; color:var(--text-primary);">Payment Details</h2>
+                <button class="icon-btn" onclick="closePaymentModal()"
+                    style="color:var(--text-secondary); background:none; border:none; cursor:pointer;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+
+            <div class="total-box" style="margin-bottom:20px;">
+                <span class="total-label">Total Amount</span>
+                <span class="total-amount" id="modalTotalDue">Rs. 0</span>
+            </div>
+
+            <div class="payment-methods" id="payMethods">
+                <button class="pay-method active" onclick="setPayment('CASH', this)"><i
+                        class="fas fa-money-bill-wave"></i> Cash</button>
+                <button class="pay-method" onclick="setPayment('CARD', this)"><i class="fas fa-credit-card"></i>
+                    Card</button>
+                <button class="pay-method" onclick="setPayment('BANK', this)"><i class="fas fa-university"></i>
+                    Bank</button>
+            </div>
+
+            <!-- Smart Cash Calculator -->
+            <div class="cash-area visible" id="cashArea" style="margin-top:15px; border:none; padding:0;">
+                <div class="quick-cash">
+                    <button class="cash-btn" onclick="addCash(1000)">+1000</button>
+                    <button class="cash-btn" onclick="addCash(5000)">+5000</button>
+                    <button class="cash-btn exact" onclick="exactCash()">Exact</button>
+                </div>
+                <div class="cash-input-row">
+                    <input type="number" id="tendered" class="tendered-input" placeholder="0" oninput="calcChange()">
+                    <button class="clear-cash" onclick="clearCash()"><i class="fas fa-backspace"></i></button>
+                </div>
+                <div class="change-display">
+                    <span>Change:</span>
+                    <span id="changeText" class="change-ok">Rs. 0</span>
+                </div>
+            </div>
+
+            <input type="text" id="bankRef" placeholder="Enter Bank Ref / Check No."
+                style="display:none; width:100%; padding:15px; font-size:16px; border-radius:10px; border:2px solid var(--border-color); outline:none; margin-top:15px;">
+
+            <label
+                style="display:flex; align-items:center; gap:10px; margin:15px 0; cursor:pointer; font-weight:600; color:var(--text-secondary);">
+                <input type="checkbox" id="issueWarranty"
+                    style="width:20px; height:20px; cursor:pointer; accent-color:var(--accent-color);"> Include Warranty
+                with Bill
+            </label>
+
+            <button class="checkout-btn disabled" id="checkoutBtn" onclick="pay()">CONFIRM & PRINT <i
+                    class="fas fa-print"></i></button>
+        </div>
+    </div>
+
+    <!-- Confirm Clear Modal -->
+    <div class="overlay" id="clearModal">
+        <div class="modal">
+            <i class="fas fa-exclamation-triangle"
+                style="font-size:60px; color:var(--error-color); margin-bottom:20px;"></i>
+            <h2>Clear Sale?</h2>
+            <p>Are you sure you want to remove all items from the cart? This cannot be undone.</p>
+            <div class="modal-btns">
+                <button class="modal-btn cancel"
+                    onclick="document.getElementById('clearModal').style.display='none'">No, Keep it</button>
+                <button class="modal-btn confirm" onclick="executeClear()">Yes, Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Customer Modal -->
+    <div class="overlay" id="addCustomerModal" style="z-index: 1000;">
+        <div class="modal glass-panel"
+            style="width: 400px; padding: 30px; text-align: left; background: var(--bg-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="margin:0; font-size:20px; font-weight:700;"><i class="fas fa-user-plus"
+                        style="color:var(--accent-color); margin-right:8px;"></i> New Customer</h2>
+                <button onclick="closeAddCustomerModal()"
+                    style="background:none; border:none; font-size:20px; color:var(--text-secondary); cursor:pointer;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:15px;">
+                <div>
+                    <label
+                        style="font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:5px; display:block;">First
+                        Name <span style="color:var(--error-color);">*</span></label>
+                    <input type="text" id="newCustFname"
+                        style="width:100%; box-sizing:border-box; padding:12px; border-radius:10px; border:1px solid var(--border-color); background:var(--bg-secondary); outline:none; font-size:14px;">
+                </div>
+                <div>
+                    <label
+                        style="font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:5px; display:block;">Last
+                        Name</label>
+                    <input type="text" id="newCustLname"
+                        style="width:100%; box-sizing:border-box; padding:12px; border-radius:10px; border:1px solid var(--border-color); background:var(--bg-secondary); outline:none; font-size:14px;">
+                </div>
+                <div>
+                    <label
+                        style="font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:5px; display:block;">Mobile
+                        No. <span style="color:var(--error-color);">*</span></label>
+                    <input type="text" id="newCustMobile"
+                        style="width:100%; box-sizing:border-box; padding:12px; border-radius:10px; border:1px solid var(--border-color); background:var(--bg-secondary); outline:none; font-size:14px;">
+                </div>
+                <div>
+                    <label
+                        style="font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:5px; display:block;">Email
+                        Address (Optional)</label>
+                    <input type="email" id="newCustEmail"
+                        style="width:100%; box-sizing:border-box; padding:12px; border-radius:10px; border:1px solid var(--border-color); background:var(--bg-secondary); outline:none; font-size:14px;">
+                </div>
+                <button onclick="submitAddCustomer()"
+                    style="width:100%; padding:15px; border-radius:10px; border:none; background:linear-gradient(135deg, var(--accent-color) 0%, #C5A028 100%); color:#000; font-size:16px; font-weight:700; cursor:pointer; margin-top:10px; box-shadow: 0 4px 15px rgba(212,175,55,0.4); text-transform:uppercase;">Save
+                    Customer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Receipt -->
+    <div id="receipt"></div>
+
+    <!-- Discount Modal -->
+    <div id="discountModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:var(--bg-primary); padding:30px; border-radius:15px; width:400px; text-align:center;">
+            <h2 style="font-size:24px; font-weight:bold; margin-bottom:20px;">Apply Discount</h2>
+            <input type="number" id="discountInput" placeholder="Enter amount..."
+                style="width:100%; padding:15px; font-size:20px; border:2px solid var(--border-color); border-radius:8px; margin-bottom:20px; box-sizing:border-box; background:var(--bg-primary); color:var(--text-primary);">
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <button onclick="applyDiscount('%')"
+                    style="flex:1; padding:15px; background:var(--bg-color); border:none; border-radius:8px; font-weight:bold; cursor:pointer;">%
+                    Percent</button>
+                <button onclick="applyDiscount('Rs')"
+                    style="flex:1; padding:15px; background:var(--accent-color); border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Rs.
+                    Flat</button>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:20px;">
+                <button onclick="clearDiscount()"
+                    style="color:var(--error-color); background:none; border:none; font-weight:bold; cursor:pointer;">Clear
+                    Discount</button>
+                <button onclick="document.getElementById('discountModal').style.display='none'"
+                    style="color:var(--text-secondary); background:none; border:none; font-weight:bold; cursor:pointer;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Search Modal -->
+    <div id="stockModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div
+            style="background:var(--bg-primary); padding:30px; border-radius:15px; width:600px; max-height:80vh; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="font-size:24px; font-weight:bold;">Stock Search</h2>
+                <button onclick="document.getElementById('stockModal').style.display='none'"
+                    style="background:none; border:none; font-size:20px; cursor:pointer;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <input type="text" id="stockSearchInput" placeholder="Search product name or barcode..."
+                onkeyup="searchStock()"
+                style="width:100%; padding:15px; font-size:16px; border:2px solid var(--border-color); border-radius:8px; margin-bottom:20px; box-sizing:border-box;">
+            <div id="stockResults" style="flex:1; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <!-- Pickups Modal -->
+    <div id="pickupsModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div
+            style="background:var(--bg-primary); padding:30px; border-radius:15px; width:700px; max-height:80vh; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="font-size:24px; font-weight:bold;">Online Pickups</h2>
+                <button onclick="document.getElementById('pickupsModal').style.display='none'"
+                    style="background:none; border:none; font-size:20px; cursor:pointer;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div style="flex:1; overflow-y:auto;">
+                <table style="width:100%; border-collapse:collapse; text-align:left;">
+                    <thead style="background:var(--bg-color);">
+                        <tr>
+                            <th style="padding:15px; border-radius:8px 0 0 8px;">Order ID</th>
+                            <th style="padding:15px;">Customer</th>
+                            <th style="padding:15px;">Date</th>
+                            <th style="padding:15px; border-radius:0 8px 8px 0; text-align:right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pickupsBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Returns & Warranty Modal -->
+    <div id="returnsModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div
+            style="background:var(--bg-primary); padding:30px; border-radius:15px; width:700px; max-height:80vh; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="font-size:24px; font-weight:bold;">Returns & Warranty</h2>
+                <button onclick="document.getElementById('returnsModal').style.display='none'"
+                    style="background:none; border:none; font-size:20px; cursor:pointer;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div style="display:flex; gap:10px; margin-bottom:20px;">
+                <input type="text" id="returnSearchInput" placeholder="Enter Order ID (e.g., ORD-1234)"
+                    style="flex:1; padding:10px; font-size:16px; border:2px solid var(--border-color); border-radius:8px; box-sizing:border-box;">
+                <button onclick="searchOrderForReturn()"
+                    style="padding:10px 20px; background:var(--accent-color); color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Find
+                    Order</button>
+            </div>
+            <div id="returnOrderDetails" style="flex:1; overflow-y:auto; display:none;">
+                <h3 id="returnOrderTitle" style="font-size:18px; font-weight:bold; margin-bottom:10px;">Order Details
+                </h3>
+                <div id="returnItemsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Day Modal -->
+    <div id="startDayModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center;">
+        <div
+            style="background:var(--bg-primary); padding:40px; border-radius:15px; width:450px; text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <i class="fas fa-store" style="font-size:40px; color:var(--accent-color); margin-bottom:15px;"></i>
+            <h2 style="font-size:26px; font-weight:bold; margin-bottom:10px;">Start New Day</h2>
+            <p style="color:var(--text-secondary); margin-bottom:25px;">Enter the opening cash float in the drawer.</p>
+            <input type="number" id="startFloatInput" placeholder="Rs. 0"
+                style="width:100%; padding:15px; font-size:20px; border:2px solid var(--border-color); border-radius:8px; margin-bottom:20px; text-align:center; box-sizing:border-box; background:var(--bg-primary); color:var(--text-primary);">
+            <button onclick="startDay()"
+                style="width:100%; padding:15px; background:var(--accent-color); color:#000; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:18px;">Start
+                Session</button>
+        </div>
+    </div>
+
+    <!-- End Day Modal -->
+    <div id="endDayModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div
+            style="background:var(--bg-primary); padding:30px; border-radius:15px; width:450px; text-align:center; max-height:90vh; overflow-y:auto;">
+            <h2 style="font-size:24px; font-weight:bold; margin-bottom:10px; color:var(--error-color);">End Shift</h2>
+            <div
+                style="display:flex; justify-content:space-between; margin-bottom:20px; font-size:12px; color:var(--text-secondary);">
+                <span id="shiftStartTimeText">Start: --:--</span>
+                <span id="shiftEndTimeText">End: --:--</span>
+            </div>
+
+            <div style="background:var(--bg-color); padding:15px; border-radius:8px; margin-bottom:20px;">
+                <p style="font-size:14px; margin-bottom:5px;">Expected Cash in Drawer:</p>
+                <h3 id="expectedCashText" style="font-size:28px; color:var(--accent-color); margin:0;">Rs. 0</h3>
+            </div>
+
+            <div style="text-align:left; margin-bottom:15px;">
+                <label style="font-size:14px; font-weight:bold; color:var(--text-secondary);">Actual Cash Counted
+                    *</label>
+                <input type="number" id="actualCashInput" placeholder="0.00" oninput="calculateShiftDifference()"
+                    style="width:100%; padding:12px; font-size:18px; border:1px solid var(--border-color); border-radius:8px; margin-top:5px; background:var(--bg-primary); color:var(--text-primary);">
+            </div>
+
+            <div style="text-align:left; margin-bottom:15px;">
+                <label style="font-size:14px; font-weight:bold; color:var(--text-secondary);">Petty Cash Used (If
+                    any)</label>
+                <input type="number" id="pettyCashInput" placeholder="0.00" oninput="calculateShiftDifference()"
+                    style="width:100%; padding:12px; font-size:16px; border:1px solid var(--border-color); border-radius:8px; margin-top:5px; background:var(--bg-primary); color:var(--text-primary);">
+            </div>
+
+            <div id="shiftDifferenceArea"
+                style="display:none; text-align:left; margin-bottom:20px; padding:10px; border-radius:8px;">
+                <p id="shiftDifferenceText" style="font-weight:bold; margin-bottom:10px;"></p>
+                <label style="font-size:14px; font-weight:bold; color:var(--error-color);">Reason / Remarks *</label>
+                <textarea id="differenceReasonInput" placeholder="Explain the difference or petty cash usage..."
+                    rows="3"
+                    style="width:100%; padding:10px; border:1px solid var(--error-color); border-radius:8px; margin-top:5px; background:var(--bg-primary); color:var(--text-primary); resize:vertical;"></textarea>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; margin-top:20px;">
+                <button onclick="document.getElementById('endDayModal').style.display='none'"
+                    style="padding:10px 20px; color:var(--text-primary); background:var(--border-color); border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Cancel</button>
+                <button onclick="endDay()"
+                    style="padding:10px 20px; background:var(--error-color); color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Print
+                    Z-Report & End</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Held Orders Modal -->
+    <div id="heldModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div
+            style="background:var(--bg-primary); padding:30px; border-radius:15px; width:700px; max-height:80vh; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="font-size:24px; font-weight:bold;">Held Orders</h2>
+                <button onclick="document.getElementById('heldModal').style.display='none'"
+                    style="background:none; border:none; font-size:20px; cursor:pointer;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div style="flex:1; overflow-y:auto;">
+                <table style="width:100%; border-collapse:collapse; text-align:left;">
+                    <thead style="background:var(--bg-color);">
+                        <tr>
+                            <th style="padding:15px; border-radius:8px 0 0 8px;">Order ID</th>
+                            <th style="padding:15px;">Time</th>
+                            <th style="padding:15px;">Total Due</th>
+                            <th style="padding:15px; border-radius:0 8px 8px 0; text-align:right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="heldBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Custom Alert & Confirm ---
+        function showCustomAlert(message, type = 'info') {
+            const modal = document.getElementById('customAlertModal');
+            const icon = document.getElementById('customAlertIcon');
+            const title = document.getElementById('customAlertTitle');
+            document.getElementById('customAlertMessage').innerText = message;
+
+            if (type === 'error') {
+                icon.innerHTML = '<i class="fas fa-exclamation-circle" style="color:var(--error-color);"></i>';
+                title.innerText = 'Error';
+            } else if (type === 'success') {
+                icon.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success-color);"></i>';
+                title.innerText = 'Success';
+            } else {
+                icon.innerHTML = '<i class="fas fa-info-circle" style="color:var(--accent-color);"></i>';
+                title.innerText = 'Info';
+            }
+            modal.style.display = 'flex';
+        }
+
+        // Global promise resolve for custom confirm
+        let confirmResolve = null;
+        function showCustomConfirm(message) {
+            return new Promise((resolve) => {
+                confirmResolve = resolve;
+                document.getElementById('customConfirmMessage').innerText = message;
+                document.getElementById('customConfirmModal').style.display = 'flex';
+            });
+        }
+        function closeCustomConfirm(result) {
+            document.getElementById('customConfirmModal').style.display = 'none';
+            if (confirmResolve) {
+                confirmResolve(result);
+                confirmResolve = null;
+            }
+        }
+
+        // Override default window alert and confirm globally if you want, but we will selectively replace them
+        window.alert = function (msg) { showCustomAlert(msg, 'info'); };
+
+        // --- Theme Management ---
+        function toggleTheme() {
+            let body = document.body;
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('pos_theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('pos_theme', 'dark');
+            }
+        }
+        if (localStorage.getItem('pos_theme') === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+        }
+
+        // --- Session (Start / End Day) ---
+        let openingFloat = parseFloat(localStorage.getItem('pos_opening_float')) || 0;
+        let cashSales = parseFloat(localStorage.getItem('pos_cash_sales')) || 0;
+        let isSessionActive = localStorage.getItem('pos_session_active') === 'true';
+
+        let shiftStartTimeStr = localStorage.getItem('pos_shift_start_time');
+
+        function checkSession() {
+            if (!isSessionActive) {
+                document.getElementById('startDayModal').style.display = 'flex';
+            }
+        }
+
+        function startDay() {
+            let floatInput = document.getElementById('startFloatInput').value;
+            openingFloat = parseFloat(floatInput) || 0;
+            cashSales = 0; // reset cash sales for new day
+            isSessionActive = true;
+            shiftStartTimeStr = new Date().toISOString();
+
+            localStorage.setItem('pos_opening_float', openingFloat);
+            localStorage.setItem('pos_cash_sales', cashSales);
+            localStorage.setItem('pos_session_active', 'true');
+            localStorage.setItem('pos_shift_start_time', shiftStartTimeStr);
+
+            document.getElementById('startDayModal').style.display = 'none';
+        }
+
+        function calculateShiftDifference() {
+            let expected = openingFloat + cashSales;
+            let actualStr = document.getElementById('actualCashInput').value;
+            let pettyStr = document.getElementById('pettyCashInput').value;
+            let actual = parseFloat(actualStr) || 0;
+            let petty = parseFloat(pettyStr) || 0;
+
+            let difference = actual - expected;
+            let diffArea = document.getElementById('shiftDifferenceArea');
+            let diffText = document.getElementById('shiftDifferenceText');
+
+            if (difference !== 0 || petty > 0) {
+                diffArea.style.display = 'block';
+                if (difference > 0) {
+                    diffText.innerHTML = `Difference: <span style="color:var(--success-color);">+Rs. ${difference.toLocaleString()} (Overage)</span>`;
+                } else if (difference < 0) {
+                    diffText.innerHTML = `Difference: <span style="color:var(--error-color);">-Rs. ${Math.abs(difference).toLocaleString()} (Shortage)</span>`;
+                } else {
+                    diffText.innerHTML = `Difference: Rs. 0`;
+                }
+            } else {
+                diffArea.style.display = 'none';
+            }
+        }
+
+        function openEndDayModal() {
+            if (!isSessionActive) {
+                showCustomAlert("No active session! Please start a day first.", "error");
+                return;
+            }
+            document.getElementById('endDayModal').style.display = 'flex';
+            let expected = openingFloat + cashSales;
+            document.getElementById('expectedCashText').innerText = "Rs. " + expected.toLocaleString();
+
+            if (shiftStartTimeStr) {
+                document.getElementById('shiftStartTimeText').innerText = "Start: " + new Date(shiftStartTimeStr).toLocaleTimeString();
+            }
+            document.getElementById('shiftEndTimeText').innerText = "End: " + new Date().toLocaleTimeString();
+
+            document.getElementById('actualCashInput').value = '';
+            document.getElementById('pettyCashInput').value = '';
+            document.getElementById('differenceReasonInput').value = '';
+            calculateShiftDifference();
+        }
+
+        async function endDay() {
+            let expected = openingFloat + cashSales;
+            let actualStr = document.getElementById('actualCashInput').value;
+            let pettyStr = document.getElementById('pettyCashInput').value;
+            let reasonStr = document.getElementById('differenceReasonInput').value;
+
+            if (!actualStr) { showCustomAlert("Please enter the actual cash counted!", "error"); return; }
+            let actual = parseFloat(actualStr);
+            let petty = parseFloat(pettyStr) || 0;
+            let difference = actual - expected;
+
+            if ((difference !== 0 || petty > 0) && !reasonStr.trim()) {
+                showCustomAlert("Please provide a reason/remarks for the cash discrepancy or petty cash usage.", "error");
+                return;
+            }
+
+            let confirmed = await showCustomConfirm("Are you sure you want to End the Shift? This will clear the session, save the report, and print the Z-Report.");
+            if (confirmed) {
+
+                // --- Backend Sync ---
+                try {
+                    let reqData = {
+                        startTime: shiftStartTimeStr,
+                        endTime: new Date().toISOString(),
+                        totalSales: openingFloat + cashSales, // simplified for now
+                        cashSales: cashSales,
+                        cardSales: 0,
+                        returnAmount: 0,
+                        expectedCash: expected,
+                        actualCash: actual,
+                        pettyCashUsed: petty,
+                        differenceReason: reasonStr
+                    };
+                    let response = await fetch('/api/pos/end-shift', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(reqData)
+                    });
+                    let result = await response.json();
+                    if (!result.status) {
+                        console.error("Backend shift save error", result);
+                    }
+                } catch (e) {
+                    console.error("Failed to save shift to backend", e);
+                }
+
+                // --- Z-Report UI ---
+                let html = `
+                    <div class="r-header">
+                        <img src="/favicon.png" class="r-logo" alt="Rush Jewels">
+                        <h2 class="r-title">RUSH JEWELS</h2>
+                        <p class="r-info" style="font-weight:bold;">Z-REPORT (SHIFT END)</p>
+                        <p class="r-info">${new Date().toLocaleString()}</p>
+                    </div>
+                    <div class="r-divider-thick"></div>
+                    
+                    <div class="r-row">
+                        <div class="r-col-left">Opening Float:</div>
+                        <div class="r-col-right">Rs. ${openingFloat.toLocaleString()}</div>
+                    </div>
+                    <div class="r-row">
+                        <div class="r-col-left">Cash Sales:</div>
+                        <div class="r-col-right">Rs. ${cashSales.toLocaleString()}</div>
+                    </div>
+                    <div class="r-row" style="font-weight:bold; margin-top:5px;">
+                        <div class="r-col-left">Expected Cash:</div>
+                        <div class="r-col-right">Rs. ${expected.toLocaleString()}</div>
+                    </div>
+                    
+                    <div class="r-divider"></div>
+                    
+                    <div class="r-row">
+                        <div class="r-col-left">Actual Counted:</div>
+                        <div class="r-col-right">Rs. ${actual.toLocaleString()}</div>
+                    </div>
+                    <div class="r-row" style="color: ${difference < 0 ? 'var(--error-color)' : (difference > 0 ? 'var(--success-color)' : 'inherit')}; font-weight:bold;">
+                        <div class="r-col-left">Difference:</div>
+                        <div class="r-col-right">${difference > 0 ? '+' : ''}Rs. ${difference.toLocaleString()}</div>
+                    </div>
+                    <div class="r-row">
+                        <div class="r-col-left">Petty Cash:</div>
+                        <div class="r-col-right">Rs. ${petty.toLocaleString()}</div>
+                    </div>
+                    ${reasonStr ? `
+                    <div class="r-row" style="margin-top:5px; font-size:11px;">
+                        <div class="r-col-left">Remarks:</div>
+                        <div class="r-col-right" style="white-space:normal; text-align:right;">${reasonStr}</div>
+                    </div>` : ''}
+                    
+                    <div class="r-divider-thick"></div>
+                    
+                    <div class="r-footer">
+                        <p style="font-weight:bold; margin:0 0 5px 0;">Shift Summary successfully closed.</p>
+                        <br><br><br>
+                        <p style="margin:0;">Cashier Sign: ____________________</p>
+                    </div>
+                `;
+                document.getElementById('receipt').innerHTML = html;
+                window.print();
+
+                // Clear session
+                isSessionActive = false;
+                localStorage.removeItem('pos_opening_float');
+                localStorage.removeItem('pos_cash_sales');
+                localStorage.removeItem('pos_shift_start_time');
+                localStorage.setItem('pos_session_active', 'false');
+                document.getElementById('endDayModal').style.display = 'none';
+
+                // Show start day modal again
+                setTimeout(checkSession, 1000);
+            }
+        }
+        // --- State ---
+        let inventory = [];
+        let displayList = [];
+        let cart = [];
+        let method = 'CASH';
+        let cashGiven = 0;
+        let total = 0;
+        let subtotal = 0;
+        let discountValue = 0;
+        let discountType = 'none'; // 'Rs' or '%'
+
+        // --- Modals Logic ---
+        function openDiscountModal() { document.getElementById('discountModal').style.display = 'flex'; document.getElementById('discountInput').focus(); }
+        function applyDiscount(type) {
+            let val = parseFloat(document.getElementById('discountInput').value);
+            if (!val || val < 0) return;
+            discountType = type; discountValue = val;
+            document.getElementById('discountModal').style.display = 'none';
+            updateCartUI();
+        }
+        function clearDiscount() {
+            discountType = 'none'; discountValue = 0;
+            document.getElementById('discountInput').value = '';
+            document.getElementById('discountModal').style.display = 'none';
+            updateCartUI();
+        }
+
+        function openStockModal() { document.getElementById('stockModal').style.display = 'flex'; document.getElementById('stockSearchInput').focus(); searchStock(); }
+        function searchStock() {
+            let q = document.getElementById('stockSearchInput').value.toLowerCase();
+            let res = inventory.filter(i => i.name.toLowerCase().includes(q) || i.category.toLowerCase().includes(q) || (i.barcode && i.barcode.includes(q)));
+            let html = '';
+            res.forEach(i => {
+                html += `<div style="padding:15px; border:1px solid var(--border-color); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <div><h4 style="margin:0;">${i.name}</h4><small>${i.category} | SKU: ${i.id}</small>
+                    ${i.subtext ? `<div style="font-size:11px; color:#666; margin-top:2px;">${i.subtext}</div>` : ''}
+                </div><div style="font-size:24px; font-weight:bold; color:${i.stockQty > 0 ? 'var(--success-color)' : 'var(--error-color)'};">${i.stockQty}</div>
+                </div>`;
+            });
+            document.getElementById('stockResults').innerHTML = html;
+        }
+
+        async function openPickupsModal() {
+            document.getElementById('pickupsModal').style.display = 'flex';
+            document.getElementById('pickupsBody').innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">Loading...</td></tr>';
+            try {
+                let res = await fetch('/api/admin/orders/list');
+                let allOrders = await res.json();
+                let pickups = allOrders.filter(o => o.deliveryStatus === 'PENDING_PICKUP');
+
+                let html = '';
+                if (pickups.length === 0) html = '<tr><td colspan="4" style="text-align:center; padding:20px;">No online pickups waiting.</td></tr>';
+                pickups.forEach(o => {
+                    const pStatus = (o.paymentStatus || '').toUpperCase();
+                    const isPending = pStatus.includes('PENDING');
+                    let actions = '';
+
+                    if (isPending) {
+                        actions = `<button onclick="processPickupPayment('${o.orderId}')" style="padding:8px 15px; background:var(--accent-color); color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Collect Payment & Handover</button>`;
+                    } else {
+                        actions = `<button onclick="handoverOrder('${o.orderId}')" style="padding:8px 15px; background:var(--success-color); color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Handover (Paid)</button>`;
+                    }
+                    html += `<tr style="border-bottom:1px solid var(--border-color);">
+                        <td style="padding:15px; font-weight:bold;">#${o.orderId}</td>
+                        <td style="padding:15px;">${o.customerName || 'Customer'}</td>
+                        <td style="padding:15px;">${new Date(o.date).toLocaleDateString()}</td>
+                        <td style="padding:15px; text-align:right;">
+                            ${actions}
+                        </td>
+                    </tr>`;
+                });
+                document.getElementById('pickupsBody').innerHTML = html;
+            } catch (e) { document.getElementById('pickupsBody').innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:red;">Error loading pickups.</td></tr>'; }
+        }
+
+        async function processPickupPayment(id) {
+            let confirmed = await showCustomConfirm("Confirm payment (Cash/Card) received and handover?");
+            if (confirmed) {
+                try {
+                    await fetch(`/api/admin/orders/${id}/pickup-payment`, { method: 'POST' });
+                    openPickupsModal(); // reload
+                } catch (e) { alert('Failed to process payment'); }
+            }
+        }
+
+        async function handoverOrder(id) {
+            let confirmed = await showCustomConfirm("Confirm Handover to Customer?");
+            if (confirmed) {
+                try {
+                    await fetch(`/api/admin/orders/${id}/handover`, {
+                        method: 'POST'
+                    });
+                    openPickupsModal(); // reload
+                } catch (e) { alert('Failed to update status'); }
+            }
+        }
+
+        function openReturnsModal() {
+            document.getElementById('returnsModal').style.display = 'flex';
+            document.getElementById('returnSearchInput').value = '';
+            document.getElementById('returnOrderDetails').style.display = 'none';
+            document.getElementById('returnSearchInput').focus();
+        }
+
+        async function searchOrderForReturn() {
+            let orderId = document.getElementById('returnSearchInput').value.trim();
+            if (!orderId) return;
+            try {
+                let res = await fetch(`/api/admin/orders/${orderId}`);
+                if (!res.ok) {
+                    alert('Order not found');
+                    return;
+                }
+                let order = await res.json();
+                document.getElementById('returnOrderTitle').innerText = 'Order #' + orderId + ' - ' + order.customerName;
+
+                let html = '<table style="width:100%; border-collapse:collapse; text-align:left;">';
+                html += '<thead style="background:var(--bg-color);"><tr><th style="padding:10px;">Item</th><th style="padding:10px; text-align:right;">Actions</th></tr></thead><tbody>';
+
+                if (order.items) {
+                    order.items.forEach(item => {
+                        let actions = '';
+                        if (item.returned) {
+                            actions = `<span style="font-size:12px; font-weight:bold; color:var(--text-secondary); text-transform:uppercase;">${order.returnType} - ${order.returnStatus}</span>`;
+                            if (order.returnStatus === 'Pending' || order.returnStatus === 'Approved') {
+                                actions += `<button onclick="completeWebReturn('${orderId}')" style="margin-left:10px; padding:5px 10px; background:var(--success-color); color:white; border:none; border-radius:5px; cursor:pointer;">Complete Return</button>`;
+                            }
+                        } else {
+                            actions += `<button onclick="processPosReturn('${orderId}', '${item.name}', 'RETURN')" style="padding:5px 10px; background:var(--error-color); color:white; border:none; border-radius:5px; cursor:pointer; margin-right:5px;">Return Item</button>`;
+                            actions += `<button onclick="processPosReturn('${orderId}', '${item.name}', 'WARRANTY')" style="padding:5px 10px; background:var(--accent-color); color:white; border:none; border-radius:5px; cursor:pointer;">Claim Warranty</button>`;
+                        }
+                        html += `<tr style="border-bottom:1px solid var(--border-color);"><td style="padding:10px;">${item.name}</td><td style="padding:10px; text-align:right;">${actions}</td></tr>`;
+                    });
+                }
+                html += '</tbody></table>';
+
+                document.getElementById('returnItemsList').innerHTML = html;
+                document.getElementById('returnOrderDetails').style.display = 'block';
+            } catch (e) {
+                alert('Error loading order');
+            }
+        }
+
+        async function processPosReturn(orderId, itemName, action) {
+            let confirmMsg = action === 'RETURN' ? 'Confirm Return/Exchange for ' + itemName + '?' : 'Confirm Warranty Claim for ' + itemName + '?';
+            let confirmed = await showCustomConfirm(confirmMsg);
+            if (confirmed) {
+                try {
+                    let res = await fetch(`/api/admin/orders/${orderId}/pos-return?action=${action}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ selectedItemNames: [itemName], reason: 'POS Action: ' + action })
+                    });
+                    if (res.ok) {
+                        alert(action + ' processed successfully!');
+                        searchOrderForReturn();
+                    } else {
+                        let err = await res.text();
+                        alert('Error processing action: ' + err);
+                    }
+                } catch (e) {
+                    alert('Error processing action');
+                }
+            }
+        }
+
+        async function completeWebReturn(orderId) {
+            let confirmed = await showCustomConfirm("Confirm completion of this return/warranty claim?");
+            if (confirmed) {
+                try {
+                    let res = await fetch(`/api/admin/orders/${orderId}/return/action`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'COMPLETE' })
+                    });
+                    if (res.ok) {
+                        alert('Return completed successfully!');
+                        searchOrderForReturn(); // Reload order details
+                    } else {
+                        let err = await res.text();
+                        alert('Error: ' + err);
+                    }
+                } catch (e) {
+                    alert('Error completing return');
+                }
+            }
+        }
+
+        // --- Init ---
+        async function load() {
+            try {
+                const r = await fetch('/api/pos/products');
+                if (!r.ok) {
+                    if (r.status === 401 || r.status === 403 || r.redirected) {
+                        window.location.href = 'admin-login.html';
+                        return;
+                    }
+                    throw new Error('Failed to fetch products');
+                }
+                inventory = await r.json();
+                displayList = inventory;
+                renderGrid();
+                document.getElementById('searchInput').focus();
+            } catch (e) {
+                document.getElementById('productGrid').innerHTML = '<h2 style="color:red; text-align:center; grid-column:1/-1; padding:50px;">Error connecting to server.</h2>';
+            }
+        }
+        load();
+
+        // --- Search & Filter ---
+        let st;
+        function handleScan(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const v = e.target.value.trim();
+                if (v) {
+                    let exact = inventory.find(i => i.barcode === v || i.id.toString() === v);
+                    if (exact) {
+                        addCart(exact.id);
+                    }
+                    e.target.value = '';
+                    displayList = inventory; renderGrid();
+                    return;
+                }
+            }
+        }
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            clearTimeout(st);
+            st = setTimeout(() => {
+                let q = e.target.value.trim().toLowerCase();
+                if (q === '') { displayList = inventory; renderGrid(); return; }
+                displayList = inventory.filter(i => i.name.toLowerCase().includes(q) || i.category.toLowerCase().includes(q));
+                renderGrid();
+            }, 100);
+        });
+
+        function filterData(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            displayList = cat === 'All' ? inventory : inventory.filter(i => i.category.includes(cat) || i.name.includes(cat));
+            renderGrid();
+        }
+
+        // --- UI Rendering ---
+        function renderGrid() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            if (displayList.length === 0) {
+                grid.innerHTML = '<h3 style="grid-column:1/-1; text-align:center; padding:50px; color:gray;">No matching items</h3>'; return;
+            }
+            displayList.forEach(p => {
+                const noStock = p.stockQty <= 0;
+                grid.innerHTML += `
+                    <div class="product-card ${noStock ? 'out-of-stock' : ''}" onclick="addCart('${p.id}')">
+                        ${noStock ? '<div class="out-of-stock-overlay">Out of Stock</div>' : ''}
+                        <img src="${p.imageUrl || 'assets/default-product.png'}" class="product-img" alt="${p.name}" loading="lazy">
+                        <div class="product-info">
+                            <div class="product-title">${p.name}</div>
+                            ${p.subtext ? `<div style="font-size:11px; color:#666; line-height:1.2; margin-bottom:4px;">${p.subtext}</div>` : ''}
+                            <div class="product-price">Rs ${p.price.toFixed(2)}</div>
+                            <small>Stock: ${p.stockQty}</small>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // --- Cart ---
+        function addCart(vId) {
+            const p = inventory.find(i => i.id === vId);
+            if (!p) return;
+
+            const ex = cart.find(i => i.id === vId);
+            if (ex) {
+                if (ex.qty < p.stockQty) ex.qty++;
+            } else {
+                cart.push({ ...p, qty: 1 });
+            }
+            updateCartUI();
+        }
+
+        function changeQty(vId, delta) {
+            const it = cart.find(i => i.id === vId);
+            const p = inventory.find(i => i.id === vId);
+            if (!it || !p) return;
+
+            let n = it.qty + delta;
+            if (n <= 0) cart = cart.filter(i => i.id !== vId);
+            else it.qty = n;
+            updateCartUI();
+        }
+
+        async function showClearConfirm() {
+            if (cart.length === 0) return;
+            let confirmed = await showCustomConfirm("Are you sure you want to clear the entire cart?");
+            if (confirmed) {
+                executeClear();
+            }
+        }
+        function executeClear() {
+            cart = [];
+            clearCash();
+
+            // Clear discount
+            discountType = 'none';
+            discountValue = 0;
+            const discBtn = document.getElementById('discountBtnText');
+            if (discBtn) {
+                discBtn.innerText = '+ Add Discount';
+                discBtn.parentElement.classList.remove('active');
+            }
+
+            // Clear customer info
+            document.getElementById('custMobile').value = '';
+            document.getElementById('custName').value = '';
+            document.getElementById('custName').removeAttribute('readonly');
+            document.getElementById('custStatusBadge').style.display = 'none';
+
+            updateCartUI();
+            document.getElementById('clearModal').style.display = 'none';
+            document.getElementById('searchInput').focus();
+
+            // Auto-close drawers on mobile after clearing cart (e.g., after successful checkout)
+            closeAllDrawers();
+        }
+
+        function updateCartUI() {
+            const con = document.getElementById('cartItems');
+            subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+            total = subtotal;
+
+            let totalItems = cart.reduce((s, i) => s + i.qty, 0);
+            let cCount = document.getElementById('cartCount');
+            let mBadge = document.getElementById('mobileCartBadge');
+            if (totalItems > 0) {
+                cCount.style.display = 'inline-block';
+                cCount.innerText = totalItems + (totalItems === 1 ? ' Item' : ' Items');
+                if (mBadge) mBadge.innerText = totalItems;
+            } else {
+                cCount.style.display = 'none';
+                if (mBadge) mBadge.innerText = '0';
+            }
+
+            if (discountType === '%') { total = subtotal - (subtotal * discountValue / 100); }
+            else if (discountType === 'Rs') { total = subtotal - discountValue; }
+            if (total < 0) total = 0;
+
+            if (cart.length === 0) {
+                con.innerHTML = `<div style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; color:var(--text-secondary); opacity:0.5;"><i class="fas fa-shopping-basket" style="font-size:80px; margin-bottom:20px;"></i><h3 style="font-size:24px; font-weight:600;">Cart is Empty</h3><p>Scan items to begin</p></div>`;
+                document.getElementById('totalDue').innerText = "Rs. 0";
+                document.getElementById('payMethods').style.pointerEvents = 'none';
+                document.getElementById('payMethods').style.opacity = '0.5';
+                document.getElementById('discountDisplay').style.display = 'none';
+                evaluateCheckout();
+                return;
+            }
+
+            document.getElementById('payMethods').style.pointerEvents = 'auto';
+            document.getElementById('payMethods').style.opacity = '1';
+
+            if (discountType !== 'none' && subtotal > 0) {
+                document.getElementById('discountDisplay').style.display = 'block';
+                document.getElementById('discountAmountText').innerText = discountType === '%' ? `${discountValue}% (Rs.${(subtotal - total).toLocaleString()})` : `Rs.${discountValue.toLocaleString()}`;
+            } else {
+                document.getElementById('discountDisplay').style.display = 'none';
+            }
+
+            con.innerHTML = '';
+            cart.forEach((c, index) => {
+                con.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-top">
+                            <span class="item-name">${c.name}</span>
+                            <span class="item-price">Rs.${(c.price * c.qty).toLocaleString()}</span>
+                        </div>
+                        ${c.subtext ? `<div style="font-size:11px; color:#888; margin-top:-5px; margin-bottom:5px; padding-right:10px;">${c.subtext}</div>` : ''}
+                        <div class="item-bottom">
+                            <span style="color:var(--text-secondary); font-weight:600;">Rs.${c.price.toLocaleString()}</span>
+                            <div class="qty-controls" style="display:flex; align-items:center;">
+                                <button class="qty-btn" onclick="changeQty('${c.id}', -1)"><i class="fas fa-minus"></i></button>
+                                <span class="qty-val">${c.qty}</span>
+                                <button class="qty-btn" onclick="changeQty('${c.id}', 1)"><i class="fas fa-plus"></i></button>
+                                <button class="icon-btn danger" style="width:36px; height:36px; font-size:14px; margin-left:10px;" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('totalDue').innerText = `Rs. ${total.toLocaleString()}`;
+
+            if (method === 'CASH' && cart.length > 0) {
+                document.getElementById('cashArea').classList.add('visible');
+            }
+
+            // Auto-scroll cart to bottom
+            con.scrollTop = con.scrollHeight;
+            calcChange();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        async function fetchCustomer() {
+            let mob = document.getElementById('custMobile').value.trim();
+            if (mob.length >= 9) {
+                try {
+                    let res = await fetch('/api/pos/customer?mobile=' + mob);
+                    if (res.ok) {
+                        let data = await res.json();
+                        document.getElementById('custName').value = data.fname + ' ' + (data.lname || '');
+                        document.getElementById('custStatusBadge').style.display = 'block';
+                        document.getElementById('custName').setAttribute('readonly', 'true');
+                    } else {
+                        document.getElementById('custName').value = '';
+                        document.getElementById('custStatusBadge').style.display = 'none';
+                        document.getElementById('custName').removeAttribute('readonly');
+                    }
+                } catch (e) { }
+            } else {
+                document.getElementById('custName').value = '';
+                document.getElementById('custStatusBadge').style.display = 'none';
+                document.getElementById('custName').removeAttribute('readonly');
+            }
+        }
+
+        // --- Payment & Foolproof logic ---
+        function setPayment(m, btnEl) {
+            method = m;
+            document.querySelectorAll('.pay-method').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+
+            if (m === 'CASH') {
+                document.getElementById('cashArea').classList.add('visible');
+                document.getElementById('bankRef').style.display = 'none';
+                document.getElementById('tendered').focus();
+            } else if (m === 'BANK') {
+                document.getElementById('cashArea').classList.remove('visible');
+                document.getElementById('bankRef').style.display = 'block';
+                document.getElementById('bankRef').placeholder = 'Enter Bank Ref / Check No.';
+                document.getElementById('bankRef').focus();
+            } else { // CARD
+                document.getElementById('cashArea').classList.remove('visible');
+                document.getElementById('bankRef').style.display = 'none';
+            }
+            evaluateCheckout();
+        }
+
+        function addCash(amt) { cashGiven += amt; document.getElementById('tendered').value = cashGiven; calcChange(); }
+        function exactCash() { cashGiven = total; document.getElementById('tendered').value = cashGiven; calcChange(); }
+        function clearCash() { cashGiven = 0; document.getElementById('tendered').value = ''; calcChange(); document.getElementById('tendered').focus(); }
+
+        function calcChange() {
+            let val = parseFloat(document.getElementById('tendered').value) || 0;
+            cashGiven = val;
+            let due = cashGiven - total;
+
+            let ct = document.getElementById('changeText');
+            if (due < 0) {
+                ct.className = 'change-bad';
+                ct.innerText = "Short: Rs. " + Math.abs(due).toLocaleString();
+            } else {
+                ct.className = 'change-ok';
+                ct.innerText = "Rs. " + due.toLocaleString();
+            }
+            evaluateCheckout();
+        }
+
+        function evaluateCheckout() {
+            const btn = document.getElementById('checkoutBtn');
+            const proceedBtn = document.getElementById('proceedBtn');
+
+            if (cart.length === 0) {
+                proceedBtn.className = 'checkout-btn disabled';
+                proceedBtn.innerHTML = 'PROCEED TO PAYMENT <i class="fas fa-arrow-right"></i>';
+                btn.className = 'checkout-btn disabled';
+                btn.innerHTML = 'CONFIRM & PRINT <i class="fas fa-print"></i>';
+                return;
+            } else {
+                proceedBtn.className = 'checkout-btn ready';
+                proceedBtn.innerHTML = 'PROCEED TO PAYMENT <i class="fas fa-arrow-right"></i>';
+            }
+
+            if (method === 'CASH' && cashGiven < total) {
+                btn.className = 'checkout-btn disabled';
+                btn.innerHTML = 'INSUFFICIENT CASH';
+            } else {
+                btn.className = 'checkout-btn ready';
+                btn.innerHTML = 'CONFIRM & PRINT <i class="fas fa-print"></i>';
+            }
+        }
+
+        // --- Modals ---
+        function openPaymentModal() {
+            if (cart.length === 0) return;
+            document.getElementById('modalTotalDue').innerText = "Rs. " + total.toLocaleString();
+            document.getElementById('paymentModal').style.display = 'flex';
+            evaluateCheckout();
+        }
+
+        // --- Customer Management ---
+        function openAddCustomerModal() {
+            // Auto-fill mobile if already typed in search
+            let currentMobile = document.getElementById('custMobile').value.trim();
+            document.getElementById('newCustMobile').value = currentMobile;
+
+            document.getElementById('newCustFname').value = '';
+            document.getElementById('newCustLname').value = '';
+            document.getElementById('newCustEmail').value = '';
+
+            document.getElementById('addCustomerModal').style.display = 'flex';
+        }
+
+        function closeAddCustomerModal() {
+            document.getElementById('addCustomerModal').style.display = 'none';
+        }
+
+        async function submitAddCustomer() {
+            let fname = document.getElementById('newCustFname').value.trim();
+            let lname = document.getElementById('newCustLname').value.trim();
+            let mobile = document.getElementById('newCustMobile').value.trim();
+            let email = document.getElementById('newCustEmail').value.trim();
+
+            if (!fname || !mobile) {
+                alert("First Name and Mobile Number are required!");
+                return;
+            }
+
+            // Fake email if not provided, since User table requires unique email
+            if (!email) {
+                email = mobile + "@rushjewels.local";
+            }
+
+            try {
+                let res = await fetch('/api/pos/customer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fname, lname, mobile, email, password: 'pos_customer' })
+                });
+
+                if (res.ok) {
+                    let user = await res.json();
+                    closeAddCustomerModal();
+
+                    // Auto-fill POS fields
+                    document.getElementById('custMobile').value = user.mobile;
+                    document.getElementById('custName').value = user.fname + ' ' + (user.lname || '');
+                    document.getElementById('custStatusBadge').style.display = 'block';
+                    document.getElementById('custName').setAttribute('readonly', 'true');
+
+                    if (window.showToast) showToast('Customer Added Successfully!', 'success');
+                } else {
+                    let errorMsg = await res.text();
+                    alert("Failed to add customer: " + errorMsg);
+                }
+            } catch (e) {
+                console.error(e);
+                alert("An error occurred. Please try again.");
+            }
+        }
+
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        // --- Checkout ---
+        async function pay() {
+            const btn = document.getElementById('checkoutBtn');
+            if (btn.classList.contains('disabled')) return;
+
+            let ref = document.getElementById('bankRef').value;
+            if (method === 'BANK' && !ref) { alert("Please enter Bank Reference"); document.getElementById('bankRef').focus(); return; }
+
+            btn.className = 'checkout-btn disabled';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
+
+            let cName = document.getElementById('custName').value.trim();
+            if (!cName) cName = "Walk-in Customer";
+
+            const payload = {
+                customerMobile: document.getElementById('custMobile').value,
+                customerName: cName,
+                paymentMethod: method,
+                discountType: discountType,
+                discountValue: discountValue,
+                totalAmount: total,
+                bankReference: ref,
+                tenderedAmount: method === 'CASH' ? cashGiven : total,
+                changeDue: method === 'CASH' ? Math.max(0, cashGiven - total) : 0,
+                cartItems: cart.map(c => {
+                    const isProduct = c.type === 'PRODUCT';
+                    const splitId = c.id.split('-');
+                    const numericId = parseInt(splitId[1]);
+                    return {
+                        itemType: c.type,
+                        variantId: isProduct ? numericId : null,
+                        collectionId: !isProduct ? numericId : null,
+                        qty: c.qty
+                    };
+                })
+            };
+
+            try {
+                let res = await fetch('/api/pos/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                let text = await res.text();
+                if (res.ok) {
+                    // Update Cash Sales if payment was CASH
+                    if (method === 'CASH') {
+                        cashSales += total;
+                        localStorage.setItem('pos_cash_sales', cashSales);
+                    }
+
+                    closePaymentModal();
+                    doPrint(text);
+                    executeClear(); // resets cart & cash
+                    load(); // reload stock
+                    document.getElementById('searchInput').focus();
+                } else {
+                    alert("Error: " + text);
+                    evaluateCheckout();
+                }
+            } catch (e) {
+                alert("Network Disconnected!");
+                evaluateCheckout();
+            }
+        }
+
+        function doPrint(msg) {
+            let id = msg.includes("POS-") ? msg.split("Order ")[1].split(" ")[0] : "POS-" + new Date().getTime();
+            let cashier = document.getElementById('cashierName').value || 'System';
+            let cName = document.getElementById('custName').value || 'Walk-in Customer';
+            let cMob = document.getElementById('custMobile').value || '-';
+
+            // Format Date
+            let d = new Date();
+            let dateStr = d.toLocaleDateString('en-GB') + ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            let html = `
+                <div class="r-header">
+                    <img src="/favicon.png" class="r-logo" style="width:50px; margin: 0 auto 5px auto; display: block; filter: grayscale(100%);">
+                    <h1 class="r-title" style="margin-top:0;">RUSH JEWELS</h1>
+                    <p class="r-info">454/5 Daulagala Road<br>Pilimathalawa, Sri Lanka</p>
+                    <p class="r-info">Tel: 075 483 2960</p>
+                    <p class="r-info">rushjewelsofficial@gmail.com</p>
+                </div>
+                
+                <div class="r-row" style="font-size: 11px;">
+                    <div class="r-col-left">
+                        <strong>Date:</strong> ${dateStr}<br>
+                        <strong>Order:</strong> ${id}<br>
+                        <strong>Cashier:</strong> ${cashier}
+                    </div>
+                    <div class="r-col-right" style="text-align: right;">
+                        <strong>Customer:</strong><br>${cName}<br>${cMob}
+                    </div>
+                </div>
+                
+                <table style="width:100%; font-size:11px; text-align:left; border-collapse:collapse; margin-bottom:10px; margin-top:10px;">
+                    <thead>
+                        <tr style="border-bottom:2px solid #000; border-top:2px solid #000;">
+                            <th style="padding:5px 0; text-align:left;">DESCRIPTION</th>
+                            <th style="padding:5px 0; text-align:center;">QTY</th>
+                            <th style="padding:5px 0; text-align:right;">PRICE</th>
+                            <th style="padding:5px 0; text-align:right;">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            cart.forEach(c => {
+                html += `
+                        <tr style="border-bottom:1px dashed #aaa;">
+                            <td style="padding:5px 0; font-weight:bold; font-size:12px; max-width:120px; word-wrap:break-word;">
+                                ${c.name}
+                                ${c.subtext ? `<br><span style="font-size:10px; font-weight:normal; color:#555;">${c.subtext}</span>` : ''}
+                            </td>
+                            <td style="padding:5px 0; text-align:center;">${c.qty}</td>
+                            <td style="padding:5px 0; text-align:right;">${c.price.toLocaleString()}</td>
+                            <td style="padding:5px 0; text-align:right; font-weight:bold;">${(c.price * c.qty).toLocaleString()}</td>
+                        </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            html += `
+                <div class="r-row">
+                    <div class="r-col-left">Subtotal</div>
+                    <div class="r-col-right">Rs. ${subtotal.toLocaleString()}</div>
+                </div>
+            `;
+
+            if (discountType !== 'none' && subtotal > 0) {
+                let dAmt = discountType === '%' ? (subtotal * discountValue / 100) : discountValue;
+                html += `
+                <div class="r-row" style="color: #555;">
+                    <div class="r-col-left">Discount ${discountType === '%' ? '(' + discountValue + '%)' : ''}</div>
+                    <div class="r-col-right">- Rs. ${dAmt.toLocaleString()}</div>
+                </div>`;
+            }
+
+            html += `<div class="r-divider"></div>`;
+
+            html += `
+                <div class="r-row r-total-row">
+                    <div class="r-col-left">TOTAL</div>
+                    <div class="r-col-right">Rs. ${total.toLocaleString()}</div>
+                </div>
+            `;
+
+            html += `<div class="r-divider"></div>`;
+
+            html += `
+                <div class="r-row" style="font-size:11px;">
+                    <div class="r-col-left">Payment (${method})</div>
+                    <div class="r-col-right">Rs. ${(method === 'CASH' ? cashGiven : total).toLocaleString()}</div>
+                </div>
+            `;
+
+            if (method === 'CASH' && cashGiven > total) {
+                html += `
+                <div class="r-row" style="font-size:11px; font-weight:bold;">
+                    <div class="r-col-left">Change Due</div>
+                    <div class="r-col-right">Rs. ${(cashGiven - total).toLocaleString()}</div>
+                </div>`;
+            }
+
+            if (document.getElementById('issueWarranty').checked) {
+                html += `
+                    <div class="r-divider-thick" style="margin-top:20px;"></div>
+                    <div style="text-align:center; margin-top:15px; border: 2px solid #000; outline: 1px solid #000; outline-offset: -3px; padding: 5px; background: #fff;">
+                        <h4 style="margin: 0 0 5px 0; font-size:13px; font-weight:900; letter-spacing:1px; text-transform:uppercase;">★ WARRANTY CERTIFICATE ★</h4>
+                        <p style="font-size:11px; margin:0 0 5px 0;">1 Year Warranty on Gold Plating & Custom Jewelry.</p>
+                        <p style="font-size:10px; margin:0; font-weight:bold;">Valid only with this original receipt.</p>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="r-footer">
+                    <p style="font-weight:bold; font-size:13px; margin:0 0 5px 0;">Thank you for shopping with us!</p>
+                    <p style="margin:0; font-size: 10px;">Returns accepted within 7 days. Strictly NO Refunds.</p>
+                    <p style="margin:2px 0 5px 0; font-size: 9px;">See www.rushjewels.lk for Privacy Policy & Terms.</p>
+                    <p style="margin:8px 0 0 0; font-size:9px; color:#666;">Software by dio.lk</p>
+                </div>
+                <!-- SVG Barcode -->
+                <div style="text-align:center; margin-top: 15px;">
+                    <svg id="receipt-barcode"></svg>
+                </div>
+            `;
+
+            document.getElementById('receipt').innerHTML = html;
+
+            try {
+                JsBarcode("#receipt-barcode", id, {
+                    format: "CODE128",
+                    width: 1.1,
+                    height: 40,
+                    displayValue: true,
+                    fontSize: 12,
+                    margin: 0
+                });
+            } catch (e) {
+                console.error("Barcode generation failed", e);
+            }
+
+            // Short delay to ensure SVG renders before print dialog opens
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        }
+
+        let heldOrders = JSON.parse(localStorage.getItem('pos_held_orders')) || [];
+
+        function holdOrder() {
+            if (cart.length > 0) {
+                let holdObj = {
+                    id: new Date().getTime(),
+                    time: new Date().toLocaleTimeString(),
+                    cart: cart.slice(),
+                    total: total,
+                    discountType: discountType,
+                    discountValue: discountValue,
+                    method: method,
+                    tendered: document.getElementById('tendered').value,
+                    bankRef: document.getElementById('bankRef').value,
+                    cMobile: document.getElementById('custMobile').value,
+                    cName: document.getElementById('custName').value
+                };
+                heldOrders.push(holdObj);
+                localStorage.setItem('pos_held_orders', JSON.stringify(heldOrders));
+                executeClear();
+                alert("Order Held Successfully!");
+            } else {
+                alert("Cart is empty!");
+            }
+        }
+
+        function openHeldOrdersModal() {
+            document.getElementById('heldModal').style.display = 'flex';
+            renderHeldOrders();
+        }
+
+        function renderHeldOrders() {
+            let html = '';
+            if (heldOrders.length === 0) {
+                html = '<tr><td colspan="4" style="text-align:center; padding:20px;">No held orders.</td></tr>';
+            } else {
+                heldOrders.forEach((o, index) => {
+                    html += `<tr style="border-bottom:1px solid var(--border-color);">
+                        <td style="padding:15px; font-weight:bold;">#${o.id}</td>
+                        <td style="padding:15px;">${o.time}</td>
+                        <td style="padding:15px;">Rs.${o.total.toLocaleString()}</td>
+                        <td style="padding:15px; text-align:right;">
+                            <button onclick="resumeOrder(${index})" style="padding:8px 15px; background:var(--accent-color); color:#000; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-right:5px;">Resume</button>
+                            <button onclick="deleteHeldOrder(${index})" style="padding:8px 15px; background:var(--error-color); color:#fff; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Delete</button>
+                        </td>
+                    </tr>`;
+                });
+            }
+            document.getElementById('heldBody').innerHTML = html;
+        }
+
+        async function resumeOrder(index) {
+            let o = heldOrders[index];
+            if (cart.length > 0) {
+                let confirmed = await showCustomConfirm("Current cart will be cleared to resume this order. Proceed?");
+                if (!confirmed) return;
+            }
+            cart = o.cart;
+            discountType = o.discountType;
+            discountValue = o.discountValue;
+
+            // Restore Payment Data
+            method = o.method || 'CASH';
+            document.getElementById('tendered').value = o.tendered || '';
+            document.getElementById('bankRef').value = o.bankRef || '';
+
+            // Restore Customer Info
+            document.getElementById('custMobile').value = o.cMobile || '';
+            document.getElementById('custName').value = o.cName || '';
+            if (o.cName && o.cName !== 'Walk-in Customer') {
+                document.getElementById('custName').setAttribute('readonly', 'true');
+            } else {
+                document.getElementById('custName').removeAttribute('readonly');
+            }
+
+            let btns = document.querySelectorAll('.pay-method');
+            btns.forEach(b => b.classList.remove('active'));
+            if (method === 'CASH') {
+                btns[0].classList.add('active');
+                document.getElementById('cashArea').classList.add('visible');
+                document.getElementById('bankRef').style.display = 'none';
+            } else if (method === 'CARD') {
+                btns[1].classList.add('active');
+                document.getElementById('cashArea').classList.remove('visible');
+                document.getElementById('bankRef').style.display = 'none'; // Card doesn't need bank ref
+            } else if (method === 'BANK') {
+                btns[2].classList.add('active');
+                document.getElementById('cashArea').classList.remove('visible');
+                document.getElementById('bankRef').style.display = 'block';
+                document.getElementById('bankRef').placeholder = 'Bank Reference No.';
+            }
+
+            deleteHeldOrder(index);
+            updateCartUI(); // Fixed: renderCart() did not exist
+            calcChange();
+            document.getElementById('heldModal').style.display = 'none';
+        }
+
+        function deleteHeldOrder(index) {
+            heldOrders.splice(index, 1);
+            localStorage.setItem('pos_held_orders', JSON.stringify(heldOrders));
+            renderHeldOrders();
+        }
+
+        // Initial load
+        window.onload = async function () {
+            checkSession();
+            load();
+
+            // Setup Cashier Name (Read-only, fetched from logged-in admin)
+            let cInput = document.getElementById('cashierName');
+            cInput.setAttribute('readonly', 'true');
+            cInput.style.opacity = '0.7';
+            try {
+                let res = await fetch('/api/admin/staff/profile');
+                if (res.ok) {
+                    let admin = await res.json();
+                    cInput.value = admin.name || admin.email.split('@')[0];
+                } else {
+                    window.location.href = '/admin-login.html';
+                }
+            } catch (e) {
+                window.location.href = '/admin-login.html';
+            }
+
+            // Setup Live Clock
+            setInterval(() => {
+                document.getElementById('liveClock').innerText = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'medium' });
+            }, 1000);
+        };
+
+        // --- Mobile Responsive Drawer Logic ---
+        function toggleSidebarDrawer() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('cartPanel').classList.remove('open');
+            updateOverlay();
+        }
+
+        function toggleCartDrawer() {
+            document.getElementById('cartPanel').classList.toggle('open');
+            document.getElementById('sidebar').classList.remove('open');
+            updateOverlay();
+        }
+
+        function closeAllDrawers() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('cartPanel').classList.remove('open');
+            updateOverlay();
+        }
+
+        function updateOverlay() {
+            let sOpen = document.getElementById('sidebar').classList.contains('open');
+            let cOpen = document.getElementById('cartPanel').classList.contains('open');
+            if (sOpen || cOpen) {
+                document.getElementById('mobileOverlay').classList.add('active');
+            } else {
+                document.getElementById('mobileOverlay').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+<script>
+    window.addEventListener('load', () => {
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
+    });
+</script>
+
+</html>

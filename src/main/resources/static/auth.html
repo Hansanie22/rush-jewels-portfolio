@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Login / Register - Rush Jewels</title>
+    <meta name="description"
+          content="Login or register for an account at Rush Jewels to access exclusive features and offers.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated Color Palette
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        // Brand Colors
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Sharp edge styling - no rounded corners */
+        .sharp-input {
+            border-radius: 0 !important;
+        }
+
+        .sharp-button {
+            border-radius: 0 !important;
+        }
+
+        .sharp-social-btn {
+            border-radius: 0 !important;
+        }
+
+        /* Auth form switching */
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        /* Auth link styling */
+        .auth-switch-link {
+            color: #D4AF37;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .auth-switch-link:hover {
+            color: #B8941F;
+        }
+    </style>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+            rel="stylesheet">
+</head>
+
+<body class="font-poppins text-dark bg-white">
+
+<main id="main-content" style="display: none;">
+<!-- Page Header -->
+<div class="bg-light-gray py-6 sm:py-8">
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-playfair font-bold">My Account</h1>
+        <div class="flex items-center mt-2 text-gray-600 text-sm sm:text-base">
+            <a href="index.html" class="hover:text-gold transition-colors">Home</a>
+            <i class="fas fa-chevron-right mx-2 text-xs"></i>
+            <span>My Account</span>
+        </div>
+    </div>
+</div>
+
+<!-- Auth Content -->
+<div class="container mx-auto px-4 py-8 sm:py-12">
+    <div class="max-w-sm sm:max-w-md mx-auto">
+        <!-- Login Form (Default View) -->
+        <div id="login-form" class="auth-form active">
+            <div class="p-6 sm:p-8">
+                <h2 class="text-xl sm:text-2xl font-playfair font-bold mb-4 sm:mb-6 text-center">Login</h2>
+
+                <form>
+                    <div class="mb-3 sm:mb-4">
+                        <label for="login-email" class="block text-xs sm:text-sm font-medium mb-2">Email Address</label>
+                        <input type="email" id="login-email"
+                               class="sharp-input w-full border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold"
+                               required>
+                    </div>
+
+                    <div class="mb-4 sm:mb-6">
+                        <label for="login-password" class="block text-xs sm:text-sm font-medium mb-2">Password</label>
+                        <div class="relative">
+                            <input type="password" id="login-password"
+                                   class="sharp-input w-full border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold"
+                                   required>
+                            <button type="button"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-dark toggle-password-btn">
+                                <i class="fas fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-2 sm:space-y-0">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember-me" class="mr-2">
+                            <label for="remember-me" class="text-xs sm:text-sm">Remember me</label>
+                        </div>
+                        <a href="forgot-password.html" class="text-gold hover:text-gold-dark text-xs sm:text-sm">Forgot
+                            password?</a>
+                    </div>
+
+                    <button type="button" id="login-btn"
+                            class="sharp-button w-full bg-gold text-white py-2.5 sm:py-3 text-sm sm:text-base font-medium hover:bg-opacity-90 transition-colors mb-4 sm:mb-6">
+                        Login
+                    </button>
+                    <div class="text-center mb-4 sm:mb-6">
+                        <p class="text-gray-600 text-xs sm:text-sm">Don't have an account?
+                            <span class="auth-switch-link" onclick="showRegisterForm()">Create one here</span>
+                        </p>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">Or login with</p>
+                        <div class="flex justify-center space-x-2 sm:space-x-3">
+                            <button type="button"
+                                    class="facebook-login sharp-social-btn w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-facebook-f text-xs sm:text-sm"></i>
+                            </button>
+
+                            <button type="button"
+                                    class="google-login sharp-social-btn w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors">
+                                <i class="fab fa-google text-xs sm:text-sm"></i>
+                            </button>
+
+                            <button type="button"
+                                    class="apple-login sharp-social-btn w-8 h-8 sm:w-10 sm:h-10 bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
+                                <i class="fab fa-apple text-xs sm:text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Register Form (Hidden by default) -->
+        <div id="register-form" class="auth-form">
+            <div class="p-6 sm:p-8">
+                <h2 class="text-xl sm:text-2xl font-playfair font-bold mb-4 sm:mb-6 text-center">Register</h2>
+
+                <form>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
+                        <div>
+                            <label for="first-name" class="block text-xs sm:text-sm font-medium mb-2">First Name</label>
+                            <input type="text" id="first-name"
+                                   class="sharp-input w-full border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold"
+                                   required>
+                        </div>
+                        <div>
+                            <label for="last-name" class="block text-xs sm:text-sm font-medium mb-2">Last Name</label>
+                            <input type="text" id="last-name"
+                                   class="sharp-input w-full border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 sm:mb-4">
+                        <label for="register-email" class="block text-xs sm:text-sm font-medium mb-2">Email
+                            Address</label>
+                        <input type="email" id="register-email"
+                               class="sharp-input w-full border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold"
+                               required>
+                    </div>
+
+                    <div class="mb-3 sm:mb-4">
+                        <label for="register-password"
+                               class="block text-xs sm:text-sm font-medium mb-2">Password</label>
+                        <div class="relative">
+                            <input type="password" id="register-password"
+                                   class="sharp-input w-full border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold"
+                                   required>
+                            <button type="button"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-dark toggle-password"
+                                    data-target="register-password">
+                                <i class="fas fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 sm:mb-6">
+                        <label for="confirm-password" class="block text-xs sm:text-sm font-medium mb-2">Confirm
+                            Password</label>
+                        <div class="relative">
+                            <input type="password" id="confirm-password"
+                                   class="sharp-input w-full border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold"
+                                   required>
+                            <button type="button"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-dark toggle-password"
+                                    data-target="confirm-password">
+                                <i class="fas fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 sm:mb-6">
+                        <div class="flex items-start">
+                            <input type="checkbox" id="agree-terms" class="mr-2 mt-1" required>
+                            <label for="agree-terms" class="text-xs sm:text-sm">I agree to the <a href="/terms&conditions.html"
+                                                                                                  class="text-gold hover:text-gold-dark">Terms
+                                & Conditions</a></label>
+                        </div>
+                    </div>
+
+                    <button type="button" id="register-btn"
+                            class="sharp-button w-full bg-gold text-white py-2.5 sm:py-3 text-sm sm:text-base font-medium hover:bg-opacity-90 transition-colors mb-4 sm:mb-6">
+                        Register
+                    </button>
+
+                    <div class="text-center mb-4 sm:mb-6">
+                        <p class="text-gray-600 text-xs sm:text-sm">Already have an account?
+                            <span class="auth-switch-link" onclick="showLoginForm()">Login here</span>
+                        </p>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">Or register with</p>
+                        <div class="flex justify-center space-x-2 sm:space-x-3">
+                            <button type="button"
+                                    class="facebook-login sharp-social-btn w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-facebook-f text-xs sm:text-sm"></i>
+                            </button>
+
+                            <button type="button"
+                                    class="google-login sharp-social-btn w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors">
+                                <i class="fab fa-google text-xs sm:text-sm"></i>
+                            </button>
+
+                            <button type="button"
+                                    class="apple-login sharp-social-btn w-8 h-8 sm:w-10 sm:h-10 bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors">
+                                <i class="fab fa-apple text-xs sm:text-sm"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+<!-- JavaScript -->
+<script>
+    // Prevent navbar from loading on auth pages
+    window.skipNavbarLoad = true;
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Content එක පෙන්වීම
+        const main = document.getElementById('main-content');
+        if (main) {
+            main.style.display = 'block';
+            // අලංකාර ලෙස පෙනීමට Animation එකක් එක් කිරීම
+            main.classList.add('animate__animated', 'animate__fadeIn');
+        }
+
+        // 2. ලෝඩරය අයින් කිරීම
+        if (window.loader && typeof window.loader.hide === 'function') {
+            // තත්පර 0.3ක කුඩා ප්‍රමාදයක් තැබීමෙන් පාරිභෝගිකයාට Smooth අත්දැකීමක් ලැබේ
+            setTimeout(() => {
+                window.loader.hide();
+            }, 300);
+        }
+    });
+</script>
+<script src="/js/main.js"></script>
+<script src="/js/components.js"></script>
+<script type="module" src="/js/cart.js"></script>
+<script src="/js/loader.js"></script>
+<script src="js/flying-animation.js"></script>
+
+<script type="module" src="/js/login.js"></script>
+<script type="module" src="/js/signUp.js"></script>
+<script type="module" src="/js/social-login.js"></script>
+
+
+<!-- Auth Form Switching Script -->
+<script>
+    function showLoginForm() {
+        document.getElementById('login-form').classList.add('active');
+        document.getElementById('register-form').classList.remove('active');
+    }
+
+    function showRegisterForm() {
+        document.getElementById('register-form').classList.add('active');
+        document.getElementById('login-form').classList.remove('active');
+    }
+
+    // Password visibility toggle
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleButtons = document.querySelectorAll('.toggle-password');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

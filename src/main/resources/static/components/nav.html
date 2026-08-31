@@ -1,0 +1,320 @@
+<style>
+    /* --- SHARP SQUARE ANIMATION STYLES --- */
+    #mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #1a1a1a;
+        z-index: 110;
+        clip-path: inset(var(--btn-y, 30px) calc(100% - var(--btn-x, 30px)) calc(100% - var(--btn-y, 30px)) var(--btn-x, 30px));
+        transition: clip-path 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        pointer-events: none;
+    }
+
+    #mobile-menu.menu-open {
+        clip-path: inset(0 0 0 0);
+        pointer-events: all;
+    }
+
+    .mobile-content {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+    }
+
+    #mobile-menu.menu-open .mobile-content {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0.2s;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    #pill-bg { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+</style>
+
+<!-- SEARCH OVERLAY & PANEL -->
+<div class="search-overlay" id="search-overlay"></div>
+
+<div class="search-panel" id="search-panel" aria-hidden="true">
+    <div class="search-panel-container">
+        <div class="search-panel-header">
+            <div class="search-panel-title">
+                <p class="search-panel-title-main">Search Jewelry</p>
+                <p class="search-panel-title-sub">Find rings, necklaces, earrings &amp; more</p>
+            </div>
+            <button id="close-search-panel" class="search-close-btn" aria-label="Close search panel">
+                <i class="fas fa-times text-base"></i>
+            </button>
+        </div>
+        <div class="search-input-wrapper">
+            <div class="search-input-field">
+                        <span class="search-input-icon" aria-hidden="true">
+                            <i class="fas fa-search"></i>
+                        </span>
+                <input id="search-input" type="search" class="search-input" placeholder="Search for jewelry, gemstones, collections" autocomplete="off">
+                <button id="search-btn-panel" class="search-input-submit" type="button" aria-label="Search">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="search-suggestions">
+            <span class="search-section-title">Suggestions</span>
+            <div class="search-chip-group">
+                <button type="button" class="search-chip" data-search-suggestion="gold necklace">gold necklace</button>
+                <button type="button" class="search-chip" data-search-suggestion="silver ring">silver ring</button>
+                <button type="button" class="search-chip" data-search-suggestion="pearl earrings">pearl earrings</button>
+                <button type="button" class="search-chip" data-search-suggestion="emerald bracelet">emerald bracelet</button>
+            </div>
+            <div id="search-typeahead" class="search-typeahead" aria-live="polite"></div>
+        </div>
+        <div class="search-results-wrapper">
+            <div id="search-results-header" class="search-results-header hidden">
+                <span class="search-section-title">Products</span>
+                <button type="button" id="search-view-all" class="search-view-all" disabled>
+                    View all <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div id="search-empty" class="search-empty-state">
+                <i class="fas fa-search"></i>
+                <h3>Start typing to search</h3>
+                <p>Discover standout pieces curated for every occasion.</p>
+            </div>
+            <div id="search-results-container" class="search-results-list" role="list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Overlay -->
+<div id="cart-overlay"
+     class="fixed inset-0 bg-black/60 z-[140] hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"
+     onclick="window.closeCartPanel()">
+</div>
+
+<!-- Cart Panel -->
+<div id="cart-panel"
+     class="fixed top-0 right-0 h-full w-full md:w-[480px] bg-white z-[150]
+            transform translate-x-full transition-transform duration-500
+            ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col shadow-2xl border-l border-gray-200">
+
+    <!-- Header -->
+    <header class="flex-none bg-white px-6 py-6 border-b border-gray-100 flex justify-between items-start">
+        <div>
+            <h2 class="font-serif text-2xl text-rush-black font-semibold tracking-wider">YOUR BAG</h2>
+            <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest" id="cart-item-count-header">0 Items</p>
+        </div>
+        <button id="close-cart-panel"
+                class="w-10 h-10 flex items-center justify-center border border-transparent
+                       hover:border-black transition-colors group">
+            <i class="fas fa-times text-xl text-rush-black group-hover:rotate-90 transition-transform duration-300"></i>
+        </button>
+    </header>
+
+    <!-- Body -->
+    <div class="flex-1 overflow-y-auto sharp-scroll bg-white p-6 relative">
+
+        <!-- Empty State -->
+        <div id="empty-cart"
+             class="hidden h-full flex flex-col items-center justify-center text-center">
+            <div class="w-20 h-20 border border-gray-200 flex items-center justify-center mb-6">
+                <i class="fas fa-shopping-bag text-3xl text-gray-300"></i>
+            </div>
+            <h3 class="font-serif text-xl mb-2">Your Bag is Empty</h3>
+            <p class="text-sm text-gray-500 mb-8 max-w-[200px]">
+                Timeless pieces are waiting for you.
+            </p>
+            <button id="continue-shopping"
+                    class="border-b border-black pb-1 uppercase text-xs tracking-widest
+                           hover:text-rush-gold hover:border-rush-gold transition-colors">
+                Continue Shopping
+            </button>
+        </div>
+
+        <!-- Cart Items Container -->
+        <div id="cart-items-container" class="space-y-8"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex-none bg-[#F9F9F9] p-6 border-t border-gray-200 pb-safe">
+        <div class="space-y-3 mb-6 text-sm">
+            <div class="flex justify-between text-gray-600">
+                <span>Subtotal</span>
+                <span class="font-bold text-rush-black" id="cart-subtotal">LKR 0.00</span>
+            </div>
+
+            <div class="flex justify-between text-gray-500 text-xs italic">
+                <span>Shipping</span>
+                <span>Calculated at checkout</span>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-gray-300 flex justify-between items-center">
+                <span class="font-serif text-lg font-semibold">Total</span>
+                <span class="font-serif text-xl font-bold" id="cart-total">LKR 0.00</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-3">
+            <!-- Checkout Button -->
+            <button id="checkout-btn" class="c-button c-button--gooey">
+                Checkout Now
+                <div class="c-button__blobs"><div></div><div></div><div></div></div>
+            </button>
+
+            <!-- Clear Cart Button -->
+            <button id="clear-cart-btn" class="c-button c-button--gooey c-button--black">
+                Clear Cart
+                <div class="c-button__blobs"><div></div><div></div><div></div></div>
+            </button>
+        </div>
+
+        <div class="mt-6 flex justify-center gap-4 text-gray-400 opacity-60">
+            <i class="fab fa-cc-visa text-xl"></i>
+            <i class="fab fa-cc-mastercard text-xl"></i>
+            <i class="fab fa-cc-amex text-xl"></i>
+            <i class="fas fa-lock text-sm flex items-center">
+                <span class="ml-1 font-sans text-[10px]">Secure</span>
+            </i>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN NAVBAR -->
+<nav class="bg-white shadow-md py-3 sm:py-4 sticky top-0 z-[100]">
+    <div class="container mx-auto px-3 sm:px-4">
+        <div class="flex justify-between items-center min-h-[48px]">
+
+            <!-- Mobile Menu Button -->
+            <button class="lg:hidden relative z-[120] w-12 h-12 rounded-none text-dark flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95 mr-2"
+                    id="mobile-menu-button" aria-label="Toggle mobile menu">
+                <div class="relative w-5 h-5 flex items-center justify-center">
+                    <i class="fas fa-bars text-lg absolute transition-all duration-300 transform opacity-100 rotate-0 scale-100" id="icon-bars"></i>
+                    <i class="fas fa-times text-xl absolute transition-all duration-300 transform opacity-0 -rotate-90 scale-50" id="icon-close"></i>
+                </div>
+            </button>
+
+            <!-- Logo -->
+            <div class="flex items-center flex-shrink-0">
+                <a href="index.html" class="flex items-center gap-2">
+
+                    <span class="text-2xl sm:text-2xl md:text-3xl font-playfair font-bold text-gold">Rush</span>
+                    <span class="text-2xl sm:text-2xl md:text-3xl font-playfair font-bold">Jewels</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <div class="hidden lg:flex items-center justify-center flex-1 space-x-4 xl:space-x-8">
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 nav-hover text-sm xl:text-base cursor-pointer" aria-label="Categories menu">
+                        <span>Categories</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <!-- Desktop Dropdown -->
+                    <div id="nav-categories-container"
+                         class="categories-dropdown absolute left-0 mt-2 w-48 bg-white shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-10 rounded-none border border-gray-100">
+                        <div class="p-4 text-center text-gray-400"><i class="fas fa-spinner fa-spin text-gold"></i></div>
+                    </div>
+                </div>
+                <a href="shop.html" class="nav-hover text-sm xl:text-base">Shop</a>
+                <a href="collection.html" class="nav-hover text-sm xl:text-base">Collections</a>
+                <a href="about.html" class="nav-hover text-sm xl:text-base">About Us</a>
+            </div>
+
+            <!-- Icons -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <button class="nav-hover p-1" id="search-btn" aria-label="Search">
+                    <i class="fas fa-search text-xl"></i>
+                </button>
+                <!-- Updated Account Link: Pointing to account.html, JS will intercept if not logged in -->
+                <a href="account.html" id="account-link" class="nav-hover hidden sm:block p-1" aria-label="Account">
+                    <i class="far fa-user text-xl"></i>
+                </a>
+                <a href="javascript:void(0)" class="relative nav-hover p-1" id="cart-icon" aria-label="Shopping cart">
+                    <i class="fas fa-shopping-bag text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-gold text-white text-xs h-5 w-5 flex items-center justify-center cart-blink hidden rounded-none" id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div id="mobile-menu" class="flex flex-col items-center justify-center">
+        <div class="mobile-content w-full max-w-md px-6 text-center space-y-6 flex flex-col h-full py-20 relative">
+
+            <!-- HOME SECTION -->
+            <div id="section-home" class="flex flex-col h-full">
+                <h2 class="text-gold font-playfair text-2xl font-bold mb-4">Menu</h2>
+
+                <!-- Links -->
+                <div class="space-y-4 flex-grow overflow-y-auto no-scrollbar">
+                    <a href="shop.html" class="block text-2xl text-white hover:text-gold font-playfair transition-colors">Shop All</a>
+
+                    <div class="relative">
+                        <button id="mobile-cat-btn"
+                                class="text-2xl text-white hover:text-gold font-playfair transition-colors flex items-center justify-center w-full gap-2">
+                            Categories <i class="fas fa-chevron-down text-sm opacity-70 transition-transform duration-300" id="mobile-cat-icon"></i>
+                        </button>
+                        <div id="mobile-category-list" class="hidden mt-4 space-y-3 bg-white/5 rounded-none p-4">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <a href="collection.html" class="block text-2xl text-white hover:text-gold font-playfair transition-colors">Collections</a>
+
+                    <a href="about.html" class="block text-2xl text-white hover:text-gold font-playfair transition-colors">About Us</a>
+                </div>
+            </div>
+
+            <!-- SHOP SECTION (UPDATED LINKS) -->
+            <div id="section-shop" class="hidden flex-col h-full">
+                <h2 class="text-gold font-playfair text-2xl font-bold mb-6">Shop</h2>
+                <div class="space-y-4 flex-grow overflow-y-auto no-scrollbar">
+                    <a href="shop.html" class="block text-xl text-white hover:text-gold font-playfair transition-colors">All Products</a>
+
+                    <!-- Updated: Sales Only -->
+                    <a href="shop.html?sale=true" class="block text-xl text-white hover:text-gold font-playfair transition-colors">Seasonal Sales</a>
+
+                    <!-- Updated: Sort by Newest -->
+                    <a href="shop.html?sort=newest" class="block text-xl text-white hover:text-gold font-playfair transition-colors">New Arrivals</a>
+
+                    <!-- Updated: Sort by Popularity -->
+                    <a href="shop.html?sort=popularity" class="block text-xl text-white hover:text-gold font-playfair transition-colors">Best Sellers</a>
+                </div>
+            </div>
+
+            <!-- PROFILE SECTION (Content loaded via navbar.js) -->
+            <div id="section-profile" class="hidden flex-col h-full">
+                <h2 class="text-gold font-playfair text-2xl font-bold mb-6">Account</h2>
+                <div class="flex-grow flex items-center justify-center" id="mobile-auth-section">
+                    <!-- Populated by JS based on auth state -->
+                </div>
+            </div>
+
+            <!-- PILL TOGGLE -->
+            <div class="mt-4 flex-shrink-0 w-full flex justify-center pb-6">
+                <!-- Changed rounded-full to rounded-none -->
+                <div class="relative isolate bg-white rounded-none p-1.5 flex justify-between items-center w-full max-w-[200px] shadow-2xl h-14">
+                    <!-- Changed rounded-full to rounded-none -->
+                    <div id="pill-bg" class="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(33.33%-4px)] bg-[#1a1a1a] rounded-none -z-10"></div>
+
+                    <!-- Changed rounded-full to rounded-none -->
+                    <button class="toggle-pill-btn pill-btn-active flex-1 flex items-center justify-center h-full rounded-none transition-colors duration-300 z-10" data-target="home">
+                        <i class="fas fa-home text-lg text-white"></i>
+                    </button>
+
+                    <!-- Changed rounded-full to rounded-none -->
+                    <button class="toggle-pill-btn pill-btn-inactive flex-1 flex items-center justify-center h-full rounded-none transition-colors duration-300 z-10" data-target="shop">
+                        <i class="fas fa-store text-lg text-gray-600"></i>
+                    </button>
+
+                    <!-- Changed rounded-full to rounded-none -->
+                    <button class="toggle-pill-btn pill-btn-inactive flex-1 flex items-center justify-center h-full rounded-none transition-colors duration-300 z-10" data-target="profile">
+                        <i class="far fa-user text-lg text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</nav>

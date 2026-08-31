@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Order Confirmation - Rush Jewels</title>
+    <meta name="description" content="Your order has been confirmed at Rush Jewels.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .confirmation-card {
+            background: #ffffff;
+            border: 1px solid rgba(17, 24, 39, 0.1);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #D4AF37;
+            z-index: 2;
+        }
+
+        .timeline-item.inactive::before {
+            background: #e5e7eb;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -1.7rem;
+            top: 12px;
+            width: 2px;
+            height: calc(100% - 12px);
+            background: #D4AF37;
+            z-index: 1;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-item.inactive::after {
+            background: #e5e7eb;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid rgba(17, 24, 39, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .order-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #D4AF37;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+        }
+    </style>
+
+    <!-- Google Fonts (Merged) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Config (Merged) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated Color Palette
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        // Brand Colors
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-poppins bg-light-gray">
+<!-- Navbar -->
+<nav class="bg-white shadow-md py-3 md:py-4 sticky top-0 z-50 no-print w-full transition-all duration-300">
+    <div class="container mx-auto px-2 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between">
+
+            <div class="flex items-center flex-shrink-0">
+                <a href="index.html" class="flex items-center gap-0.5">
+                    <span class="text-lg md:text-3xl font-playfair font-bold text-gold">Rush</span>
+                    <span class="text-lg md:text-3xl font-playfair font-bold text-gray-900">Jewels</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-2 md:gap-6">
+
+                <a href="account.html?tab=orders" class="nav-hover group flex items-center gap-1 md:gap-2 text-gray-700 hover:text-gold transition-colors">
+                    <span class="text-[10px] sm:text-xs md:text-sm font-medium whitespace-nowrap uppercase tracking-tight md:tracking-normal">
+                        My Orders
+                    </span>
+                </a>
+
+                <a href="shop.html" class="nav-hover group flex items-center gap-1 md:gap-2 text-gray-700 hover:text-gold transition-colors">
+                    <span class="text-[10px] sm:text-xs md:text-sm font-medium whitespace-nowrap uppercase tracking-tight md:tracking-normal">
+                        Continue Shopping
+                    </span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Main Content -->
+<main id="main-content" class="container mx-auto px-4 sm:px-6 py-8 max-w-4xl" style="display: none;">
+    <!-- Success Message -->
+    <div class="confirmation-card text-center mb-8">
+        <div class="success-checkmark mb-4">
+            <i class="fas fa-check text-white text-4xl"></i>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-playfair font-bold mb-3">Thank You for Your Order!</h1>
+        <p class="text-gray-600 mb-2">Your order has been successfully placed and is being processed.</p>
+        <p class="text-sm text-gray-500">Order Number: <span class="font-bold text-dark" id="order-number">...</span></p>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="confirmation-card">
+        <h2 class="text-2xl font-playfair font-bold mb-4 flex items-center">
+            <i class="fas fa-receipt text-gold mr-2"></i>Order Summary
+        </h2>
+
+        <div id="order-items-container">
+            <!-- Order items will be loaded here -->
+        </div>
+
+        <div class="border-t border-gray-200 pt-4 mt-4">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Subtotal</span>
+                <span id="order-subtotal">LKR 0.00</span>
+            </div>
+            <div class="flex justify-between text-sm mb-2">
+                <span>Shipping</span>
+                <span id="order-shipping">LKR 0.00</span>
+            </div>
+            <div id="discount-row" class="flex justify-between text-sm mb-2 text-green-600" style="display: none;">
+                <span>Discount</span>
+                <span id="order-discount">- LKR 0.00</span>
+            </div>
+            <div class="flex justify-between text-lg font-bold mt-4 pt-4 border-t border-gray-200">
+                <span>Total</span>
+                <span class="text-gold" id="order-total">LKR 0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping & Billing Info -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="confirmation-card">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+                <i class="fas fa-shipping-fast text-gold mr-2"></i>Shipping Address
+            </h3>
+            <div id="shipping-address" class="text-gray-700 text-sm">
+                <!-- Shipping address will be loaded here -->
+            </div>
+        </div>
+
+        <div class="confirmation-card">
+            <h3 class="text-xl font-bold mb-3 flex items-center">
+                <i class="fas fa-credit-card text-gold mr-2"></i>Payment Method
+            </h3>
+            <div id="payment-method" class="text-gray-700 text-sm">
+                <!-- Payment method will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Tracking Timeline -->
+    <div class="confirmation-card">
+        <h2 class="text-2xl font-playfair font-bold mb-6 flex items-center">
+            <i class="fas fa-map-marked-alt text-gold mr-2"></i>Order Status
+        </h2>
+
+        <div class="timeline" id="order-timeline-container">
+            <!-- Timeline will be generated dynamically by order-confirmation.js -->
+        </div>
+
+        <div class="mt-6 p-4 bg-light-gray">
+            <p class="text-sm text-gray-600">
+                <i class="fas fa-info-circle text-gold mr-2"></i>
+                You will receive email updates about your order status. <span id="expected-label">Expected delivery:</span> <strong id="expected-delivery">...</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- Email Confirmation -->
+    <div class="confirmation-card bg-blue-50 border-blue-200">
+        <div class="flex items-start gap-3">
+            <i class="fas fa-envelope text-blue-600 text-2xl mt-1"></i>
+            <div>
+                <h3 class="font-bold text-dark mb-1">Confirmation Email Sent</h3>
+                <p class="text-sm text-gray-700">
+                    We've sent a confirmation email to <strong id="customer-email">your email address</strong> with your order details.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 mt-8 no-print">
+        <button id="print-order-btn" class="flex-1 bg-white border-2 border-dark text-dark py-3 px-6 font-semibold hover:bg-gray-50 transition-colors">
+            <i class="fas fa-print mr-2"></i>Print Order
+        </button>
+        <a href="account.html?tab=orders"
+           class="flex-1 bg-dark text-white py-3 px-6 font-semibold text-center hover:bg-gray-800 transition-colors">
+            <i class="fas fa-list mr-2"></i>View All Orders
+        </a>
+        <a href="shop.html" class="flex-1 bg-gold text-dark py-3 px-6 font-semibold text-center hover:bg-yellow-600 transition-colors">
+            <i class="fas fa-shopping-bag mr-2"></i>Continue Shopping
+        </a>
+    </div>
+
+    <!-- Support Info -->
+    <div class="text-center mt-8 p-6 bg-white border border-gray-200">
+        <h3 class="font-bold text-lg mb-2">Need Help?</h3>
+        <p class="text-gray-600 text-sm mb-4">Our customer support team is here to assist you</p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="tel:+94112345678" class="text-gold hover:text-yellow-600 text-sm">
+                <i class="fas fa-phone mr-1"></i>+94 75 483 2960
+            </a>
+            <a href="mailto:rushjewelsofficial@gmail.com" class="text-gold hover:text-yellow-600 text-sm">
+                <i class="fas fa-envelope mr-1"></i>rushjewelsofficial@gmail.com
+            </a>
+            <a href="javascript:void(0)" onclick="openHelpDesk()" class="text-gold hover:text-yellow-600 text-sm">
+                <i class="fas fa-comments mr-1"></i>Live Chat
+            </a>
+        </div>
+    </div>
+</main>
+
+<!-- Error State -->
+<div id="error-state" class="container mx-auto px-4 py-20 text-center" style="display: none;">
+    <i class="fas fa-exclamation-triangle text-red-500 text-6xl mb-4"></i>
+    <h2 class="text-2xl font-bold mb-2">Order Not Found</h2>
+    <p class="text-gray-600 mb-6">We couldn't find the order you're looking for.</p>
+    <a href="account.html?tab=orders"  class="bg-gold text-dark py-3 px-6 font-semibold hover:bg-yellow-600 transition-colors inline-block">
+        View My Orders
+    </a>
+</div>
+
+<div id="footer-container" class="no-print"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+
+<!-- JavaScript -->
+<script src="/js/main.js"></script>
+<script src="/js/loader.js"></script>
+<script src="/js/components.js"></script>
+<script type="module" src="/js/order-confirmation.js"></script>
+
+<script>
+    // ✅ 1. Default Navbar එක ලෝඩ් වීම වැළැක්වීම
+    window.skipNavbarLoad = true;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.loader) window.loader.show();
+
+        try {
+            // ✅ 2. Navbar හැර අනෙකුත් Components සහ Order Data ලෝඩ් කිරීම
+            // components.js තුළ අප LoadFooter සහ LoadBackToTop පමණක් මෙහිදී ක්‍රියාත්මක කරවමු
+            await Promise.all([
+                window.componentLoader ? window.componentLoader.loadFooter() : Promise.resolve(),
+                window.componentLoader ? window.componentLoader.loadBackToTop() : Promise.resolve(),
+                window.loadOrderConfirmation ? window.loadOrderConfirmation() : Promise.resolve()
+            ]);
+        } catch (error) {
+            console.error("Loading failed:", error);
+        } finally {
+            // ✅ 3. සියල්ල අවසන් වූ පසු (Categories පිරවුණු පසු) පිටුව පෙන්වීම
+            if (typeof revealContent === 'function') {
+                revealContent();
+            } else {
+                const main = document.getElementById('main-content');
+                if (main) main.style.display = 'block';
+                if (window.loader) window.loader.hide();
+            }
+        }
+    });
+</script>
+</body>
+</html>

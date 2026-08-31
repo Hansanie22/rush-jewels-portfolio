@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Verify Account - Rush Jewels</title>
+    <meta name="description"
+          content="Enter your 6-digit verification code to verify your account at Rush Jewels.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Sharp input style like auth.html */
+        .sharp-input {
+            border-radius: 0 !important;
+        }
+
+        .sharp-button {
+            border-radius: 0 !important;
+        }
+
+        /* Responsive Digit Input Styles */
+        .digit-input {
+            /* Mobile First: Smaller size for small screens (approx 40px) */
+            width: 2.5rem;
+            height: 2.5rem;
+            text-align: center;
+            font-size: 1.25rem;
+            border: 2px solid #ccc;
+            outline: none;
+            border-radius: 0;
+            transition: border-color 0.3s, transform 0.1s;
+        }
+
+        /* Tablet and Desktop: Original size (48px) */
+        @media (min-width: 640px) {
+            .digit-input {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.5rem;
+            }
+        }
+
+        .digit-input:focus {
+            border-color: #D4AF37;
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <!-- Google Fonts (Merged) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Config (Merged) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Updated Color Palette
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        // Brand Colors
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-poppins text-dark bg-white">
+
+<main id="main-content" style="display: none;">
+<!-- Page Header -->
+<div class="bg-light-gray py-6 sm:py-8">
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-playfair font-bold">Verify Your Account</h1>
+        <div class="flex items-center mt-2 text-gray-600 text-sm sm:text-base">
+            <a href="index.html" class="hover:text-gold transition-colors">Home</a>
+            <i class="fas fa-chevron-right mx-2 text-xs"></i>
+            <span>Verify Account</span>
+        </div>
+    </div>
+</div>
+
+<!-- Verification Form -->
+<div class="container mx-auto px-4 py-8 sm:py-12">
+    <div class="max-w-[340px] sm:max-w-md mx-auto bg-white p-5 sm:p-8 shadow-none sm:shadow-lg border border-transparent sm:border-gray-100">
+        <h2 class="text-xl sm:text-2xl font-playfair font-bold mb-4 sm:mb-6 text-center">Enter Verification Code</h2>
+        <p class="text-gray-600 text-sm mb-6 text-center leading-relaxed">We sent a 6-digit code to your email. Please enter it
+            below.</p>
+
+        <!-- Inputs Container: Using gap instead of space-x for better wrapping control if needed, and centering -->
+        <div class="flex justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
+            <input type="text" maxlength="1" inputmode="numeric" class="digit-input" required autocomplete="one-time-code">
+            <input type="text" maxlength="1" inputmode="numeric" class="digit-input" required>
+            <input type="text" maxlength="1" inputmode="numeric" class="digit-input" required>
+            <input type="text" maxlength="1" inputmode="numeric" class="digit-input" required>
+            <input type="text" maxlength="1" inputmode="numeric" class="digit-input" required>
+            <input type="text" maxlength="1" inputmode="numeric" class="digit-input" required>
+        </div>
+
+        <button id="verify-btn"
+                class="sharp-button w-full bg-gold text-white py-3 sm:py-3.5 text-sm sm:text-base font-medium hover:bg-opacity-90 transition-colors uppercase tracking-wider">
+            Verify Account
+        </button>
+
+        <div class="text-center mt-6 text-sm text-gray-600">
+            <p>Didn't receive the code? <a href="#" id="resend-link" class="text-gold hover:text-gold-dark font-medium transition-colors">Resend</a>
+            </p>
+        </div>
+    </div>
+</div>
+</main>
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+
+<script>
+    // Prevent navbar from loading on this page
+    window.skipNavbarLoad = true;
+</script>
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+
+<!-- Scripts -->
+<script src="js/loader.js"></script>
+<script src="/js/components.js"></script>
+<script type="module" src="js/verify.js"></script>
+
+</body>
+</html>

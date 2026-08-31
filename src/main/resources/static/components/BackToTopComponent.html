@@ -1,0 +1,73 @@
+<!-- ================= START OF BACK TO TOP BUTTON CODE ================= -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    .bottle-container { position: relative; display: flex; justify-content: center; align-items: center; }
+    .bowl { position: relative; width: 60px; height: 60px; background: rgba(255, 255, 255, 0.1); border-radius: 50%;
+        border: 2px solid transparent; transform-origin: bottom center; animation: animateBottle 5s linear infinite;
+        cursor: pointer; backdrop-filter: blur(2px); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
+    @keyframes animateBottle { 0% { transform: rotate(0deg); } 25% { transform: rotate(15deg); } 50% { transform: rotate(0deg); }
+        75% { transform: rotate(-15deg); } 100% { filter: hue-rotate(0deg); } }
+    .bowl::before { content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%); width: 40%; height: 8px;
+        border: 3px solid #444; border-radius: 50%; box-shadow: 0 2px #222; z-index: 10; }
+    .bowl::after { content: ''; position: absolute; top: 10px; left: 50%; transform: translate(-50%, -50%); width: 150%; height: 12px;
+        background: rgba(255, 255, 255, 0.1); transform-origin: center; border-radius: 50%; }
+    .liquid { position: absolute; top: 100%; left: 2px; right: 2px; bottom: 2px; background: #D4AF37;
+        border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; filter: drop-shadow(0 0 10px #D4AF37);
+        transform-origin: top center; animation: animateLiquid 5s linear infinite; transition: top 0.2s ease-out; z-index: 1; }
+    @keyframes animateLiquid { 0% { transform: rotate(0deg); } 25% { transform: rotate(-15deg); } 50% { transform: rotate(0deg); }
+        75% { transform: rotate(15deg); } 100% { transform: rotate(0deg); } }
+    .liquid::before { content: ''; position: absolute; top: -4px; width: 100%; height: 8px; background: #C5A059;
+        border-radius: 50%; filter: drop-shadow(0 0 10px #C5A059); }
+    .arrow-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        z-index: 20; font-size: 1.2rem; color: #121212; pointer-events: none; animation: counterRotateArrow 5s linear infinite; }
+    @keyframes counterRotateArrow { 0% { transform: translate(-50%, -50%) rotate(0deg); }
+        25% { transform: translate(-50%, -50%) rotate(-15deg); }
+        50% { transform: translate(-50%, -50%) rotate(0deg); }
+        75% { transform: translate(-50%, -50%) rotate(15deg); }
+        100% { transform: translate(-50%, -50%) rotate(0deg); } }
+    .shadow { position: absolute; top: calc(100% + 5px); left: 50%; transform: translate(-50%, -50%); width: 50px; height: 10px;
+        background: rgba(0, 0, 0, 0.3); border-radius: 50%; animation: animateShadow 5s linear infinite; }
+    @keyframes animateShadow { 0% { left: 50%; width: 50px; } 25% { left: 55%; width: 55px; }
+        50% { left: 50%; width: 50px; } 75% { left: 45%; width: 55px; } 100% { left: 50%; width: 50px; } }
+</style>
+
+<div id="scroll-to-top" class="fixed bottom-8 right-8 z-50 opacity-0 invisible transition-all duration-500 translate-y-10">
+    <div class="bottle-container">
+        <div class="shadow"></div>
+        <div class="bowl" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top">
+            <div id="liquid-fill" class="liquid"></div>
+            <i class="fas fa-arrow-up arrow-icon"></i>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateScrollButton() {
+        const scrollToTopWrapper = document.getElementById('scroll-to-top');
+        const liquidFill = document.getElementById('liquid-fill');
+
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+        const safePercent = Math.min(1, Math.max(0, scrollPercent));
+        const topPosition = 100 - (safePercent * 90);
+
+        if (liquidFill) liquidFill.style.top = `${topPosition}%`;
+
+        if (scrollTop > 200) {
+            scrollToTopWrapper.classList.remove('opacity-0','invisible','translate-y-10');
+            scrollToTopWrapper.classList.add('opacity-100','visible','translate-y-0');
+        } else {
+            scrollToTopWrapper.classList.add('opacity-0','invisible','translate-y-10');
+            scrollToTopWrapper.classList.remove('opacity-100','visible','translate-y-0');
+        }
+    }
+    window.addEventListener('scroll', updateScrollButton);
+    updateScrollButton();
+</script>
+
+<!-- ================= END OF BACK TO TOP BUTTON CODE ================= -->
+

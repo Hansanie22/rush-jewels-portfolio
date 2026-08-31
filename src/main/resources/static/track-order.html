@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Courier Locations | Rush Jewels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F8F8F8',
+                        brand: {
+                            gold: '#C5A065',
+                            dark: '#111111',
+                            light: '#F9F8F4',
+                            muted: '#666666',
+                        }
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --brand-gold: #C9A961;
+            --brand-dark: #121212;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .text-gold { color: var(--brand-gold); }
+        .bg-gold { background-color: var(--brand-gold); }
+        .border-gold { border-color: var(--brand-gold); }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--brand-gold);
+            box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.2);
+        }
+        .branch-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .branch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
+        <a href="index.html" class="flex items-center">
+            <span class="text-lg md:text-3xl font-playfair font-bold text-gold">Rush</span>
+            <span class="text-lg md:text-3xl font-playfair font-bold">Jewels</span>
+        </a>
+
+        <nav class="flex gap-3 md:gap-6 text-[10px] md:text-sm font-medium uppercase text-gray-600 items-center">
+            <a href="index.html" class="hover:text-gold transition">Home</a>
+            <a href="shop.html" class="hover:text-gold transition">Shop</a>
+            <a href="track-order.html" class="hover:text-gold transition whitespace-nowrap">Track Order</a>
+        </nav>
+    </div>
+</header>
+
+<section class="relative bg-[#121212] text-white py-10 md:py-24">
+    <div class="absolute inset-0 overflow-hidden opacity-20">
+        <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 100 L100 0 L100 100 Z" fill="#333" />
+        </svg>
+    </div>
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <h1 class="text-2xl md:text-5xl font-bold mb-3 md:mb-4">Find Your Nearest Courier Branch</h1>
+
+        <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-lg mb-6 md:mb-8">
+            Locate the nearest collection point or delivery hub. Enter your city below.
+        </p>
+
+        <div class="max-w-xl mx-auto relative">
+            <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400 text-base md:text-lg"></i>
+            </div>
+            <input type="text" id="citySearch"
+                   class="search-input w-full pl-10 pr-3 py-3 md:pl-12 md:pr-4 md:py-4 text-sm md:text-lg text-gray-800 bg-white border-2 border-transparent shadow-lg rounded-sm"
+                   placeholder="Enter your city (e.g., Colombo)..."
+                   autocomplete="off">
+        </div>
+    </div>
+</section>
+
+<main id="main-content" style="display: none;" class="flex-grow container mx-auto px-4 py-8 md:py-12">
+
+    <div class="flex justify-between items-end mb-4 md:mb-6">
+        <div>
+            <h2 class="text-lg md:text-2xl font-bold text-gray-900">Service Centers</h2>
+            <p class="text-xs md:text-sm text-gray-500 mt-1" id="resultCount">Loading branches...</p>
+        </div>
+        <div class="hidden md:flex items-center gap-2 bg-white px-3 py-1 border border-gray-200 shadow-sm">
+            <i class="fas fa-shipping-fast text-gold"></i>
+            <span class="text-xs font-bold uppercase tracking-wide text-gray-600">Authorized Courier Partner</span>
+        </div>
+    </div>
+
+    <div id="branchesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div class="col-span-full text-center py-12 md:py-20">
+            <i class="fas fa-circle-notch fa-spin text-3xl md:text-4xl text-gold mb-4"></i>
+            <p class="text-sm md:text-base text-gray-500">Retrieving location data...</p>
+        </div>
+    </div>
+
+    <div id="noResults" class="hidden text-center py-12 md:py-20 bg-white border border-gray-100 shadow-sm">
+        <div class="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-gray-100 mb-4">
+            <i class="fas fa-map-marker-alt text-gray-400 text-xl md:text-2xl"></i>
+        </div>
+        <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-2">No branches found</h3>
+        <p class="text-sm md:text-base text-gray-500 max-w-md mx-auto">
+            We couldn't find a branch matching "<span id="searchText" class="font-bold text-gray-700"></span>".
+        </p>
+    </div>
+
+</main>
+
+<div id="footer-container"></div>
+<div id="backtotop-container"></div>
+
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/loader.js"></script>
+<script src="/js/components.js"></script>
+
+<script>
+    // 1. components.js මඟින් එන Navbar එක ලෝඩ් වීම වැළැක්වීම
+    window.skipNavbarLoad = true;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const API_URL = '/api/courier/branches';
+        const searchInput = document.getElementById('citySearch');
+        const grid = document.getElementById('branchesGrid');
+        const noResults = document.getElementById('noResults');
+        const resultCount = document.getElementById('resultCount');
+        const searchTextSpan = document.getElementById('searchText');
+
+        let allBranches = [];
+
+        // 🚀 පිටුව පෙන්වන සහ ලෝඩරය අයින් කරන Helper Function එක
+        function revealLocationPage() {
+            const main = document.getElementById('main-content');
+            if (main) {
+                main.style.display = 'block';
+                main.classList.add('animate__animated', 'animate__fadeIn');
+            }
+            if (window.loader) {
+                // සියල්ල Render වීමට තත්පර 0.5ක සහනයක් ලබා දෙන්න
+                setTimeout(() => window.loader.hide(), 500);
+            }
+        }
+
+        // 🚀 Branch දත්ත ගෙන්වීමේ ශ්‍රිතය (Promise එකක් ලෙස)
+        async function fetchBranches() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
+                const data = await response.json();
+
+                if (data.status && Array.isArray(data.branches)) {
+                    allBranches = data.branches;
+                    renderBranches(allBranches);
+                    return true;
+                }
+                return false;
+            } catch (error) {
+                console.error('Error fetching branches:', error);
+                grid.innerHTML = `<div class="col-span-full text-center py-12 bg-white border border-red-100"><p class="text-gray-800">Unable to load branch information</p></div>`;
+                return false;
+            }
+        }
+
+        // 🚀 UI එකට දත්ත ඇතුළත් කිරීමේ ශ්‍රිතය (Design Intact)
+        function renderBranches(branches) {
+            grid.innerHTML = '';
+            if (branches.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                resultCount.textContent = '0 branches found';
+                return;
+            }
+            grid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+            resultCount.textContent = `${branches.length} branch${branches.length !== 1 ? 'es' : ''} found`;
+
+            branches.forEach(branch => {
+                const card = document.createElement('div');
+                card.className = 'branch-card bg-white p-4 md:p-6 border border-gray-100 shadow-sm flex flex-col h-full';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3 md:mb-4">
+                        <div>
+                            <p class="text-[10px] md:text-xs font-bold text-gold uppercase tracking-wider mb-1">Branch</p>
+                            <h3 class="text-lg md:text-xl font-bold text-gray-900 leading-tight">${branch.branch}</h3>
+                        </div>
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 flex items-center justify-center text-gold rounded-full text-sm md:text-base">
+                            <i class="fas fa-building"></i>
+                        </div>
+                    </div>
+                    <div class="space-y-2 md:space-y-3 flex-grow">
+                        <div class="flex items-start gap-2 md:gap-3">
+                            <i class="fas fa-map-marker-alt text-gray-400 mt-1 flex-shrink-0 text-xs md:text-sm"></i>
+                            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">${branch.address}</p>
+                        </div>
+                        <div class="flex items-center gap-2 md:gap-3">
+                            <i class="fas fa-phone-alt text-gray-400 flex-shrink-0 text-xs md:text-sm"></i>
+                            <a href="tel:${branch.contactNo}" class="text-gray-700 font-medium text-xs md:text-base hover:text-gold transition">${branch.contactNo}</a>
+                        </div>
+                    </div>
+                    <div class="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-gray-100">
+                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.address)}"
+                           target="_blank"
+                           class="w-full bg-black text-white text-center py-2 text-[10px] md:text-sm font-bold uppercase tracking-wide hover:bg-gold transition-colors rounded-sm flex items-center justify-center">
+                            <i class="fas fa-directions mr-1"></i> Directions
+                        </a>
+                    </div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        // 🚀 MASTER COORDINATION (සියල්ල එකවර සිදු වේ)
+        if (window.loader) window.loader.show();
+
+        try {
+            await Promise.all([
+                // Navbar එක ලෝඩ් නොකර Footer සහ BackToTop පද්ධති පමණක් ක්‍රියාත්මක කරයි
+                window.componentLoader ? window.componentLoader.loadFooter() : Promise.resolve(),
+                window.componentLoader ? window.componentLoader.loadBackToTop() : Promise.resolve(),
+                // Branch දත්ත ලබා ගැනීම
+                fetchBranches()
+            ]);
+        } catch (error) {
+            console.error("Initialization failed:", error);
+        } finally {
+            // සියලුම දත්ත (Categories ඇතුළුව) ලැබුණු පසු පිටුව විවෘත වේ
+            revealLocationPage();
+        }
+
+        // සෙවුම් (Search) Logic එක
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            searchTextSpan.textContent = term;
+            const filtered = allBranches.filter(b =>
+                b.branch.toLowerCase().includes(term) ||
+                b.address.toLowerCase().includes(term)
+            );
+            renderBranches(filtered);
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Redefined Classic Cross Necklace - Rush Jewels</title>
+        <meta name="description"
+              content="Discover the Redefined Classic Cross Necklace by Rush Jewels. Premium stainless steel pendant available in silver or gold with flexible payment options.">
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <script type="module" src="js/search.js"></script>
+
+
+        <!-- Google Fonts (Merged) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Custom Tailwind Config (Merged) -->
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            // Updated Color Palette
+                            'gold': '#C5A065',
+                            'dark': '#111111',
+                            'light-gray': '#F8F8F8',
+                            // Brand Colors
+                            brand: {
+                                gold: '#C5A065',
+                                dark: '#111111',
+                                light: '#F9F8F4',
+                                muted: '#666666',
+                            }
+                        },
+                        fontFamily: {
+                            'playfair': ['"Playfair Display"', 'serif'],
+                            'montserrat': ['"Montserrat"', 'sans-serif'],
+                        },
+                        spacing: {
+                            '128': '32rem',
+                        }
+                    }
+                }
+            }
+        </script>
+        <style>
+            :root {
+                --brand-gold: #D4AF37;
+                --brand-black: #000000;
+                --brand-white: #ffffff;
+            }
+
+            body.product-page {
+                background-color: var(--brand-white);
+                color: var(--brand-black);
+            }
+
+            body.product-page main .text-gray-300,
+            body.product-page main .text-gray-400 {
+                color: var(--brand-gold) !important;
+            }
+
+            body.product-page main .text-gray-500,
+            body.product-page main .text-gray-600,
+            body.product-page main .text-gray-700 {
+                color: rgba(0, 0, 0, 0.82) !important;
+            }
+
+            body.product-page main .border-gray-100,
+            body.product-page main .border-gray-200,
+            body.product-page main .border-gray-300 {
+                border-color: rgba(212, 175, 55, 0.45) !important;
+            }
+
+            body.product-page .brand-panel {
+                background-color: var(--brand-white);
+                border: 1px solid rgba(212, 175, 55, 0.35);
+            }
+
+            body.product-page .brand-panel-heading,
+            body.product-page .brand-accent {
+                color: var(--brand-gold);
+            }
+
+            body.product-page .brand-subtext {
+                color: rgba(0, 0, 0, 0.78);
+            }
+
+            body.product-page .brand-button-primary {
+                background-color: var(--brand-gold);
+                color: var(--brand-black);
+                transition: background-color 0.2s ease;
+            }
+
+            body.product-page .brand-button-primary:hover {
+                background-color: #b8941f;
+            }
+
+            body.product-page .brand-button-secondary {
+                border: 2px solid var(--brand-black);
+                color: var(--brand-black);
+                transition: all 0.2s ease;
+            }
+
+            body.product-page .brand-button-secondary:hover {
+                background-color: var(--brand-black);
+                color: var(--brand-white);
+            }
+
+            body.product-page .product-color-option {
+                background-color: var(--brand-white);
+                color: var(--brand-black);
+                border: 2px solid #E5E7EB;
+                border-radius: 4px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            body.product-page .product-color-option:hover {
+                border-color: var(--brand-gold);
+            }
+
+            body.product-page .product-color-option.is-active {
+                background-color: var(--brand-black);
+                color: var(--brand-white);
+                border-color: var(--brand-black);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                transform: translateY(-1px);
+            }
+
+            body.product-page .inventory-status {
+                background-color: rgba(212, 175, 55, 0.18);
+                color: var(--brand-gold);
+            }
+
+            body.product-page .inventory-status-icon {
+                color: var(--brand-gold);
+            }
+
+            body.product-page .gallery-thumb {
+                border-color: rgba(212, 175, 55, 0.35);
+            }
+
+            body.product-page .gallery-thumb:hover,
+            body.product-page .gallery-thumb:focus {
+                border-color: var(--brand-gold);
+            }
+
+            body.product-page .gallery-thumb.is-active {
+                box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.6);
+            }
+
+            body.product-page .brand-link {
+                color: var(--brand-black);
+                transition: color 0.2s ease;
+            }
+
+            body.product-page .brand-link:hover {
+                color: var(--brand-gold);
+            }
+
+            body.product-page .brand-dot {
+                background-color: var(--brand-gold);
+            }
+
+            body.product-page .brand-dot-dark {
+                background-color: var(--brand-black);
+            }
+
+            .product-zoom-container {
+                position: relative;
+                overflow: hidden;
+                cursor: zoom-in;
+            }
+
+            .product-zoom-container.is-zoomed {
+                cursor: zoom-out;
+            }
+
+            .product-zoom-image {
+                transition: transform 0.25s ease;
+                will-change: transform;
+            }
+
+            body.product-page input[type="number"]::-webkit-outer-spin-button,
+            body.product-page input[type="number"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            body.product-page input[type="number"] {
+                appearance: textfield;
+                -moz-appearance: textfield;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body class="bg-white text-dark font-poppins product-page">
+
+    <div id="navbar-container"></div>
+
+        <main id="main-content" style="display: none;" class="container mx-auto px-4 py-12 lg:py-16">
+            <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+                <div class="flex flex-col gap-6 lg:flex-row lg:gap-10">
+                    <div class="order-2 flex justify-center gap-4 lg:order-1 lg:flex-col lg:gap-6">
+                        <button
+                            class="gallery-thumb border transition-all duration-200 focus:outline-none"
+                            data-gallery-thumb
+                            data-image="https://images.unsplash.com/photo-1600180758890-6f05358c86b6?auto=format&fit=crop&w=800&q=80"
+                            data-alt="Cross necklace on black tee">
+                            <img src="https://images.unsplash.com/photo-1600180758890-6f05358c86b6?auto=format&fit=crop&w=300&q=80"
+                                 alt="Cross necklace on black tee" class="h-20 w-20 object-cover" loading="lazy">
+                        </button>
+                        <button
+                            class="gallery-thumb border transition-all duration-200 focus:outline-none"
+                            data-gallery-thumb
+                            data-image="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80"
+                            data-alt="Model wearing cross necklace">
+                            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80"
+                                 alt="Model wearing cross necklace" class="h-20 w-20 object-cover" loading="lazy">
+                        </button>
+                        <button
+                            class="gallery-thumb border transition-all duration-200 focus:outline-none"
+                            data-gallery-thumb
+                            data-image="https://images.unsplash.com/photo-1622448019733-6dc8bc1d0dd8?auto=format&fit=crop&w=800&q=80"
+                            data-alt="Cross necklace close-up">
+                            <img src="https://images.unsplash.com/photo-1622448019733-6dc8bc1d0dd8?auto=format&fit=crop&w=300&q=80"
+                                 alt="Cross necklace close-up" class="h-20 w-20 object-cover" loading="lazy">
+                        </button>
+                        <button
+                            class="gallery-thumb border transition-all duration-200 focus:outline-none"
+                            data-gallery-thumb
+                            data-image="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=800&q=80"
+                            data-alt="Gold cross necklace on display">
+                            <img src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=300&q=80"
+                                 alt="Gold cross necklace on display" class="h-20 w-20 object-cover" loading="lazy">
+                        </button>
+                    </div>
+
+                    <div class="order-1 flex-1 lg:order-2">
+                        <div class="aspect-square brand-panel product-zoom-container" data-product-image-container>
+                            <img src="https://images.unsplash.com/photo-1600180758890-6f05358c86b6?auto=format&fit=crop&w=987&q=80"
+                                 alt="Redefined Classic Cross Necklace" class="h-full w-full object-cover shadow-sm product-zoom-image"
+                                 data-product-image loading="lazy">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6 lg:sticky lg:top-28 lg:space-y-8">
+                    <div class="space-y-3">
+                        <p class="text-xs uppercase tracking-[0.35em] brand-accent">B classy</p>
+                        <h1 class="text-3xl font-playfair font-bold text-dark md:text-4xl" data-product-title>Redefined Classic Cross Necklace</h1>
+                        <div class="space-y-1 brand-subtext">
+                            <p class="text-2xl font-semibold text-dark" data-product-price>LKR 1,950.00</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div id="dynamic-options-wrapper" class="space-y-6"></div>
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full inventory-status">
+                                <i class="fas fa-check text-xs inventory-status-icon"></i>
+                            </span>
+                            <span class="text-sm font-medium brand-accent">In stock</span>
+                        </div>
+
+                        <div class="space-y-3">
+                            <p class="text-xs uppercase tracking-[0.35em] brand-accent">Quantity</p>
+                            <div class="inline-flex items-center gap-6 brand-panel px-5 py-3">
+                                <button class="text-lg font-semibold brand-subtext" type="button" data-quantity-decrease>-</button>
+                                <input type="number" value="1" min="1" class="w-10 bg-transparent text-center text-lg font-semibold focus:outline-none" data-quantity-input>
+                                <button class="text-lg font-semibold brand-subtext" type="button" data-quantity-increase>+</button>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button
+                                class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 brand-button-primary px-8 py-4 text-sm font-semibold uppercase tracking-wide"
+                                data-add-to-cart>
+                                <i class="fas fa-shopping-bag text-base"></i>
+                                Add to cart
+                            </button>
+                            <button
+                                class="buy-now w-full sm:flex-1 inline-flex items-center justify-center brand-button-secondary px-8 py-4 text-sm font-semibold uppercase tracking-wide">
+                                Buy now
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 brand-subtext" data-product-description>
+                        <p data-product-summary>A timeless cross pendant necklace in silver and gold—simple, meaningful, and perfect for any look.</p>
+                        <ul class="space-y-2 text-sm" data-product-specs>
+                            <li>Anti-tarnishing stainless steel crafted for premium longevity.</li>
+                            <li>Waterproof resistant and safe for daily wear.</li>
+                            <li>3-month color warranty that keeps the finish brilliant.</li>
+                            <li>Island-wide delivery with fast 2–3 day shipping.</li>
+                            <li>Free size for an effortless, comfortable fit.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <section class="mt-16 grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+                <div class="space-y-6 brand-subtext leading-relaxed">
+                    <h2 class="text-lg font-semibold text-dark">Description</h2>
+                    <p>The Redefined Classic Cross Necklace elevates everyday outfits with effortless refinement. Crafted from premium stainless steel, each pendant is polished to a mirror sheen and suspended from a comfortable chain that sits impeccably at the collarbone.</p>
+                    <p>Choose between the sleek silver tone or warm gold finish to align with your personal style. Each necklace arrives in a protective keepsake pouch, ready for daily wear or gifting.</p>
+                    <div class="space-y-3">
+                        <h3 class="font-semibold text-dark">Styling Tips</h3>
+                        <ul class="list-disc space-y-2 pl-5">
+                            <li>Layer with a shorter chain for a modern stacked finish.</li>
+                            <li>Pair with monochrome tees to let the pendant take the spotlight.</li>
+                            <li>Switch to the gold finish for elevated evening looks.</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-3">
+                        <h3 class="font-semibold text-dark">Care Details</h3>
+                        <ul class="list-disc space-y-2 pl-5">
+                            <li>Wipe with a soft cloth after each wear.</li>
+                            <li>Store separately to prevent scratches.</li>
+                            <li>Avoid harsh chemicals and perfumes to maintain the finish.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="brand-panel p-6">
+                        <h3 class="text-sm font-semibold uppercase tracking-[0.25em] brand-panel-heading">Product details</h3>
+                        <div class="mt-6 space-y-4 text-sm brand-subtext">
+                            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                                <span>Pendant Material</span>
+                                <span class="font-medium text-dark">Stainless Steel</span>
+                            </div>
+                            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                                <span>Chain Length</span>
+                                <span class="font-medium text-dark">22 inches</span>
+                            </div>
+                            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                                <span>Finish Options</span>
+                                <span class="font-medium text-dark">Silver / Gold</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Warranty</span>
+                                <span class="font-medium text-dark">3 Months</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="brand-panel p-6 text-sm brand-subtext flex flex-col gap-4">
+                        <div class="flex items-start gap-4">
+                            <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-50 text-green-600">
+                                <i class="fab fa-whatsapp text-2xl"></i>
+                            </span>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-base mb-1">Have questions or need more details?</h4>
+                                <p class="text-gray-600 mb-3 leading-relaxed">Chat with our expert team on WhatsApp to clear your doubts, get detailed information, and receive personalized styling advice.</p>
+                                <a href="https://wa.me/94754832960" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-2.5 px-6 rounded-md transition-colors w-full sm:w-auto shadow-sm tracking-wide">
+                                    <i class="fab fa-whatsapp text-lg"></i> Message Us
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Reviews Section -->
+            <section class="mt-20" id="reviews-section" style="display: none;">
+                <div class="brand-panel px-6 py-10 md:px-10 bg-[#faf9f8]">
+                    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] brand-accent">Real Experiences</p>
+                            <h2 class="mt-2 text-2xl font-semibold text-dark md:text-3xl">Customer Reviews</h2>
+                            <div class="flex items-center gap-2 mt-3">
+                                <div class="flex text-gold" id="average-rating-stars">
+                                    <!-- Stars dynamically populated -->
+                                </div>
+                                <span class="text-sm font-medium text-dark" id="average-rating-text">5.0</span>
+                                <span class="text-sm text-gray-500" id="total-reviews-count">(0 Reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="reviews-container">
+                        <!-- Reviews dynamically populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-20">
+                <div class="brand-panel px-6 py-10 md:px-10">
+                    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] brand-accent">You may also like</p>
+                            <h2 class="mt-2 text-2xl font-semibold text-dark md:text-3xl">Similar products</h2>
+                        </div>
+                        <a href="/shop.html" class="hidden items-center gap-2 text-sm font-medium text-dark transition-colors hover:text-gold md:inline-flex">
+                            View all
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+
+                    <div class="mt-8 flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-4">
+                        <article class="brand-panel bg-white p-4 shadow-sm transition-shadow hover:shadow-lg flex-none w-72 snap-start md:w-auto">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1612392062889-8d6bb1dd4c9d?auto=format&fit=crop&w=800&q=80"
+                                     alt="Round Clip-On Earring" class="h-52 w-full object-cover" loading="lazy">
+                            </div>
+                            <div class="mt-4 space-y-2">
+                                <p class="text-xs uppercase tracking-[0.3em] brand-accent">B classy</p>
+                                <h3 class="text-base font-semibold text-dark">Round Clip-On Earring</h3>
+                                <p class="text-sm font-medium text-dark">LKR 990.00</p>
+                                <div class="flex items-center gap-2 text-xs text-gray-500">
+                                    <span>or pay 3 × LKR 330.00 with</span>
+                                    <span class="font-semibold text-dark">KOKO</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-1">
+                                    <div class="flex gap-2">
+                                        <span class="h-3 w-3 brand-dot"></span>
+                                        <span class="h-3 w-3 brand-dot-dark"></span>
+                                    </div>
+                                    <button class="flex h-8 w-8 items-center justify-center rounded-full brand-button-primary">
+                                        <i class="fas fa-shopping-bag text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="brand-panel bg-white p-4 shadow-sm transition-shadow hover:shadow-lg flex-none w-72 snap-start md:w-auto">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?auto=format&fit=crop&w=800&q=80"
+                                     alt="Redefined Cross Pendant Necklace" class="h-52 w-full object-cover" loading="lazy">
+                            </div>
+                            <div class="mt-4 space-y-2">
+                                <p class="text-xs uppercase tracking-[0.3em] brand-accent">Bclassylifestyle</p>
+                                <h3 class="text-base font-semibold text-dark">Redefined Cross Pendant Necklace</h3>
+                                <p class="text-sm font-medium text-dark">From LKR 1,850.00</p>
+                                <div class="flex items-center gap-2 text-xs text-gray-500">
+                                    <span>or pay 3 × LKR 616.66 with</span>
+                                    <span class="font-semibold text-dark">KOKO</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-1">
+                                    <div class="flex gap-2">
+                                        <span class="h-3 w-3 brand-dot"></span>
+                                        <span class="h-3 w-3 brand-dot-dark"></span>
+                                    </div>
+                                    <button class="flex h-8 w-8 items-center justify-center rounded-full brand-button-primary">
+                                        <i class="fas fa-shopping-bag text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="brand-panel bg-white p-4 shadow-sm transition-shadow hover:shadow-lg flex-none w-72 snap-start md:w-auto">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1490111718993-d98654ce6cf7?auto=format&fit=crop&w=800&q=80"
+                                     alt="Classic Cross Pendant Necklace" class="h-52 w-full object-cover" loading="lazy">
+                            </div>
+                            <div class="mt-4 space-y-2">
+                                <p class="text-xs uppercase tracking-[0.3em] brand-accent">Bclassylifestyle</p>
+                                <h3 class="text-base font-semibold text-dark">Classic Cross Pendant Necklace</h3>
+                                <p class="text-sm font-medium text-dark">LKR 1,550.00</p>
+                                <div class="flex items-center gap-2 text-xs text-gray-500">
+                                    <span>or pay 3 × LKR 516.66 with</span>
+                                    <span class="font-semibold text-dark">KOKO</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-1">
+                                    <div class="flex gap-2">
+                                        <span class="h-3 w-3 brand-dot"></span>
+                                        <span class="h-3 w-3 brand-dot-dark"></span>
+                                    </div>
+                                    <button class="flex h-8 w-8 items-center justify-center rounded-full brand-button-primary">
+                                        <i class="fas fa-shopping-bag text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="brand-panel bg-white p-4 shadow-sm transition-shadow hover:shadow-lg flex-none w-72 snap-start md:w-auto">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1508606572321-901ea443707f?auto=format&fit=crop&w=800&q=80"
+                                     alt="Redefined Sword Cross Necklace" class="h-52 w-full object-cover" loading="lazy">
+                            </div>
+                            <div class="mt-4 space-y-2">
+                                <p class="text-xs uppercase tracking-[0.3em] brand-accent">Bclassylifestyle</p>
+                                <h3 class="text-base font-semibold text-dark">Redefined Sword Cross Necklace</h3>
+                                <p class="text-sm font-medium text-dark">LKR 1,850.00</p>
+                                <div class="flex items-center gap-2 text-xs text-gray-500">
+                                    <span>or pay 3 × LKR 616.66 with</span>
+                                    <span class="font-semibold text-dark">KOKO</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-1">
+                                    <div class="flex gap-2">
+                                        <span class="h-3 w-3 brand-dot-dark"></span>
+                                        <span class="h-3 w-3 brand-dot"></span>
+                                    </div>
+                                    <button class="flex h-8 w-8 items-center justify-center rounded-full brand-button-primary">
+                                        <i class="fas fa-shopping-bag text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <button class="mt-8 inline-flex items-center gap-2 text-sm font-medium text-dark transition-colors hover:text-gold md:hidden">
+                        View all
+                        <i class="fas fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <div id="footer-container"></div>
+
+        <!-- Back to Top Component -->
+        <div id="backtotop-container"></div>
+
+    <script src="js/animations.js"></script>
+    <script src="js/loader.js"></script>
+
+    <script type="module" src="js/cart.js"></script>
+    <script type="module" src="js/products.js"></script>
+    <script type="module" src="js/navbar.js"></script>
+    <script type="module" src="js/search.js"></script>
+
+    <script src="js/product-details.js"></script>
+    <script src="js/components.js"></script>
+
+    <script src="js/flying-animation.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. වහාම ලෝඩරය පෙන්වීම
+            if (window.loader) window.loader.show();
+
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get('id');
+
+            try {
+                // 2. Navbar/Footer සහ Product දත්ත එකවර ලෝඩ් වන තෙක් බලා සිටීම
+                // Promise.all භාවිතයෙන් වේගය සහ ලෝඩරය පාලනය කරයි
+                await Promise.all([
+                    window.componentLoader ? window.componentLoader.loadAllComponents() : Promise.resolve(),
+                    (productId && window.loadProductData) ? window.loadProductData() : Promise.resolve()
+                ]);
+            } catch (error) {
+                console.error("Product page initialization failed:", error);
+                // දෝෂයක් ආවත් ලෝඩරය හිර නොවී අයින් කරයි
+                if (typeof revealProductPage === 'function') revealProductPage();
+                else if (window.loader) window.loader.hide();
+            }
+        });
+    </script>
+
+    </body>
+
+</html>

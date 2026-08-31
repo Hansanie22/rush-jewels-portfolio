@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>Shipping, Returns & Exchanges - Rush Jewels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F2D479',
+                            dark: '#9A7B1D',
+                        },
+                        dark: '#111111'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        h1, h2, .brand-font { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Inter', sans-serif; }
+        .gold-gradient { background: linear-gradient(135deg, #D4AF37 0%, #F2D479 50%, #9A7B1D 100%); }
+    </style>
+</head>
+<body class="bg-dark text-gray-300 leading-relaxed">
+
+<!-- Header -->
+<header class="bg-dark text-white py-16 px-6 border-b border-gold/30 text-center">
+    <h1 class="text-4xl md:text-5xl mb-4 tracking-widest uppercase text-gold">Shipping & Returns</h1>
+    <div class="w-24 h-1 gold-gradient mx-auto mb-6"></div>
+    <p class="text-gold uppercase tracking-widest text-sm font-semibold">The Rush Jewels Promise</p>
+</header>
+
+<main class="max-w-4xl mx-auto px-6 py-16">
+
+    <!-- Intro Quote -->
+    <section class="mb-20 text-center max-w-2xl mx-auto">
+        <p class="text-2xl text-gray-300 italic border-l-4 border-r-4 border-gold px-8 py-4">
+            "Our goal is for you to fall in love with our creations. Please review our curated policies before placing your order."
+        </p>
+    </section>
+
+    <!-- Shipping Section -->
+    <section class="mb-24">
+        <div class="flex items-center mb-10">
+            <h2 class="text-3xl uppercase tracking-widest text-white border-b-2 border-gold pb-2">01. Shipping Policy</h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="group border border-gray-800 bg-gray-900 p-8 hover:border-gold transition-colors duration-500">
+                <h3 class="font-bold text-gold uppercase tracking-widest mb-4">Processing Time</h3>
+                <p class="text-gray-400">Each piece requires careful inspection. Orders are prepared within <strong class="text-white">1-3 business days</strong>. You will be notified via email upon departure.</p>
+            </div>
+
+            <div class="group border border-gray-800 bg-gray-900 p-8 hover:border-gold transition-colors duration-500">
+                <h3 class="font-bold text-gold uppercase tracking-widest mb-4">Logistics & Timing</h3>
+                <ul class="space-y-3 text-sm text-gray-300">
+                    <li class="flex justify-between border-b border-gray-800 pb-1"><span>Sri Lanka Domestic</span> <span class="font-bold text-white">2-5 Days</span></li>
+                    <li class="flex justify-between border-b border-gray-800 pb-1"><span>Worldwide Shipping</span> <span class="font-bold text-white">Variable Rates</span></li>
+                </ul>
+            </div>
+
+            <div class="group border border-gray-800 bg-gray-900 p-8 hover:border-gold transition-colors duration-500">
+                <h3 class="font-bold text-gold uppercase tracking-widest mb-4">Tracking</h3>
+                <p class="text-gray-400">Secure tracking details are provided 48 hours after dispatch to ensure you can follow your jewelry's journey.</p>
+            </div>
+
+            <div class="group border border-gray-800 bg-gray-900 p-8 hover:border-gold transition-colors duration-500">
+                <h3 class="font-bold text-gold uppercase tracking-widest mb-4">Address Accuracy</h3>
+                <p class="text-gray-400 italic text-sm">Precision in address details is the client's responsibility. We cannot be held liable for inaccuracies provided during checkout.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Returns Section -->
+    <section class="mb-24">
+        <div class="flex items-center mb-10">
+            <h2 class="text-3xl uppercase tracking-widest text-white border-b-2 border-gold pb-2">02. Returns & Exchanges</h2>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 text-white p-12 rounded-sm mb-12 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 gold-gradient opacity-10 rounded-full -mr-16 -mt-16"></div>
+            <h3 class="text-2xl text-gold mb-4 uppercase tracking-widest">No Cash Refunds</h3>
+            <p class="text-gray-300 mb-6">In alignment with our artisan boutique standards, <strong class="text-white">we do not offer cash refunds</strong>.</p>
+            <p class="border-l-2 border-gold pl-4 italic text-gold">
+                "If a piece arrives compromised by our studio or is incorrect, an exchange for a piece of equal value is our privilege."
+            </p>
+        </div>
+
+        <div class="space-y-12">
+            <div>
+                <h4 class="font-bold text-white uppercase mb-4 tracking-tighter">Eligible Exchanges</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-900 text-gray-300 p-4 border-l-2 border-gold">Studio Error (Incorrect Item)</div>
+                    <div class="bg-gray-900 text-gray-300 p-4 border-l-2 border-gold">Transit Damage (Broken on arrival)</div>
+                </div>
+            </div>
+
+            <div class="bg-red-900/20 p-8 border border-red-900/50">
+                <h4 class="font-bold text-red-400 uppercase mb-4 tracking-tighter">Non-Exchangeable Items</h4>
+                <ul class="grid md:grid-cols-1 lg:grid-cols-3 gap-4 text-sm font-semibold text-gray-300">
+                    <li class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> Earrings</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> Custom Commissions</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> Items worn or damaged by the customer</li>
+                </ul>
+            </div>
+
+            <div class="border-2 border-gray-800 p-10 text-center">
+                <h4 class="text-2xl brand-font mb-6 text-white">The Exchange Process</h4>
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0 text-sm">
+                    <div class="w-full md:w-1/4">
+                        <p class="font-bold text-gold uppercase mb-2">Step 1</p>
+                        <p class="text-gray-400">Contact within 3 days</p>
+                    </div>
+                    <div class="hidden md:block text-gold">→</div>
+                    <div class="w-full md:w-1/4">
+                        <p class="font-bold text-gold uppercase mb-2">Step 2</p>
+                        <p class="text-gray-400">Submit Visual Proof</p>
+                    </div>
+                    <div class="hidden md:block text-gold">→</div>
+                    <div class="w-full md:w-1/4">
+                        <p class="font-bold text-gold uppercase mb-2">Step 3</p>
+                        <p class="text-gray-400">Studio Inspection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact/Outro -->
+    <section class="bg-gray-900 p-12 text-center border border-gold/30">
+        <h3 class="text-3xl brand-font mb-6 text-white">Studio Inquiries</h3>
+        <p class="text-xl mb-2 text-gray-300">rushjewelsofficial@gmail.com</p>
+        <p class="text-xl mb-6 text-gray-300">075 483 2960</p>
+        <p class="text-xs tracking-widest text-gray-500 uppercase">Sri Lanka · Handmade Fine Jewelry</p>
+    </section>
+
+</main>
+
+<footer class="bg-dark text-white py-12 border-t border-gray-800 mt-10">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-8">
+            <p class="text-2xl font-bold tracking-widest uppercase mb-2">
+                <span class="text-gold">Rush</span> Jewels
+            </p>
+            <p class="text-gray-400 text-xs tracking-widest">EST. 2025 | LUXURY WITHIN REACH</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-6 text-sm mb-8">
+            <a href="/index.html" class="text-gray-400 hover:text-gold transition-colors">Home</a>
+            <a href="/privacy.html" class="text-gray-400 hover:text-gold transition-colors">Privacy Policy</a>
+            <a href="/terms&conditions.html" class="text-gray-400 hover:text-gold transition-colors">Terms & Conditions</a>
+            <a href="/shipping&returns.html" class="text-gold font-semibold">Shipping & Returns</a>
+        </div>
+        <div class="text-center text-gray-400 text-xs">
+            <p>&copy; 2025 Rush Jewels. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

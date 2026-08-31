@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="apple-touch-icon" href="/favicon.png?v=7">
+    <link rel="icon" type="image/png" href="/favicon.png?v=7">
+    <title>My Account - Rush Jewels</title>
+    <meta name="description" content="Manage your profile, address, orders, and password at Rush Jewels."/>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#C5A065',
+                        'dark': '#111111',
+                        'light-gray': '#F9F9F9',
+                        'border-gray': '#E5E5E5'
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'montserrat': ['"Montserrat"', 'sans-serif'],
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="/js/components.js"></script>
+
+
+    <style>
+        /* General Elegant Tweaks */
+        body {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tab-button {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Elegant Sidebar Active State */
+        .tab-button.active {
+            color: #111111;
+            font-weight: 600;
+            background-color: #F8F8F8;
+            border-left: 3px solid #C5A065;
+            padding-left: 1rem; /* Slightly shift text */
+        }
+
+        .tab-button:not(.active):hover {
+            color: #C5A065;
+            background-color: #FAFAFA;
+        }
+
+        .tab-button i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Form Styling */
+        .elegant-input, .sharp-input {
+            border: 1px solid #E5E5E5;
+            background-color: #FFFFFF;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        .elegant-input:focus, .sharp-input:focus {
+            border-color: #C5A065;
+            outline: none;
+            box-shadow: 0 1px 2px rgba(197, 160, 101, 0.1);
+        }
+
+        /* Force white background on ALL disabled inputs and selects */
+        .elegant-input:disabled,
+        .sharp-input:disabled,
+        select.elegant-input:disabled,
+        select.sharp-input:disabled,
+        input:disabled,
+        select:disabled {
+            background-color: #FFFFFF !important;
+            background-image: none !important;
+            color: #9CA3AF !important;
+            cursor: not-allowed !important;
+            opacity: 1 !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+        }
+
+        /* Ensure consistent height for all form inputs */
+        .h-12 {
+            height: 3rem !important;
+        }
+
+        .elegant-label {
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .elegant-button {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 2px solid #C5A065;
+            padding: 2px; /* Ring effect */
+            background-color: white;
+        }
+
+        /* Custom Scrollbar for Chat */
+        .chat-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #E5E5E5;
+            border-radius: 2px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb:hover {
+            background: #C5A065;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="font-montserrat text-dark bg-white">
+<script src="/js/loader.js"></script>
+
+<div id="navbar-container"></div>
+
+<!-- Elegant Header Section -->
+<div class="bg-white pt-16 pb-8">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-playfair text-dark mb-3">My Account</h1>
+        <div class="h-0.5 w-16 bg-gold mx-auto mb-4"></div>
+        <p class="text-gray-500 text-sm uppercase tracking-widest font-medium">Welcome Back</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12 md:py-16">
+    <div class="grid md:grid-cols-12 gap-8 lg:gap-16 items-start">
+
+        <!-- Changed to a cleaner list style without full border box -->
+        <div class="md:col-span-3 sticky top-24">
+            <div class="space-y-1 py-4">
+                <button class="tab-button active w-full text-left py-3 px-4 text-sm tracking-wide" data-tab="profile">
+                    <i class="fas fa-user mr-3 text-xs"></i> Profile
+                </button>
+                <button class="tab-button w-full text-left py-3 px-4 text-sm tracking-wide" data-tab="address">
+                    <i class="fas fa-map-marker-alt mr-3 text-xs"></i> Address
+                </button>
+                <button class="tab-button w-full text-left py-3 px-4 text-sm tracking-wide" data-tab="orders">
+                    <i class="fas fa-box mr-3 text-xs"></i> Orders
+                </button>
+
+                <!-- Help Desk Button -->
+                <!-- Updated: Added proper rounded-full and flex behavior for badge to work perfectly on mobile -->
+                <button class="tab-button w-full text-left py-3 px-4 text-sm tracking-wide flex justify-between items-center group" data-tab="helpdesk" id="nav-helpdesk-btn">
+                    <span class="flex items-center"><i class="fas fa-headset mr-3 text-xs"></i> Help Desk</span>
+                    <span id="nav-badge-count" class="hidden bg-gold text-white text-[10px] font-bold px-2 py-0.5 shadow-sm ml-2">0</span>
+                </button>
+
+                <div class="h-px bg-gray-100 my-4 mx-4"></div>
+
+                <button class="tab-button w-full text-left py-3 px-4 text-sm tracking-wide" data-tab="password">
+                    <i class="fas fa-lock mr-3 text-xs"></i> Password
+                </button>
+                <button class="tab-button w-full text-left py-3 px-4 text-sm tracking-wide text-red-400 hover:text-red-600" data-tab="logout">
+                    <i class="fas fa-sign-out-alt mr-3 text-xs"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <div class="md:col-span-9 bg-white min-h-[500px]">
+
+            <!-- Profile Tab -->
+            <div id="profile" class="tab-content block fade-in">
+                <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-playfair text-dark">Personal Information</h2>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8 mb-10">
+                    <div class="relative group cursor-pointer text-center md:text-left">
+                        <img src="" alt="Profile"
+                             class="profile-img mb-3 shadow-sm transition-opacity group-hover:opacity-90"
+                             id="profile-image" loading="lazy" />
+                        <input type="file" id="upload-photo" class="hidden" accept="image/*"/>
+                        <button id="change-photo-btn" class="block mx-auto md:mx-0 text-xs font-semibold text-gold tracking-wider hover:text-dark uppercase transition-colors">
+                            Change Photo
+                        </button>
+                    </div>
+                    <div class="mt-4 md:mt-2 text-center md:text-left">
+                        <h3 id="profile-name" class="text-xl font-medium font-playfair">John Doe</h3>
+                        <p id="profile-email" class="text-gray-500 text-sm mt-1">john@example.com</p>
+                    </div>
+                </div>
+
+
+                <form class="space-y-6 max-w-xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block elegant-label mb-2">First Name</label>
+                            <input type="text" class="elegant-input w-full px-4 py-3" id="fname"/>
+                        </div>
+                        <div>
+                            <label class="block elegant-label mb-2">Last Name</label>
+                            <input type="text" class="elegant-input w-full px-4 py-3" id="lname"/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block elegant-label mb-2">Mobile Number</label>
+                        <input type="text" class="elegant-input w-full px-4 py-3" id="mobile"/>
+                    </div>
+                    <div class="pt-4">
+                        <button type="button"
+                                class="elegant-button bg-dark text-white px-8 py-3 hover:bg-gold transition-colors shadow-sm">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Address Tab -->
+            <div id="address" class="tab-content hidden fade-in">
+                <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-playfair text-dark">Delivery Details</h2>
+                </div>
+
+                <form id="addressForm" class="space-y-6 max-w-xl">
+
+                    <div>
+                        <label for="line1" class="block elegant-label mb-2">Address Line 1</label>
+                        <!-- Added h-12 removed py-3 -->
+                        <input type="text" class="elegant-input w-full px-4 h-12" id="line1"/>
+                    </div>
+
+                    <div>
+                        <label for="line2" class="block elegant-label mb-2">Apartment, suite, etc. <span class="text-gray-400 lowercase font-normal">(optional)</span></label>
+                        <!-- Added h-12 removed py-3 -->
+                        <input type="text" class="elegant-input w-full px-4 h-12" id="line2"/>
+                    </div>
+
+                    <div>
+                        <label for="country" class="block elegant-label mb-2">Country</label>
+                        <div class="relative">
+                            <!-- Added h-12 removed py-3 -->
+                            <select id="country" class="elegant-input w-full px-4 h-12 appearance-none bg-white">
+                                <option value="">Select Country</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="province-wrapper" class="form-group">
+                        <label for="province" class="block elegant-label mb-2">Province / State</label>
+                        <div class="relative">
+                            <!-- Added h-12 removed py-3 -->
+                            <select id="province" class="elegant-input w-full px-4 h-12 appearance-none bg-white">
+                                <option value="">Select a country first</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div id="city-wrapper" class="form-group">
+                            <label for="city" class="block elegant-label mb-2">City</label>
+                            <div class="relative">
+                                <!-- Added h-12 removed py-3 -->
+                                <select id="city" class="elegant-input w-full px-4 h-12 appearance-none bg-white">
+                                    <option value="">Select a province first</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="postal" class="block elegant-label mb-2">Postal Code</label>
+                            <!-- Added h-12 removed py-3 -->
+                            <input type="text" class="elegant-input w-full px-4 h-12" id="postal"/>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="button" id="saveAddressBtn"
+                                class="elegant-button bg-dark text-white px-8 py-3 hover:bg-gold transition-colors shadow-sm">
+                            Update Address
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders" class="tab-content hidden fade-in">
+                <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-playfair text-dark">Order History</h2>
+                    <button onclick="location.reload()" class="text-xs font-semibold text-gray-500 hover:text-gold uppercase tracking-wider flex items-center gap-2 transition-colors">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+
+                <div id="orders-container">
+                    <div class="text-center py-16 bg-gray-50 border border-gray-100">
+                        <i class="fas fa-spinner fa-spin text-3xl text-gold mb-4"></i>
+                        <p class="text-gray-500 text-sm font-medium tracking-wide">Retrieving your collection...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Desk Tab -->
+            <div id="helpdesk" class="tab-content hidden fade-in h-[80vh] md:h-[650px] flex flex-col">
+                <div class="flex justify-between items-end mb-6 border-b border-gray-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-playfair font-medium text-dark">Concierge & Support</h2>
+                        <p class="text-xs text-gray-500 mt-1 font-light">We are here to assist you with any inquiries.</p>
+                    </div>
+                    <button id="btn-create-new-ticket" class="elegant-button bg-gold text-white px-5 py-2 hover:bg-dark transition-colors text-xs shadow-sm">
+                        <i class="fas fa-plus mr-2"></i> New Inquiry
+                    </button>
+                </div>
+
+                <!-- Main Container -->
+                <div class="flex flex-col md:flex-row border border-gray-100 h-full bg-white shadow-sm overflow-hidden relative">
+
+                    <!-- Left Column: Ticket List -->
+                    <div id="helpdesk-list-col" class="w-full md:w-1/3 border-r border-gray-100 flex flex-col h-full bg-white z-10">
+                        <div class="p-4 border-b border-gray-100">
+                            <div class="relative">
+                                <input type="text" id="ticket-search" placeholder="Filter tickets..." class="w-full text-xs border border-gray-200 p-2.5 pl-8 bg-gray-50 focus:bg-white focus:border-gold outline-none transition-colors">
+                                <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
+                            </div>
+                        </div>
+                        <div id="acc-ticket-list" class="flex-1 overflow-y-auto chat-scroll p-0">
+                            <!-- Tickets load here -->
+                            <div class="text-center py-12 text-gray-400 text-xs tracking-wider">LOADING CONVERSATIONS...</div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Chat / Create Form -->
+                    <div id="helpdesk-chat-col" class="hidden md:flex w-full md:w-2/3 flex-col bg-gray-50 relative h-full">
+
+                        <!-- 1. Placeholder State -->
+                        <div id="acc-chat-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-8 text-center bg-gray-50">
+                            <div class="h-16 w-16 bg-white flex items-center justify-center mb-4 shadow-sm">
+                                <i class="far fa-comments text-2xl text-gold"></i>
+                            </div>
+                            <h3 class="font-playfair text-lg text-dark mb-1">Select a Conversation</h3>
+                            <p class="text-xs text-gray-500 font-light">Choose a ticket from the left to view details</p>
+                        </div>
+
+                        <!-- 2. Create Ticket Form -->
+                        <div id="acc-create-ticket-view" class="hidden absolute inset-0 bg-white z-20 p-6 md:p-10 overflow-y-auto">
+                            <button id="acc-back-from-create" class="md:hidden mb-6 text-xs font-bold text-gray-500 hover:text-dark flex items-center gap-2 uppercase tracking-wide">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+
+                            <h3 class="text-xl font-playfair mb-6 text-dark">Submit a New Inquiry</h3>
+                            <form id="acc-create-ticket-form" class="space-y-5">
+                                <div>
+                                    <label class="block elegant-label mb-2">Subject</label>
+                                    <input type="text" name="subject" required class="elegant-input w-full p-3" placeholder="What can we help you with?">
+                                </div>
+                                <div>
+                                    <label class="block elegant-label mb-2">Message</label>
+                                    <textarea name="message" required rows="6" class="elegant-input w-full p-3 resize-none" placeholder="Please provide details..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="block elegant-label mb-2">Attachment</label>
+                                    <input type="file" name="file" class="text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gold hover:file:text-white transition-colors cursor-pointer w-full border border-dashed border-gray-300 p-2">
+                                </div>
+                                <div class="flex gap-4 pt-4">
+                                    <button type="button" id="acc-cancel-create" class="flex-1 py-3 border border-gray-200 text-gray-600 hover:bg-gray-50 transition elegant-button text-xs">Cancel</button>
+                                    <button type="submit" class="flex-1 py-3 bg-dark text-white hover:bg-gold transition elegant-button text-xs">Submit Ticket</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- 3. Active Chat View -->
+                        <div id="acc-active-chat-view" class="hidden flex flex-col h-full z-10 bg-white w-full absolute inset-0 md:relative">
+                            <!-- Header -->
+                            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white z-20 shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
+                                <div class="flex items-center gap-4 overflow-hidden">
+                                    <button id="acc-back-to-list" class="md:hidden text-gray-400 hover:text-dark">
+                                        <i class="fas fa-arrow-left"></i>
+                                    </button>
+                                    <div class="min-w-0">
+                                        <h3 id="acc-chat-subject" class="font-playfair font-semibold text-dark truncate text-base">Ticket Subject</h3>
+                                        <div class="flex items-center gap-3 text-[10px] uppercase tracking-wider mt-0.5">
+                                            <span id="acc-chat-id" class="text-gray-400">#000</span>
+                                            <span id="acc-chat-status" class="font-bold text-gold">OPEN</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="location.reload()" title="Refresh Chat" class="text-gray-300 hover:text-gold transition-colors"><i class="fas fa-sync-alt"></i></button>
+                            </div>
+
+                            <!-- Messages -->
+                            <div id="acc-chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6 chat-scroll bg-gray-50 pb-24 md:pb-6">
+                                <!-- Messages injected here -->
+                            </div>
+
+                            <!-- Reply Input -->
+                            <div class="p-4 border-t border-gray-100 bg-white absolute bottom-0 left-0 right-0 md:relative z-20">
+                                <form id="acc-reply-form" class="relative">
+                                    <input type="hidden" id="acc-current-ticket-id">
+                                    <div class="flex items-end gap-3">
+                                        <div class="flex-1 bg-gray-50 border border-gray-200 p-2 flex flex-col transition-colors focus-within:border-gray-300 focus-within:bg-white">
+                                            <textarea id="acc-reply-input" rows="1" class="w-full resize-none p-2 text-sm outline-none bg-transparent max-h-24 font-montserrat" placeholder="Type your reply..."></textarea>
+
+                                            <div class="flex justify-between items-center px-2 py-1 mt-1">
+                                                <div class="relative">
+                                                    <input type="file" id="acc-reply-attachment" class="hidden" onchange="document.getElementById('acc-file-label').innerHTML = this.files.length > 0 ? `<i class='fas fa-check text-gold'></i>` : `<i class='fas fa-paperclip'></i>`">
+                                                    <label for="acc-reply-attachment" id="acc-file-label" class="cursor-pointer text-gray-400 hover:text-gold transition-colors flex items-center p-1">
+                                                        <i class="fas fa-paperclip"></i>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="h-12 w-12 bg-dark text-white flex items-center justify-center hover:bg-gold transition-colors shadow-sm">
+                                            <i class="fas fa-paper-plane text-sm"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Tab -->
+            <div id="password" class="tab-content hidden fade-in">
+                <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-playfair text-dark">Security Settings</h2>
+                </div>
+
+                <form class="space-y-6 max-w-xl" id="password-form">
+                    <div>
+                        <label class="block elegant-label mb-2">Current Password</label>
+                        <input type="password" class="elegant-input w-full px-4 py-3" id="current-password"/>
+                    </div>
+
+                    <div>
+                        <label class="block elegant-label mb-2">New Password</label>
+                        <div class="relative">
+                            <input type="password" class="elegant-input w-full px-4 py-3 pr-10" id="new-password"/>
+                            <button type="button" id="toggle-new-password" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gold transition-colors focus:outline-none">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block elegant-label mb-2">Confirm New Password</label>
+                        <div class="relative">
+                            <input type="password" class="elegant-input w-full px-4 py-3 pr-10" id="confirm-password"/>
+                            <button type="button" id="toggle-confirm-password" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gold transition-colors focus:outline-none">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="button"
+                                id="update-password-btn"
+                                class="elegant-button bg-dark text-white px-8 py-3 hover:bg-gold transition-colors shadow-sm">
+                            Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="logout" class="tab-content hidden fade-in">
+                <div class="flex flex-col items-center justify-center py-16 text-center max-w-md mx-auto">
+                    <div class="h-20 w-20 bg-red-50 flex items-center justify-center mb-6">
+                        <i class="fas fa-sign-out-alt text-3xl text-red-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-playfair font-medium mb-3 text-dark">Sign Out</h2>
+                    <p class="text-gray-500 mb-8 font-light text-sm">Are you sure you want to securely log out of your account?</p>
+                    <div class="flex gap-4">
+                        <!-- Re-using logic, just styling -->
+                        <button onclick="document.querySelector('[data-tab=\'profile\']').click()" class="elegant-button px-6 py-2 border border-gray-200 hover:bg-gray-50 text-gray-600">Cancel</button>
+                        <button id="logout-tab-btn"
+                                class="elegant-button bg-red-500 text-white px-8 py-2 hover:bg-red-600 shadow-sm">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="footer-container"></div>
+
+<!-- Back to Top Component -->
+<div id="backtotop-container"></div>
+<script src="js/main.js"></script>
+<script src="js/animations.js"></script>
+<script type="module" src="/js/profile.js"></script>
+<script type="module" src="/js/address.js"></script>
+<script type="module" src="/js/resetpassword.js"></script>
+<script type="module" src="/js/logout.js"></script>
+<script type="module" src="/js/cart.js"></script>
+<script type="module" src="/js/search.js"></script>
+<script type="module" src="js/order-history.js"></script>
+<script src="js/flying-animation.js"></script>
+
+<script type="module" src="/js/navbar.js"></script>
+<!-- Import the new Help Desk Logic -->
+<script type="module" src="/js/account-helpdesk.js"></script>
+<script src="/js/components.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const tabs = document.querySelectorAll(".tab-button");
+        const contents = document.querySelectorAll(".tab-content");
+        let componentsLoaded = false;
+
+        /**
+         * Navbar, Footer සහ Categories එක් වරක් පමණක් ලෝඩ් කිරීම
+         */
+        async function loadShell() {
+            if (componentsLoaded) return;
+            if (window.componentLoader) {
+                await window.componentLoader.loadAllComponents();
+                componentsLoaded = true;
+            }
+        }
+
+        let isFirstLoad = true;
+
+        /**
+         * අදාළ ටැබ් එක සක්‍රීය කරන සහ දත්ත ගෙන්වන ප්‍රධාන ශ්‍රිතය
+         */
+        async function activateTab(tabName) {
+            // 1. ලෝඩරය පෙන්වීම (පිටුවේ මුලින්ම එක් වරක් පමණයි)
+            if (isFirstLoad && window.loader) {
+                window.loader.show();
+            }
+
+            // Tab UI වල Active පෙනුම සැකසීම
+            tabs.forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(`.tab-button`).forEach(btn => {
+                const target = btn.dataset.tab ? btn : btn.closest('.tab-button');
+                if(target && target.dataset.tab === tabName) target.classList.add('active');
+            });
+
+            // සියලුම Content හංගන්න
+            contents.forEach(c => { c.classList.add("hidden"); c.classList.remove("block"); });
+
+            try {
+                // 2. ප්‍රථමයෙන් Footer Categories ලෝඩ් වන තෙක් බලා සිටීම
+                await loadShell();
+
+                // 3. තෝරාගත් ටැබ් එකට අදාළ දත්ත ලැබෙන තෙක් බලා සිටීම
+                // සටහන: මෙහිදී අදාළ JS ගොනු වල ඇති loader.show() කොටස් ඉවත් කළ යුතුය.
+                if (tabName === 'profile' && typeof window.loadProfile === 'function') {
+                    await window.loadProfile();
+                }
+                else if (tabName === 'address' && typeof window.loadAddress === 'function') {
+                    await window.loadAddress();
+                }
+                else if (tabName === 'orders' && typeof window.loadOrderHistory === 'function') {
+                    await window.loadOrderHistory();
+                }
+                else if (tabName === 'helpdesk' && window.accountHelpDesk) {
+                    await window.accountHelpDesk.loadTickets();
+                }
+
+                // ටැබ් එක පෙන්වීම
+                const targetContent = document.getElementById(tabName);
+                if (targetContent) {
+                    targetContent.classList.remove("hidden");
+                    targetContent.classList.add("block", "fade-in");
+                }
+
+            } catch (error) {
+                console.error("Tab load error:", error);
+            } finally {
+                // 4. ✅ සියල්ල අවසන් වූ පසු (දත්ත + Categories) පමණක් ලෝඩරය අයින් කිරීම
+                const main = document.getElementById('main-content');
+                if (main) main.style.display = 'block';
+
+                if (isFirstLoad && window.loader) {
+                    setTimeout(() => window.loader.hide(), 500);
+                    isFirstLoad = false;
+                }
+            }
+        }
+
+        // ටැබ් ක්ලික් කිරීමේ listener එක
+        tabs.forEach(tab => {
+            tab.addEventListener("click", (e) => {
+                e.preventDefault();
+                const btn = tab.closest('.tab-button') || tab;
+                activateTab(btn.dataset.tab);
+            });
+        });
+
+        // URL එක අනුව ටැබ් එක තීරණය කිරීම
+        const urlParams = new URLSearchParams(window.location.search);
+        activateTab(urlParams.get('tab') || 'profile');
+    });
+</script>
+
+</body>
+</html>
