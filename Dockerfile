@@ -12,4 +12,5 @@ COPY --from=build /app/target/*.jar app.jar
 COPY uploads ./uploads
 EXPOSE 8080
 ENV PORT=8080
-ENTRYPOINT ["java", "-Xmx384m", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx384m", "-Dserver.port=8080", "-Dserver.address=0.0.0.0", "-jar", "app.jar"]
+
