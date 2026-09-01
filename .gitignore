@@ -41,3 +41,6 @@ build/
 node/
 node_modules/
 venv/
+
+### SQL & Database Dumps ###
+*.sql

@@ -67,10 +67,7 @@ spring.datasource.username=YOUR_DB_USERNAME
 spring.datasource.password=YOUR_DB_PASSWORD
 ```
 
-### 3. Seed Database
-Execute `portfolio_data_seed.sql` in your MySQL / TiDB SQL editor to populate demo jewelry catalogs, collections, banners, and store configurations.
-
-### 4. Run the Application
+### 3. Run the Application
 ```bash
 ./mvnw spring-boot:run
 ```
