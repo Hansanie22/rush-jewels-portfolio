@@ -61,7 +61,7 @@ public class PosOrderService {
             
             // Try to find existing user by mobile first, then fall back to dynamic email
             orderUser = userRepo.findFirstByMobile(mobile).orElseGet(() -> {
-                String dynamicEmail = mobile + "@pos.rushjewels.lk";
+                String dynamicEmail = mobile + "@pos.velorajewellery.lk";
                 return userRepo.findByEmail(dynamicEmail).orElseGet(() -> {
                     User u = new User();
                     String[] names = name.split(" ");
@@ -79,11 +79,11 @@ public class PosOrderService {
                 });
             });
         } else {
-            orderUser = userRepo.findByEmail("walkin@rushjewels.lk").orElseGet(() -> {
+            orderUser = userRepo.findByEmail("walkin@velorajewellery.lk").orElseGet(() -> {
                 User u = new User();
                 u.setFname("Walk-in");
                 u.setLname("Customer");
-                u.setEmail("walkin@rushjewels.lk");
+                u.setEmail("walkin@velorajewellery.lk");
                 u.setMobile("0000000000");
                 u.setPassword("pos_placeholder"); // Required by User entity
                 u.setLoginProvider("LOCAL");      // Required: prevents null constraint errors

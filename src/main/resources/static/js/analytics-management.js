@@ -1,5 +1,5 @@
 // ==========================================
-// ANALYTICS MANAGEMENT — RUSH JEWELS ADMIN
+// ANALYTICS MANAGEMENT — VELORA FINE JEWELLERY ADMIN
 // Single fetch per filter → table + chart from same data
 // ==========================================
 
@@ -822,7 +822,7 @@ function downloadAnalyticsCSV() {
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = `RushJewels_${currentCategory}_Report.csv`; a.click();
+    a.href = url; a.download = `VeloraJewellery_${currentCategory}_Report.csv`; a.click();
     URL.revokeObjectURL(url);
 }
 

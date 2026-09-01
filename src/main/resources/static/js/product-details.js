@@ -356,7 +356,7 @@
                 </div>
 
                 <div class="product-info">
-                    <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">RUSH JEWELS</p>
+                    <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">VELORA FINE JEWELLERY</p>
                     <h3 class="product-title line-clamp-2" title="${p.name}">${p.name}</h3>
                     
                     ${ratingHtml}
@@ -575,7 +575,7 @@
             currentVariance = data.selectedVariance;
             baseProductName = currentProduct.name;
 
-            document.title = `${currentProduct.name} - Rush Jewels`;
+            document.title = `${currentProduct.name} - Velora Fine Jewellery`;
             if (typeof categoryEl !== 'undefined' && categoryEl) categoryEl.textContent = currentProduct.category;
             if (typeof titleEl !== 'undefined' && titleEl) titleEl.textContent = baseProductName;
 

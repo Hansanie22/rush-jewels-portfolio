@@ -1,5 +1,5 @@
 /**
- * Hero Section Carousel Logic for Rush Jewels
+ * Hero Section Carousel Logic for Velora Fine Jewellery
  */
 
 // ✅ යාවත්කාලීන කළා: පිටතින් ඇමතීමට window object එකට සම්බන්ධ කළා
@@ -50,7 +50,7 @@ function createHeroSlideElement(banner, index) {
     const fileUrl = `${banner.url}?t=${timestamp}`;
     let mediaContent = banner.type === 'VIDEO'
         ? `<video autoplay muted loop playsinline class="w-full h-full object-cover"><source src="${fileUrl}" type="video/mp4"></video>`
-        : `<img src="${fileUrl}" alt="Rush Jewels Banner ${index + 1}" class="w-full h-full object-cover object-center" loading="lazy">`;
+        : `<img src="${fileUrl}" alt="Velora Fine Jewellery Banner ${index + 1}" class="w-full h-full object-cover object-center" loading="lazy">`;
 
     return `<div class="carousel-slide absolute inset-0 ${opacityClass} transition-opacity duration-1000" data-index="${index}">${mediaContent}<div class="absolute inset-0 bg-black bg-opacity-30"></div></div>`;
 }

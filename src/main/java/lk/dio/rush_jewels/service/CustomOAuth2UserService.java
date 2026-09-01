@@ -118,7 +118,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 user.setStatus(status);
 
                 // Set User Type (Admin or User)
-                List<String> adminEmails = Arrays.asList("rushjewelsofficial@gmail.com", "hansanieprabodha@gmail.com");
+                List<String> adminEmails = Arrays.asList("contact@velorajewellery.com", "hansanieprabodha@gmail.com");
                 user.setType(adminEmails.contains(email.toLowerCase()) ? "ADMIN" : "USER");
 
                 // Save

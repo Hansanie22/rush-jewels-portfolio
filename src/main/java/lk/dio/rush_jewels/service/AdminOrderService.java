@@ -246,7 +246,7 @@ public class AdminOrderService {
         
         String msg = "Your order status has been updated to: " + formattedStatus + ".";
         if (formattedStatus.equalsIgnoreCase("Delivered") || formattedStatus.equalsIgnoreCase("Completed")) {
-            msg = "Great news! Your order has been delivered successfully. Thank you for shopping with Rush Jewels.";
+            msg = "Great news! Your order has been delivered successfully. Thank you for shopping with Velora Fine Jewellery.";
         }
         orderEmailService.sendGenericNotificationEmail(order, "Order Update: " + formattedStatus, "Order Status Updated", "Order Update", msg);
     }
@@ -255,7 +255,7 @@ public class AdminOrderService {
         Orders order = ordersRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
         updateOrderStatusInternal(orderId, "Completed");
         
-        String msg = "Great news! Your online pickup order has been handed over successfully. Thank you for shopping with Rush Jewels.";
+        String msg = "Great news! Your online pickup order has been handed over successfully. Thank you for shopping with Velora Fine Jewellery.";
         orderEmailService.sendGenericNotificationEmail(order, "Order Picked Up", "Order Picked Up", "Success", msg);
     }
 
@@ -318,7 +318,7 @@ public class AdminOrderService {
         order.setOrderStatus(deliveredStatus);
         ordersRepository.save(order);
         
-        orderEmailService.sendGenericNotificationEmail(order, "Order Handed Over", "Order Completed", "Thank You!", "Your store pickup order has been paid and handed over successfully. Thank you for shopping with Rush Jewels!");
+        orderEmailService.sendGenericNotificationEmail(order, "Order Handed Over", "Order Completed", "Thank You!", "Your store pickup order has been paid and handed over successfully. Thank you for shopping with Velora Fine Jewellery!");
     }
 
     public void updatePaymentToCompleted(String orderId) {

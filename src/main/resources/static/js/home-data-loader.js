@@ -351,7 +351,7 @@ function buildFeaturedCardHtml(product) {
             <button class="view-product-btn" onclick="event.stopPropagation(); window.location.href='product-detail.html?id=${product.varianceId}'">View Product</button>
         </div>
         <div class="product-info p-3">
-            <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">RUSH JEWELS</p>
+            <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">VELORA FINE JEWELLERY</p>
             <h3 class="product-title line-clamp-2 text-sm md:text-base font-medium mb-1" title="${displayTitle}">${displayTitle}</h3>
             <div class="mb-1">${ratingHtml}</div>
             <p class="product-price text-sm md:text-lg font-bold text-gray-900 mb-2">${formattedPrice}</p>

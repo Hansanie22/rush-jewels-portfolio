@@ -1,5 +1,5 @@
 /**
- * Seasonal Sale Banner Loader for Rush Jewels
+ * Seasonal Sale Banner Loader for Velora Fine Jewellery
  * - Fetches active sale data from API
  * - Updates image and description dynamically
  */

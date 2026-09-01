@@ -46,8 +46,8 @@ An enterprise-grade, full-stack luxury jewelry e-commerce platform and Point-of-
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/rush-jewels-portfolio.git
-cd rush-jewels-portfolio
+git clone https://github.com/YOUR_USERNAME/velora-jewellery-portfolio.git
+cd velora-jewellery-portfolio
 ```
 
 ### 2. Configure Database & Properties

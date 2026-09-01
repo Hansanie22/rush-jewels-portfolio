@@ -1,4 +1,4 @@
-// Animation effects for Rush Jewels
+// Animation effects for Velora Fine Jewellery
 
 document.addEventListener('DOMContentLoaded', function () {
     // Scroll reveal animation

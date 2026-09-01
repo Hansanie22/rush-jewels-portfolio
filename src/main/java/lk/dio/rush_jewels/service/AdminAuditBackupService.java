@@ -72,7 +72,7 @@ public class AdminAuditBackupService {
             Font logFont = FontFactory.getFont(FontFactory.COURIER, 10);
 
             // Header එක එකතු කිරීම
-            Paragraph header = new Paragraph("Rush Jewels - Audit Log Backup", headerFont);
+            Paragraph header = new Paragraph("Velora Fine Jewellery - Audit Log Backup", headerFont);
             header.setAlignment(Element.ALIGN_CENTER);
             document.add(header);
 

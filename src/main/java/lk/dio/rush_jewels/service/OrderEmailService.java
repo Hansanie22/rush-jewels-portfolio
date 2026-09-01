@@ -22,21 +22,21 @@ public class OrderEmailService {
     private final JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
-    private String smtpUsername;  // rushjewelsofficial@gmail.com
+    private String smtpUsername;  // contact@velorajewellery.com
 
-    @Value("${app.email.noreply:noreply@rushjewels.com}")
-    private String noreplyEmail;     // noreply@rushjewels.com
+    @Value("${app.email.noreply:noreply@velorajewellery.com}")
+    private String noreplyEmail;     // noreply@velorajewellery.com
 
     @Value("${app.email.support}")
-    private String supportEmail;  // support@rushjewels.com
+    private String supportEmail;  // support@velorajewellery.com
 
     @Value("${app.email.info}")
-    private String infoEmail;     // info@rushjewels.com
+    private String infoEmail;     // info@velorajewellery.com
 
-    @Value("${app.email.display-name:Rush Jewels}")
+    @Value("${app.email.display-name:Velora Fine Jewellery}")
     private String displayName;
 
-    @Value("${app.base-url:https://rushjewels.com}")
+    @Value("${app.base-url:https://velorajewellery.com}")
     private String baseUrl;
 
     private static final DecimalFormat CURRENCY_FORMAT = new DecimalFormat("#,##0.00");
@@ -61,7 +61,7 @@ public class OrderEmailService {
             String toEmail = user.getEmail();
             if (toEmail == null || toEmail.isEmpty()) return;
 
-            String subject = "Order Confirmation - " + order.getId() + " - Rush Jewels";
+            String subject = "Order Confirmation - " + order.getId() + " - Velora Fine Jewellery";
 
             // ✅ HTML Design එක කිසිම වෙනසක් නැතුව ජනනය කරයි
             String htmlContent = buildOrderConfirmationEmailHtml(order, orderItems, payment);
@@ -132,7 +132,7 @@ public class OrderEmailService {
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
-                <title>Rush Jewels Update</title>
+                <title>Velora Fine Jewellery Update</title>
                 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
                 <style>
                     body { font-family: 'Lato', sans-serif; line-height: 1.6; color: #1a1a1a; background-color: #e5e5e5; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; width: 100%% !important; }
@@ -154,7 +154,7 @@ public class OrderEmailService {
                     <center>
                     <div class="container">
                         <div class="header">
-                            <img src="https://rushjewels.com/favicon.png" alt="Rush Jewels" width="60" style="display:block; margin: 0 auto 15px auto;">
+                            <img src="https://velorajewellery.com/favicon.png" alt="Velora Fine Jewellery" width="60" style="display:block; margin: 0 auto 15px auto;">
                             <h1 class="header-logo"><span style="color: #C5A059">Rush</span><span style="color: #ffffff">Jewels</span></h1>
                             <div class="header-subtitle">%s</div>
                         </div>
@@ -169,7 +169,7 @@ public class OrderEmailService {
                             <a href="%s" class="button">View Order Status</a>
                         </div>
                         <div class="footer">
-                            <p>&copy; 2025 Rush Jewels. All rights reserved.</p>
+                            <p>&copy; 2025 Velora Fine Jewellery. All rights reserved.</p>
                         </div>
                     </div>
                     </center>
@@ -194,7 +194,7 @@ public class OrderEmailService {
             String meta = "";
             double price;
 
-            String imageUrl = "https://rushjewels.com/assets/default-product.png";
+            String imageUrl = "https://velorajewellery.com/assets/default-product.png";
 
             if (item.getProductVariance() != null) {
                 ProductVariance variant = item.getProductVariance();
@@ -280,7 +280,7 @@ public class OrderEmailService {
         String addressBlock;
         if (isStorePickup) {
             addressBlock = String.format("""
-                <strong>Rush Jewels (Kandy Store)</strong><br>
+                <strong>Velora Fine Jewellery (Kandy Store)</strong><br>
                 454/5 Daulagala Road<br>
                 Pilimathalawa, Sri Lanka<br>
                 T: 075 483 2960<br><br>
@@ -312,7 +312,7 @@ public class OrderEmailService {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <title>Rush Jewels - Order Confirmation</title>
+                <title>Velora Fine Jewellery - Order Confirmation</title>
                 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
                 <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">
                 
@@ -366,7 +366,7 @@ public class OrderEmailService {
                     <center>
                     <div class="container">
                         <div class="header">
-                            <img src="https://rushjewels.com/favicon.png" alt="Rush Jewels" width="60" style="display:block; margin: 0 auto 15px auto;">
+                            <img src="https://velorajewellery.com/favicon.png" alt="Velora Fine Jewellery" width="60" style="display:block; margin: 0 auto 15px auto;">
                             <h1 class="header-logo"><span style="color: #C5A059">Rush</span><span style="color: #ffffff">Jewels</span></h1>
                             <div class="header-subtitle">Est. 2025 • Kandy</div>
                         </div>
@@ -392,14 +392,14 @@ public class OrderEmailService {
                                 <div class="address-text">%s</div>
                             </div>
                             <div class="contact-strip">
-                                <span>rushjewelsofficial@gmail.com</span> &nbsp;|&nbsp; <span>+94 75 483 2960</span>
+                                <span>contact@velorajewellery.com</span> &nbsp;|&nbsp; <span>+94 75 483 2960</span>
                             </div>
                             <div class="cta-container">
                                 <a href="%s" class="button">Track Order Status</a>
                             </div>
                         </div>
                         <div class="footer">
-                            <p>&copy; 2025 Rush Jewels. All rights reserved.</p>
+                            <p>&copy; 2025 Velora Fine Jewellery. All rights reserved.</p>
                             <div class="barcode">%s</div>
                         </div>
                     </div>
@@ -456,7 +456,7 @@ public class OrderEmailService {
             <body>
                 <div class="container">
                     <div class="header">
-                        <img src="https://rushjewels.com/favicon.png" alt="Rush Jewels">
+                        <img src="https://velorajewellery.com/favicon.png" alt="Velora Fine Jewellery">
                         <h1><span style="color: #d4af37;">Rush</span> Jewels</h1>
                         <p>Fine Jewelry & Watches</p>
                     </div>
@@ -468,8 +468,8 @@ public class OrderEmailService {
                         </div>
                     </div>
                     <div class="footer">
-                        <p>You received this email because you are subscribed to Rush Jewels updates.</p>
-                        <p>&copy; 2025 Rush Jewels. All rights reserved.</p>
+                        <p>You received this email because you are subscribed to Velora Fine Jewellery updates.</p>
+                        <p>&copy; 2025 Velora Fine Jewellery. All rights reserved.</p>
                     </div>
                 </div>
             </body>

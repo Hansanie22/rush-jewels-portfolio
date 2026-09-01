@@ -270,7 +270,7 @@ function displayShippingAddress(address, data) {
 
     if (isPickup) {
         container.innerHTML = `
-            <p class="font-semibold text-dark text-lg font-playfair">Rush Jewels (Kandy Store)</p>
+            <p class="font-semibold text-dark text-lg font-playfair">Velora Fine Jewellery (Kandy Store)</p>
             <p class="text-gray-600">454/5 Daulagala Road</p>
             <p class="text-gray-600">Pilimathalawa, Sri Lanka</p>
             <p class="mt-2 text-gold"><i class="fas fa-phone mr-2"></i>075 483 2960</p>
@@ -356,7 +356,7 @@ function loadFooter() {
 function fallbackFooter(container) {
     container.innerHTML = `
         <footer class="bg-dark text-white py-8 mt-12 text-center">
-            <p>&copy; 2025 Rush Jewels. All rights reserved.</p>
+            <p>&copy; 2025 Velora Fine Jewellery. All rights reserved.</p>
         </footer>
     `;
 }
@@ -502,7 +502,7 @@ function printOrder() {
             .totals-wrapper { justify-content: center; margin-top: 20px; }
             .totals-box { width: 100%; }
 
-            /* Rush Jewels Contact Line Breaking */
+            /* Velora Fine Jewellery Contact Line Breaking */
             .contact-strip span { display: block; margin: 4px 0; }
             .contact-strip .sep { display: none; }
         }
@@ -514,7 +514,7 @@ function printOrder() {
 <body>
     <div class="container">
         <div class="header">
-            <h1 class="header-logo">Rush Jewels</h1>
+            <h1 class="header-logo">Velora Fine Jewellery</h1>
             <div class="header-meta">Est. 2025<br>Kandy, Sri Lanka</div>
         </div>
         <div class="content">
@@ -566,7 +566,7 @@ function printOrder() {
         <div class="footer">
             <p style="margin: 0; opacity: 0.7;">Thank you for your business. Elegance in every detail.</p>
             <div class="contact-strip">
-                <span>rushjewelsofficial@gmail.com</span><span class="sep"> | </span><span>+94 75 483 2960</span>
+                <span>velorajewelleryofficial@gmail.com</span><span class="sep"> | </span><span>+94 75 483 2960</span>
             </div>
             <div class="barcode">RJ-${orderNumber}-${statusText.toUpperCase()}</div>
         </div>

@@ -587,7 +587,7 @@ function renderRelated(collections) {
             </div>
 
             <div class="product-info">
-                <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">RUSH JEWELS</p>
+                <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">VELORA FINE JEWELLERY</p>
                 <h3 class="product-title line-clamp-2" title="${col.title}">${col.title}</h3>
                 
                 ${ratingHtml}

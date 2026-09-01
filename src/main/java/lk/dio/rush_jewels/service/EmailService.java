@@ -14,16 +14,16 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    @Value("${app.email.from}")                    // rushjewelsofficial@gmail.com
+    @Value("${app.email.from}")                    // contact@velorajewellery.com
     private String fromEmail;
 
-    @Value("${app.email.support}")                 // support@rushjewels.com
+    @Value("${app.email.support}")                 // support@velorajewellery.com
     private String supportEmail;
 
-    @Value("${app.email.info}")                    // info@rushjewels.com
+    @Value("${app.email.info}")                    // info@velorajewellery.com
     private String infoEmail;
 
-    @Value("${app.email.display-name:Rush Jewels}")
+    @Value("${app.email.display-name:Velora Fine Jewellery}")
     private String displayName;
 
     public EmailService(JavaMailSender mailSender) {
@@ -42,7 +42,7 @@ public class EmailService {
                 "<meta charset='UTF-8'>" +
                 "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" +
                 "<meta name='x-apple-disable-message-reformatting'>" +
-                "<title>Rush Jewels - Verification Code</title>" +
+                "<title>Velora Fine Jewellery - Verification Code</title>" +
                 "<style>" +
                 "table, td { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }" +
                 "body { font-family: 'Lato', sans-serif; line-height: 1.6; color: #1a1a1a; background-color: #e5e5e5; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; width: 100% !important; height: 100% !important; }" +
@@ -79,7 +79,7 @@ public class EmailService {
                 "<div class='wrapper'>" +
                 "<table class='main-table' role='presentation' border='0' cellpadding='0' cellspacing='0'>" +
                 "<tr><td class='header'>" +
-                "<h1 class='header-logo'>Rush Jewels</h1>" +
+                "<h1 class='header-logo'>Velora Fine Jewellery</h1>" +
                 "<div class='header-subtitle'>Est. 2025 &bull; Kandy</div>" +
                 "</td></tr>" +
                 "<tr><td class='content-cell'>" +
@@ -96,7 +96,7 @@ public class EmailService {
                 "<span class='contact-item'>+94 75 483 2960</span>" +
                 "</p></div>" +
                 "</td></tr>" +
-                "<tr><td class='footer'><p style='margin:0;'>&copy; " + Year.now() + " Rush Jewels. All rights reserved.</p></td></tr>" +
+                "<tr><td class='footer'><p style='margin:0;'>&copy; " + Year.now() + " Velora Fine Jewellery. All rights reserved.</p></td></tr>" +
                 "</table></div></center></body></html>";
 
         sendHtmlEmail(toEmail, subject, body);

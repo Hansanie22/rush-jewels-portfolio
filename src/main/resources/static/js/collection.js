@@ -404,7 +404,7 @@ function renderCollections(collections, totalFiltered) {
             </div>
 
             <div class="product-info p-3">
-                <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">RUSH JEWELS</p>
+                <p class="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">VELORA FINE JEWELLERY</p>
                 
                 <h3 class="product-title line-clamp-2 text-sm md:text-base font-medium mb-1" title="${displayTitle}">${displayTitle}</h3>
                 

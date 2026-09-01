@@ -56,14 +56,14 @@ public class PasswordResetService {
         userRepository.save(user); // ✅ Database Transaction එක මෙතනින් ඉවරයි. Connection එක නිදහස් වෙනවා.
 
         // Send email with NEW LUXURY DESIGN (Design එක 100% එලෙසම ඇත)
-        String subject = "Reset Your Rush Jewels Password";
+        String subject = "Reset Your Velora Fine Jewellery Password";
 
         String body = "<!DOCTYPE html>" +
                 "<html lang=\"en\">" +
                 "<head>" +
                 "    <meta charset=\"UTF-8\">" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
-                "    <title>Rush Jewels - Reset Password</title>" +
+                "    <title>Velora Fine Jewellery - Reset Password</title>" +
                 "    <link href=\"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap\" rel=\"stylesheet\">" +
                 "    <style>" +
                 "        body { font-family: 'Lato', sans-serif; line-height: 1.6; color: #1a1a1a; background-color: #e5e5e5; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }" +
@@ -85,7 +85,7 @@ public class PasswordResetService {
                 "        <center>" +
                 "        <div class=\"container\">" +
                 "            <div class=\"header\">" +
-                "                <h1 class=\"header-logo\">Rush Jewels</h1>" +
+                "                <h1 class=\"header-logo\">Velora Fine Jewellery</h1>" +
                 "                <div class=\"header-subtitle\">Est. 2025 • Kandy</div>" +
                 "            </div>" +
                 "            <div class=\"content\">" +
@@ -97,12 +97,12 @@ public class PasswordResetService {
                 "                </div>" +
                 "                <p style=\"color:#666; font-size:13px;\">This code expires in 15 minutes.<br>Use it to create a new password.</p>" +
                 "               <div class=\"contact-strip\">" +
-                "                    <div style=\"margin-bottom: 5px;\">rushjewelsofficial@gmail.com</div>" +
+                "                    <div style=\"margin-bottom: 5px;\">contact@velorajewellery.com</div>" +
                 "                    <div>+94 75 483 2960</div>" +
                 "                </div>" +
                 "            </div>" +
                 "            <div class=\"footer\">" +
-                "                &copy; 2025 Rush Jewels. All rights reserved." +
+                "                &copy; 2025 Velora Fine Jewellery. All rights reserved." +
                 "            </div>" +
                 "        </div>" +
                 "        </center>" +

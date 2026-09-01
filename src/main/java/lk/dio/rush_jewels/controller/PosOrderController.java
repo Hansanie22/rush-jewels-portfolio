@@ -121,7 +121,7 @@ public class PosOrderController {
                 userRequest.setFname("New");
             }
             if (userRequest.getEmail() == null || userRequest.getEmail().trim().isEmpty()) {
-                userRequest.setEmail(userRequest.getMobile() + "@rushjewels.local");
+                userRequest.setEmail(userRequest.getMobile() + "@velorajewellery.local");
             }
 
             // Check if user already exists

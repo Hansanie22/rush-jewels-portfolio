@@ -190,8 +190,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `admin` (`id`, `name`, `email`, `password`, `role`, `image_path`, `created_at`, `status_id`) VALUES
-(1, 'Hansanie Prabodha (Super Admin)', 'admin@rushjewels.com', 'Admin@1234', 'ADMIN', '/uploads/profile-images/18/profile.png', NOW(), 1),
-(2, 'Kasun Perera (POS Cashier)', 'pos@rushjewels.com', 'Cashier@1234', 'CASHIER', '/uploads/profile-images/19/profile.png', NOW(), 1)
+(1, 'Hansanie Prabodha (Super Admin)', 'admin@velorajewellery.com', 'Admin@1234', 'ADMIN', '/uploads/profile-images/18/profile.png', NOW(), 1),
+(2, 'Kasun Perera (POS Cashier)', 'pos@velorajewellery.com', 'Cashier@1234', 'CASHIER', '/uploads/profile-images/19/profile.png', NOW(), 1)
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
 
 -- 13. USER
@@ -379,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `blog_post` (
 INSERT INTO `blog_post` (`id`, `title`, `slug`, `snippet`, `content`, `image_path`, `category`, `read_time`, `created_at`, `is_published`) VALUES
 (1, 'The Timeless Allure of Ceylon Blue Sapphires', 'timeless-allure-ceylon-blue-sapphires', 'Discover why Ceylon Sapphires remain the ultimate choice for royalty and world-renowned connoisseurs across centuries.', 'Sri Lanka, historically known as Ratna-Dweepa (The Island of Jewels), has produced the worlds finest cornflower blue and royal blue sapphires. In this guide, we explore the distinct optical properties, the unique heat-treatment certification, and what makes Ceylon sapphires hold their value across generations.', '/uploads/blog-images/blog_1.png', 'Gemstone Education', '4 min read', NOW(), 1),
 (2, 'The 4Cs: An Expert Guide to Buying Diamonds', 'expert-guide-to-diamond-4cs', 'Learn how Carat, Cut, Clarity, and Color determine the true brilliance and investment value of your dream diamond.', 'When choosing a diamond for an engagement ring or signature heirloom, the Cut is undeniably the most crucial factor determining fire and scintillation. Discover our gemmologists tips on selecting eye-clean stones and maximizing your budget without compromising on breathtaking beauty.', '/uploads/blog-images/blog_2.png', 'Buying Guide', '6 min read', NOW(), 1),
-(3, 'Caring for High-Jewelry: Maintenance & Polishing', 'caring-for-high-jewelry-guide', 'Preserve the sparkling brilliance and structural longevity of fine gold, platinum, and gemstone jewelry with professional tips.', 'From ultrasonic cleaning cautions with emeralds and pearls to safe daily storage practices, learn how to keep your cherished Rush Jewels creations looking as radiant as the day they left our boutique atelier.', '/uploads/blog-images/blog_3.png', 'Jewelry Care', '3 min read', NOW(), 1)
+(3, 'Caring for High-Jewelry: Maintenance & Polishing', 'caring-for-high-jewelry-guide', 'Preserve the sparkling brilliance and structural longevity of fine gold, platinum, and gemstone jewelry with professional tips.', 'From ultrasonic cleaning cautions with emeralds and pearls to safe daily storage practices, learn how to keep your cherished Velora Fine Jewellery creations looking as radiant as the day they left our boutique atelier.', '/uploads/blog-images/blog_3.png', 'Jewelry Care', '3 min read', NOW(), 1)
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`);
 
 -- 20. COUNTRY, PROVINCE, CITY
@@ -488,7 +488,7 @@ CREATE TABLE IF NOT EXISTS `review` (
 INSERT INTO `review` (`id`, `rating`, `comment`, `created_at`, `approved_at`, `review_status_id`, `product_variance_id`, `collection_id`, `user_id`) VALUES
 (1, 5, 'The Royal Ceylon Sapphire Ring is simply breathtaking in person! The craftsmanship and gold finish exceeded all my expectations.', NOW(), NOW(), 2, 1, NULL, 1),
 (2, 5, 'Ordered the Elysian Diamond Solitaire for my engagement. Certificate verified, packaging was royal, and she said YES!', NOW(), NOW(), 2, 3, NULL, 2),
-(3, 5, 'Superb quality and customer service from Rush Jewels. The delivery was fast and secure with tamper-proof seal.', NOW(), NOW(), 2, 5, NULL, 1)
+(3, 5, 'Superb quality and customer service from Velora Fine Jewellery. The delivery was fast and secure with tamper-proof seal.', NOW(), NOW(), 2, 5, NULL, 1)
 ON DUPLICATE KEY UPDATE `rating` = VALUES(`rating`);
 
 -- 24. SYSTEM SETTINGS
@@ -500,9 +500,9 @@ CREATE TABLE IF NOT EXISTS `system_setting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `system_setting` (`id`, `setting_key`, `setting_value`) VALUES
-(1, 'STORE_NAME', 'Rush Jewels Luxury Boutique'),
+(1, 'STORE_NAME', 'Velora Fine Jewellery Boutique'),
 (2, 'STORE_CURRENCY', 'LKR'),
-(3, 'STORE_EMAIL', 'info@rushjewels.com'),
+(3, 'STORE_EMAIL', 'info@velorajewellery.com'),
 (4, 'STORE_PHONE', '+94 11 234 5678'),
 (5, 'FREE_SHIPPING_THRESHOLD', '150000'),
 (6, 'TAX_RATE', '0')

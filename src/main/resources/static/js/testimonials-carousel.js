@@ -1,5 +1,5 @@
 /**
- * Testimonials Carousel Logic for Rush Jewels
+ * Testimonials Carousel Logic for Velora Fine Jewellery
  * - Fetches Approved Reviews from API
  * - Dynamic Rendering
  * - Features: Autoplay, Pause on Hover, Responsive navigation

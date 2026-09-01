@@ -414,7 +414,7 @@ async function viewOrderDetails(id) {
                 <div class="p-4 bg-gray-50 rounded border border-gray-200">
                     <h4 class="text-xs font-bold text-gray-400 uppercase mb-3">Pickup Details</h4>
                     <div class="space-y-2 text-sm">
-                        <div class="flex"><span class="w-24 text-gray-500">Location:</span> <span class="font-medium text-gray-900">Rush Jewels (Kandy Store)</span></div>
+                        <div class="flex"><span class="w-24 text-gray-500">Location:</span> <span class="font-medium text-gray-900">Velora Fine Jewellery (Kandy Store)</span></div>
                         <div class="flex"><span class="w-24 text-gray-500">Method:</span> <span>Store Pickup</span></div>
                         <div class="flex"><span class="w-24 text-gray-500">Payment:</span> <span>${order.paymentMethod}</span></div>
                     </div>

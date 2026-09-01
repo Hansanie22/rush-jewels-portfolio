@@ -22,7 +22,7 @@ window.loadBlogPost = async function() {
         const post = await response.json();
 
         // --- Standard Blog Content Mapping ---
-        document.title = `${post.title} | Rush Jewels`;
+        document.title = `${post.title} | Velora Fine Jewellery`;
         document.getElementById('post-title').textContent = post.title;
         document.getElementById('breadcrumb-title').textContent = post.title.length > 30 ? post.title.substring(0, 30) + '...' : post.title;
         document.getElementById('post-date').textContent = post.date;
@@ -147,7 +147,7 @@ function renderRelatedItems(items) {
                 <button class="view-product-btn" onclick="event.stopPropagation(); window.location.href='${itemUrl}'">View Product</button>
             </div>
             <div class="product-info">
-                <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">RUSH JEWELS</p>
+                <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">VELORA FINE JEWELLERY</p>
                 <h3 class="product-title line-clamp-2" title="${displayTitle}">${displayTitle}</h3>
                 ${ratingHtml}
                 <p class="product-price">${formattedPrice}</p>

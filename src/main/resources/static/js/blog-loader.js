@@ -1,5 +1,5 @@
 /**
- * Latest Blog Posts Loader for Rush Jewels
+ * Latest Blog Posts Loader for Velora Fine Jewellery
  * - Fetches snippets from public API
  * - Preserves exact article design and hover effects
  */
