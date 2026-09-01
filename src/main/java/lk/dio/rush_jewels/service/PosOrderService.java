@@ -99,6 +99,7 @@ public class PosOrderService {
         DeliveryAddress dummyAddress = deliveryAddressRepo.findAll().stream().findFirst().orElseGet(() -> {
             DeliveryAddress da = new DeliveryAddress();
             da.setLine1("In-Store Pickup");
+            da.setAddressType(AddressType.SHIPPING);
             Country dummyCountry = countryRepo.findById(1).orElseGet(() -> {
                 Country c = new Country();
                 c.setCountry("Sri Lanka");
