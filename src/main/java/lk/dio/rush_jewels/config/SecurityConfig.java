@@ -49,7 +49,7 @@ public class SecurityConfig {
                         // ✅ CRITICAL FIX: Forward සහ Error requests වලදී Security Loop එක කඩන්න
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 
-                        .requestMatchers("/admin-login.html", "/css/**", "/js/**", "/images/**", "/favicon.ico", "/404.html").permitAll()
+                        .requestMatchers("/admin-login.html", "/css/**", "/js/**", "/images/**", "/uploads/**", "/video/**", "/favicon.ico", "/404.html").permitAll()
                         .requestMatchers("/api/admin/login").permitAll()
                         .requestMatchers("/admin-pos.html", "/api/pos/**").hasAnyAuthority("ADMIN", "CASHIER")
                         .requestMatchers("/admin.html", "/admin/**", "/api/admin/**").hasAuthority("ADMIN")
@@ -104,16 +104,16 @@ public class SecurityConfig {
     }
 
     private String buildCSPPolicy() {
-        return "default-src 'self'; " +
-                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com https://*.payhere.lk https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://www.google-analytics.com https://maxcdn.bootstrapcdn.com https://ajax.googleapis.com https://cdn.jsdelivr.net; " +
-                "style-src 'self' 'unsafe-inline' https://maps.googleapis.com https://maps.gstatic.com https://*.payhere.lk https://cdnjs.cloudflare.com https://fonts.googleapis.com https://maxcdn.bootstrapcdn.com https://cdn.jsdelivr.net; " +
-                "img-src 'self' data: blob: https://maps.googleapis.com https://maps.gstatic.com https://res.cloudinary.com https://ui-avatars.com; " +
-                "media-src 'self' https://res.cloudinary.com; " +
-                "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com; " +
-                "connect-src 'self' https://maps.googleapis.com https://maps.gstatic.com https://*.payhere.lk http://localhost:8080 ws://localhost:8080 https://rushjewels.com wss://rushjewels.com https://generativelanguage.googleapis.com; " +
-                "frame-src 'self' https://*.payhere.lk https://player.vimeo.com; " +
+        return "default-src 'self' https: http: data: blob: 'unsafe-inline' 'unsafe-eval'; " +
+                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; " +
+                "style-src 'self' 'unsafe-inline' https: http:; " +
+                "img-src 'self' data: blob: https: http:; " +
+                "media-src 'self' data: blob: https: http:; " +
+                "font-src 'self' data: https: http:; " +
+                "connect-src 'self' https: http: wss: ws:; " +
+                "frame-src 'self' https: http:; " +
                 "frame-ancestors 'self'; " +
-                "form-action 'self' https://*.payhere.lk; " +
+                "form-action 'self' https: http:; " +
                 "base-uri 'self'; object-src 'none';";
     }
 }

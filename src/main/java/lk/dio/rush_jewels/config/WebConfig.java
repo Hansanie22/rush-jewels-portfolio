@@ -27,15 +27,16 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        // ✅ NOTE: Uploads folders are NO LONGER needed here.
-        // Images are served directly from Cloudinary URLs.
+        // 1. Handle Uploaded Images & Media
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:uploads/", "file:/app/uploads/", "classpath:/static/uploads/");
 
-        // 1. Handle Static Resources (CSS, JS, Images in classpath)
+        // 2. Handle Static Resources (CSS, JS, Images in classpath)
         // URL: http://localhost:8080/css/style.css etc.
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/");
 
-        // 2. Handle missing favicon
+        // 3. Handle missing favicon
         registry.addResourceHandler("/favicon.ico")
                 .addResourceLocations("classpath:/static/favicon.ico");
     }
