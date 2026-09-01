@@ -271,8 +271,8 @@ function displayShippingAddress(address, data) {
     if (isPickup) {
         container.innerHTML = `
             <p class="font-semibold text-dark text-lg font-playfair">Velora Fine Jewellery (Kandy Store)</p>
-            <p class="text-gray-600">454/5 Daulagala Road</p>
-            <p class="text-gray-600">Pilimathalawa, Sri Lanka</p>
+            <p class="text-gray-600">No. 42 Galle Face Court, Galle Road</p>
+            <p class="text-gray-600">Colombo 03, Sri Lanka</p>
             <p class="mt-2 text-gold"><i class="fas fa-phone mr-2"></i>075 483 2960</p>
             <hr class="my-3 border-gray-200">
             <p class="text-gray-500 text-xs uppercase tracking-wide">Customer Details</p>

@@ -5,7 +5,7 @@
         <style>
             body.loading-active { overflow: hidden !important; }
 
-            #rush-loader-container {
+            #velora-loader-container {
                 position: fixed;
                 top: 0; left: 0;
                 width: 100%;
@@ -20,12 +20,12 @@
                 pointer-events: all;
             }
 
-            #rush-loader-container.fade-out {
+            #velora-loader-container.fade-out {
                 opacity: 0;
                 pointer-events: none;
             }
 
-            .rush-loader {
+            .velora-loader {
                 font-family: 'Playfair Display', serif;
                 font-size: clamp(40px, 12vw, 80px);
                 font-weight: 900;
@@ -46,14 +46,14 @@
             }
         </style>
 
-        <div id="rush-loader-container">
-            <div class="rush-loader">RUSH</div>
+        <div id="velora-loader-container">
+            <div class="velora-loader">VELORA</div>
         </div>
     `;
 
     // 2. Inject Loader (ONCE only)
     function injectLoader() {
-        if (document.getElementById('rush-loader-container')) return;
+        if (document.getElementById('velora-loader-container')) return;
 
         const wrapper = document.createElement('div');
         wrapper.innerHTML = loaderTemplate;
@@ -75,7 +75,7 @@
         show() {
             injectLoader();
 
-            const loader = document.getElementById('rush-loader-container');
+            const loader = document.getElementById('velora-loader-container');
             if (!loader) return;
 
             loader.style.display = 'flex';
@@ -86,7 +86,7 @@
         },
 
         hide() {
-            const loader = document.getElementById('rush-loader-container');
+            const loader = document.getElementById('velora-loader-container');
             if (!loader) return;
 
             loader.classList.add('fade-out');

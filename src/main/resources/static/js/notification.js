@@ -10,7 +10,7 @@ export default function Notification(options = {}) {
     };
 
     // --- FIX: Inject High Z-Index Styles ---
-    const styleId = 'rush-notification-fix';
+    const styleId = 'velora-notification-fix';
     if (!document.getElementById(styleId)) {
         const style = document.createElement('style');
         style.id = styleId;

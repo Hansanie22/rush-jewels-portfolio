@@ -35,7 +35,7 @@ async function sendResetLink() {
             button.classList.add('opacity-70', 'cursor-not-allowed');
         }
 
-        // ✅ 2. RUSH LOADER පෙන්වීම (Request එක යන අතරතුර)
+        // ✅ 2. VELORA LOADER පෙන්වීම (Request එක යන අතරතුර)
         if (window.loader) window.loader.show();
 
         const res = await fetch('/api/auth/forgot-password', {

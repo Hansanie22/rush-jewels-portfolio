@@ -430,7 +430,7 @@
                     </p>
                     <div class="flex justify-center gap-4 text-gray-500">
                         <a href="#" class="hover:text-gold transition"><i class="fab fa-linkedin text-xl"></i></a>
-                        <a href="https://www.instagram.com/rush.jewels" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="https://instagram.com/velorajewellery" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
                     </div>
                 </div>
             </div>
@@ -449,7 +449,7 @@
                     </p>
                     <div class="flex justify-center gap-4 text-gray-500">
                         <a href="#" class="hover:text-gold transition"><i class="fab fa-linkedin text-xl"></i></a>
-                        <a href="https://www.instagram.com/rush.jewels" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="https://instagram.com/velorajewellery" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
                     </div>
                 </div>
             </div>
@@ -468,7 +468,7 @@
                     </p>
                     <div class="flex justify-center gap-4 text-gray-500">
                         <a href="#" class="hover:text-gold transition"><i class="fab fa-linkedin text-xl"></i></a>
-                        <a href="https://www.instagram.com/rush.jewels" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="https://instagram.com/velorajewellery" class="hover:text-gold transition"><i class="fab fa-instagram text-xl"></i></a>
                     </div>
                 </div>
             </div>
@@ -500,7 +500,7 @@
             <div>
                 <i class="fas fa-map-marker-alt text-gold text-3xl mb-4"></i>
                 <h3 class="text-xl font-playfair text-dark mb-2">Visit Us</h3>
-                <p class="text-gray-600">454/5 Daulagala Road<br>Pilimathalawa, Sri Lanka</p>
+                <p class="text-gray-600">No. 42 Galle Face Court, Galle Road<br>Colombo 03, Sri Lanka</p>
                 <button onclick="getDirections()" class="mt-4 bg-gold hover:bg-yellow-600 text-dark font-semibold py-2 px-6 transition duration-300 text-sm uppercase tracking-wider">
                     <i class="fas fa-directions mr-2"></i>Get Directions
                 </button>
@@ -508,8 +508,8 @@
             <div>
                 <i class="fas fa-phone-alt text-gold text-3xl mb-4"></i>
                 <h3 class="text-xl font-playfair text-dark mb-2">Call Us</h3>
-                <p class="text-gray-600">0754832960<br>Mon-Sat: 9AM - 7PM</p>
-                <a href="tel:0764921325" class="inline-block mt-4 bg-gold hover:bg-yellow-600 text-dark font-semibold py-2 px-6 transition duration-300 text-sm uppercase tracking-wider">
+                <p class="text-gray-600">+94 11 234 5678<br>Mon-Sat: 9AM - 7PM</p>
+                <a href="tel:+94 11 234 5678" class="inline-block mt-4 bg-gold hover:bg-yellow-600 text-dark font-semibold py-2 px-6 transition duration-300 text-sm uppercase tracking-wider">
                     <i class="fas fa-phone mr-2"></i>Call Now
                 </a>
             </div>
@@ -528,7 +528,7 @@
             <div class="text-center mb-8">
                 <h3 class="text-3xl font-playfair text-dark mb-4">Find Us on the Map</h3>
                 <div class="w-24 h-1 bg-gold mx-auto mb-4"></div>
-                <p class="text-gray-600">Located in the heart of Pilimathalawa, easily accessible from Kandy and surrounding areas</p>
+                <p class="text-gray-600">Located in the heart of Colombo 03, easily accessible from Kandy and surrounding areas</p>
             </div>
 
             <div class="bg-white shadow-xl overflow-hidden border-4 border-gold/20">
@@ -574,10 +574,10 @@
 <script>
     // Velora Fine Jewellery Location
     // UPDATED COORDINATES: 7°15'52.9"N 80°33'22.7"E
-    const rushJewelsLocation = {
-        lat: 7.264694,
-        lng: 80.556306,
-        address: '454/5 Daulagala Road, Pilimathalawa, Sri Lanka'
+    const veloraLocation = {
+        lat: 6.9271,
+        lng: 79.8430,
+        address: 'No. 42 Galle Face Court, Galle Road, Colombo 03, Sri Lanka'
     };
 
     let map;
@@ -590,7 +590,7 @@
         // Create map centered on Velora Fine Jewellery
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
-            center: rushJewelsLocation,
+            center: veloraLocation,
             styles: [
                 {
                     featureType: 'poi',
@@ -602,7 +602,7 @@
 
         // Add marker for Velora Fine Jewellery
         const marker = new google.maps.Marker({
-            position: rushJewelsLocation,
+            position: veloraLocation,
             map: map,
             title: 'Velora Fine Jewellery',
             icon: {
@@ -624,7 +624,7 @@
                             <i class="fas fa-gem" style="color: #D4AF37;"></i> Velora Fine Jewellery
                         </h3>
                         <p style="color: #666; margin-bottom: 8px; font-size: 14px;">
-                            454/5 Daulagala Road<br>Pilimathalawa, Sri Lanka
+                            No. 42 Galle Face Court, Galle Road<br>Colombo 03, Sri Lanka
                         </p>
                         <p style="color: #D4AF37; font-weight: 600; font-size: 13px;">
                             <i class="fas fa-clock"></i> Mon-Sat: 9AM - 7PM
@@ -670,7 +670,7 @@
                     };
 
                     // Calculate and display route
-                    calculateRoute(userLocation, rushJewelsLocation);
+                    calculateRoute(userLocation, veloraLocation);
                 },
                 (error) => {
                     console.error('Error getting location:', error);
@@ -718,7 +718,7 @@
 
     // Open Google Maps in new tab with directions
     function openGoogleMapsDirections() {
-        const destination = encodeURIComponent('Velora Fine Jewellery, 454/5 Daulagala Road, Pilimathalawa, Sri Lanka');
+        const destination = encodeURIComponent('Velora Fine Jewellery, No. 42 Galle Face Court, Galle Road, Colombo 03, Sri Lanka');
 
         if (userLocation) {
             const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${destination}&travelmode=driving`;

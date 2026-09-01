@@ -30,7 +30,7 @@ function injectCartPanel() {
     if (existingPanel) existingPanel.remove();
 
     // 2. Inject CSS Styles
-    const styleId = 'rush-cart-styles';
+    const styleId = 'velora-cart-styles';
     if (!document.getElementById(styleId)) {
         const style = document.createElement('style');
         style.id = styleId;
@@ -135,11 +135,11 @@ function injectCartPanel() {
         <!-- Header -->
         <header class="flex-none bg-white px-4 py-4 md:px-6 md:py-6 border-b border-gray-100 flex justify-between items-start">
             <div>
-                <h2 class="font-serif text-lg md:text-2xl text-rush-black font-semibold tracking-wider">YOUR BAG</h2>
+                <h2 class="font-serif text-lg md:text-2xl text-gray-900 font-semibold tracking-wider">YOUR BAG</h2>
                 <p class="text-[10px] md:text-xs text-gray-500 mt-1 uppercase tracking-widest" id="cart-item-count-header">0 Items</p>
             </div>
             <button id="close-cart-panel" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border border-transparent hover:border-black transition-colors group">
-                <i class="fas fa-times text-lg md:text-xl text-rush-black group-hover:rotate-90 transition-transform duration-300"></i>
+                <i class="fas fa-times text-lg md:text-xl text-gray-900 group-hover:rotate-90 transition-transform duration-300"></i>
             </button>
         </header>
 
@@ -153,7 +153,7 @@ function injectCartPanel() {
                 <p class="text-sm md:text-base text-gray-500 mb-8 max-w-[240px]">Timeless pieces are waiting for you.</p>
                 <button id="continue-shopping"
                    onclick="window.location.href='shop.html'"
-                   class="border-b border-black pb-1 uppercase text-xs md:text-sm tracking-widest hover:text-rush-gold hover:border-rush-gold transition-colors">
+                   class="border-b border-black pb-1 uppercase text-xs md:text-sm tracking-widest hover:text-gold hover:border-gold transition-colors">
                    Continue Shopping
                 </button>
             </div>
@@ -167,7 +167,7 @@ function injectCartPanel() {
             <div class="space-y-2 md:space-y-3 mb-4 md:mb-6 text-xs md:text-sm">
                 <div class="flex justify-between text-gray-600">
                     <span>Subtotal</span>
-                    <span class="font-bold text-rush-black" id="cart-subtotal">LKR 0.00</span>
+                    <span class="font-bold text-gray-900" id="cart-subtotal">LKR 0.00</span>
                 </div>
                 <div class="flex justify-between text-gray-500 text-[10px] md:text-xs italic">
                     <span>Shipping</span>
@@ -393,7 +393,7 @@ function initCartController() {
                 <div class="flex-1 flex flex-col justify-between py-0.5">
                     <div>
                         <div class="flex justify-between items-start mb-1">
-                            <h4 class="font-serif font-semibold text-rush-black text-xs md:text-sm leading-tight uppercase tracking-wide">${item.name}</h4>
+                            <h4 class="font-serif font-semibold text-gray-900 text-xs md:text-sm leading-tight uppercase tracking-wide">${item.name}</h4>
                             <span class="text-xs md:text-sm font-bold ml-2 whitespace-nowrap">${formatCurrency(item.finalPrice * item.quantity)}</span>
                         </div>
                         <p class="text-[9px] md:text-[10px] text-gray-400 mt-0">Unit: ${formatCurrency(item.finalPrice)}</p>

@@ -5,7 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Load "Remember Me"
-    const savedEmail = localStorage.getItem('rush_admin_email');
+    const savedEmail = localStorage.getItem('velora_admin_email');
     if (savedEmail) {
         const emailInput = document.getElementById('email');
         const rememberBox = document.getElementById('remember-me');
@@ -145,9 +145,9 @@ async function handleAdminLogin(event) {
         if (response.ok && data.success) {
             // ✅ Handle Remember Me
             if (rememberMe) {
-                localStorage.setItem('rush_admin_email', email);
+                localStorage.setItem('velora_admin_email', email);
             } else {
-                localStorage.removeItem('rush_admin_email');
+                localStorage.removeItem('velora_admin_email');
             }
 
             showToast("Login successful! Redirecting...", "success");
