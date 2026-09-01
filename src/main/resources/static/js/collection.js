@@ -563,7 +563,7 @@ function setupEventListeners() {
         clearFiltersBtn.addEventListener('click', () => {
             if (searchInput) searchInput.value = '';
             if (priceRange) {
-                const maxVal = priceRange.getAttribute('max') || '500000';
+                const maxVal = priceRange.getAttribute('max') || '2000000';
                 priceRange.value = maxVal;
                 document.getElementById('price-value').textContent = formatPriceLKR(parseInt(maxVal));
             }
