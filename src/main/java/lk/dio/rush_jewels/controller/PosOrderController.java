@@ -192,7 +192,9 @@ public class PosOrderController {
                 if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
                     imageUrl = imagePath;
                 } else {
-                    imageUrl = baseUrl + "/" + imagePath.replace("\\", "/");
+                    // Avoid double slash: imagePath may start with '/'
+                    String cleanPath = imagePath.startsWith("/") ? imagePath : "/" + imagePath;
+                    imageUrl = baseUrl + cleanPath.replace("\\", "/");
                 }
             }
 
@@ -217,7 +219,9 @@ public class PosOrderController {
                 if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
                     imageUrl = imagePath;
                 } else {
-                    imageUrl = baseUrl + "/" + imagePath.replace("\\", "/");
+                    // Avoid double slash: imagePath may start with '/'
+                    String cleanPath = imagePath.startsWith("/") ? imagePath : "/" + imagePath;
+                    imageUrl = baseUrl + cleanPath.replace("\\", "/");
                 }
             }
 
