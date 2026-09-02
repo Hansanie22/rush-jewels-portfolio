@@ -6,6 +6,7 @@ import lk.dio.rush_jewels.service.CartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -79,6 +80,39 @@ public class CartController {
 
         if (response.success()) return ResponseEntity.ok(Map.of("success", true, "message", response.message()));
         else return ResponseEntity.badRequest().body(Map.of("success", false, "message", response.message()));
+    }
+
+    // ---------------- Sync Guest Cart to Server ----------------
+    @PostMapping("/cart/sync")
+    public ResponseEntity<?> syncCart(@RequestBody List<Map<String, Object>> items, HttpSession session) {
+        ResponseEntity<Map<String, Object>> loginCheck = requireLogin(session);
+        if (loginCheck != null) return loginCheck;
+
+        User user = getSessionUser(session);
+        if (items != null && !items.isEmpty()) {
+            for (Map<String, Object> item : items) {
+                try {
+                    Object vIdObj = item.get("varianceId");
+                    Object cIdObj = item.get("collectionId");
+                    Object qtyObj = item.get("quantity");
+
+                    Integer varianceId = (vIdObj != null && !vIdObj.toString().trim().isEmpty() && !"null".equalsIgnoreCase(vIdObj.toString()))
+                            ? Integer.valueOf(vIdObj.toString().trim()) : null;
+                    Integer collectionId = (cIdObj != null && !cIdObj.toString().trim().isEmpty() && !"null".equalsIgnoreCase(cIdObj.toString()))
+                            ? Integer.valueOf(cIdObj.toString().trim()) : null;
+                    int qty = (qtyObj != null && !qtyObj.toString().trim().isEmpty())
+                            ? Integer.parseInt(qtyObj.toString().trim()) : 1;
+
+                    if (varianceId != null || collectionId != null) {
+                        cartService.addToCart(user.getId(), varianceId, collectionId, Math.max(1, qty));
+                    }
+                } catch (Exception e) {
+                    // ignore malformed items and continue syncing the rest
+                }
+            }
+        }
+
+        return ResponseEntity.ok(Map.of("success", true, "message", "Cart synced successfully."));
     }
 
     // ---------------- Update Cart Quantity ----------------

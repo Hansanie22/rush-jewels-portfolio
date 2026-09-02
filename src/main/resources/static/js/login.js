@@ -72,10 +72,30 @@ window.addEventListener("DOMContentLoaded", () => {
                     notify.success(json.message || "Login successful!");
                     sessionStorage.setItem("user", JSON.stringify(json.user));
 
-                    const returnUrl = sessionStorage.getItem("returnUrl");
+                    // Sync any guest cart from localStorage before redirecting
+                    try {
+                        const guestCart = localStorage.getItem('guest_cart');
+                        if (guestCart) {
+                            const items = JSON.parse(guestCart);
+                            if (items && Array.isArray(items) && items.length > 0) {
+                                const payload = items.map(item => ({
+                                    varianceId: item.varianceId || null,
+                                    collectionId: item.collectionId || null,
+                                    quantity: item.quantity || 1
+                                }));
+                                await fetch('/api/cart/sync', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(payload)
+                                });
+                                localStorage.removeItem('guest_cart');
+                            }
+                        }
+                    } catch (syncErr) {
+                        console.warn('Guest cart sync error:', syncErr);
+                    }
 
-                    // ✅ 2. නිවැරදි කිරීම: setTimeout ඉවත් කර වහාම Redirect කිරීම.
-                    // මෙහිදී loader.hide() නොකරන නිසා, ඊළඟ පිටුව ලෝඩ් වන තෙක් පවතින කළු තිරයම රැඳී පවතී.
+                    const returnUrl = sessionStorage.getItem("returnUrl");
 
                     if (returnUrl) {
                         sessionStorage.removeItem("returnUrl");

@@ -218,25 +218,84 @@ function initCartController() {
 
     // --- Helpers ---
     function formatCurrency(amount) {
-        const safeAmount = typeof amount === 'number' && !isNaN(amount) ? amount : 0;
+        const safeAmount = typeof amount === 'number' && !isNaN(amount) ? amount : (parseFloat(String(amount).replace(/[^0-9.]/g, '')) || 0);
         return `LKR ${safeAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
+    // --- Guest Cart Local Storage Helpers ---
+    function getGuestCart() {
+        try {
+            const raw = localStorage.getItem('guest_cart');
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveGuestCart(items) {
+        try {
+            localStorage.setItem('guest_cart', JSON.stringify(items));
+        } catch (e) {
+            console.error('Failed to save guest cart', e);
+        }
+    }
+
+    function getGuestCartData() {
+        const items = getGuestCart();
+        let subtotal = 0;
+        let totalItems = 0;
+        items.forEach(item => {
+            const price = typeof item.finalPrice === 'number' ? item.finalPrice : (parseFloat(String(item.finalPrice).replace(/[^0-9.]/g, '')) || 0);
+            const qty = parseInt(item.quantity) || 1;
+            subtotal += price * qty;
+            totalItems += qty;
+        });
+        return {
+            success: true,
+            cartItems: items,
+            totalItems: totalItems,
+            subtotal: subtotal,
+            tax: 0,
+            total: subtotal
+        };
+    }
+
+    async function syncGuestCartWithServer() {
+        const guestItems = getGuestCart();
+        if (!guestItems || guestItems.length === 0) return;
+
+        try {
+            const payload = guestItems.map(item => ({
+                varianceId: item.varianceId || null,
+                collectionId: item.collectionId || null,
+                quantity: item.quantity || 1
+            }));
+
+            const res = await fetch('/api/cart/sync', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                localStorage.removeItem('guest_cart');
+            }
+        } catch (err) {
+            console.warn('Cart sync failed:', err);
+        }
+    }
+
     async function checkUserSession() {
-        if (userLoggedIn) return true;
         try {
             const res = await fetch('/api/auth/session-check');
-            if (!res.ok) throw new Error('Not logged in');
+            if (!res.ok) {
+                userLoggedIn = false;
+                return false;
+            }
             const data = await res.json();
-            if (!data.loggedIn) throw new Error('Not logged in');
-            userLoggedIn = true;
-            return true;
+            userLoggedIn = !!data.loggedIn;
+            return userLoggedIn;
         } catch (err) {
-            redirectToLogin({
-                message: 'Please login to your account.',
-                stateFlags: { openCartAfterLogin: true },
-                delay: 1500
-            });
             userLoggedIn = false;
             return false;
         }
@@ -247,12 +306,15 @@ function initCartController() {
             const res = await fetch('/api/auth/session-check');
             const data = await res.json();
             userLoggedIn = (res.ok && data.loggedIn);
-        } catch (err) { console.warn('Session check init failed'); }
+        } catch (err) {
+            userLoggedIn = false;
+        }
 
         if (userLoggedIn) {
+            await syncGuestCartWithServer();
             await loadCartData();
         } else {
-            renderCartUI({ totalItems: 0, subtotal: 0, cartItems: [] });
+            renderCartUI(getGuestCartData());
         }
     }
 
@@ -294,8 +356,6 @@ function initCartController() {
     }
 
     async function openCartPanel() {
-        if (!(await checkUserSession())) return;
-
         const cartPanel = getEl('cart-panel');
         const cartOverlay = getEl('cart-overlay');
 
@@ -316,9 +376,17 @@ function initCartController() {
 
     // --- Load & Render Cart ---
     async function loadCartData() {
-        if (!userLoggedIn) return;
+        if (!userLoggedIn) {
+            renderCartUI(getGuestCartData());
+            return;
+        }
         try {
             const res = await fetch('/api/cart');
+            if (res.status === 401) {
+                userLoggedIn = false;
+                renderCartUI(getGuestCartData());
+                return;
+            }
             const data = await res.json();
             if (data.success) renderCartUI(data);
         } catch (err) {
@@ -372,7 +440,7 @@ function initCartController() {
         } else {
             if (cartItemsContainer) {
                 cartItemsContainer.classList.remove('hidden');
-                cartItemsContainer.innerHTML = renderCartItemsList(data.cartItems);
+                cartItemsContainer.innerHTML = renderCartItemsList(data.cartItems || []);
             }
             if (emptyCart) emptyCart.classList.add('hidden');
         }
@@ -383,20 +451,25 @@ function initCartController() {
 
     function renderCartItemsList(items) {
         return items.map(item => {
-            const isMaxStock = item.quantity >= item.availableStock;
+            const availableStock = item.availableStock !== undefined ? item.availableStock : 99;
+            const isMaxStock = item.quantity >= availableStock;
+            const unitPrice = typeof item.finalPrice === 'number' ? item.finalPrice : (parseFloat(String(item.finalPrice).replace(/[^0-9.]/g, '')) || 0);
+            const lineTotal = unitPrice * item.quantity;
+            const itemImg = item.image || 'images/placeholder-jewelry.jpg';
+
             return `
             <div class="flex gap-3 md:gap-4 group">
                 <div class="relative w-20 h-20 md:w-24 md:h-24 flex-none bg-gray-100 overflow-hidden border border-gray-100">
-                    <img src="${item.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="${item.name}" onerror="this.src='images/placeholder-collection.jpg'" loading="lazy">
+                    <img src="${itemImg}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="${item.name || 'Jewelry Piece'}" onerror="this.src='images/placeholder-collection.jpg'" loading="lazy">
                 </div>
                 
                 <div class="flex-1 flex flex-col justify-between py-0.5">
                     <div>
                         <div class="flex justify-between items-start mb-1">
-                            <h4 class="font-serif font-semibold text-gray-900 text-xs md:text-sm leading-tight uppercase tracking-wide">${item.name}</h4>
-                            <span class="text-xs md:text-sm font-bold ml-2 whitespace-nowrap">${formatCurrency(item.finalPrice * item.quantity)}</span>
+                            <h4 class="font-serif font-semibold text-gray-900 text-xs md:text-sm leading-tight uppercase tracking-wide">${item.name || 'Jewelry Piece'}</h4>
+                            <span class="text-xs md:text-sm font-bold ml-2 whitespace-nowrap">${formatCurrency(lineTotal)}</span>
                         </div>
-                        <p class="text-[9px] md:text-[10px] text-gray-400 mt-0">Unit: ${formatCurrency(item.finalPrice)}</p>
+                        <p class="text-[9px] md:text-[10px] text-gray-400 mt-0">Unit: ${formatCurrency(unitPrice)}</p>
                     </div>
 
                     <div class="flex justify-between items-end mt-2">
@@ -421,36 +494,71 @@ function initCartController() {
     }
 
     async function handleUpdateQty(cartId, action) {
-        if (!await checkUserSession()) return;
-        const formData = new FormData();
-        formData.append('cartId', cartId);
-        formData.append('action', action);
-        const data = await apiPostRequest('/api/update-cart-quantity', formData);
-        if (data?.success) await loadCartData();
+        if (userLoggedIn) {
+            const formData = new FormData();
+            formData.append('cartId', cartId);
+            formData.append('action', action);
+            const data = await apiPostRequest('/api/update-cart-quantity', formData);
+            if (data?.success) await loadCartData();
+        } else {
+            const items = getGuestCart();
+            const item = items.find(i => String(i.cartId) === String(cartId));
+            if (item) {
+                if (action === 'increase') {
+                    const maxStock = item.availableStock || 99;
+                    if (item.quantity < maxStock) {
+                        item.quantity++;
+                    } else {
+                        notify.warning(`Only ${maxStock} unit(s) available.`);
+                        return;
+                    }
+                } else if (action === 'decrease') {
+                    item.quantity--;
+                    if (item.quantity <= 0) {
+                        const idx = items.indexOf(item);
+                        items.splice(idx, 1);
+                    }
+                }
+                saveGuestCart(items);
+                renderCartUI(getGuestCartData());
+            }
+        }
     }
 
     async function handleRemoveItem(cartId) {
-        if (!await checkUserSession()) return;
-        const formData = new FormData();
-        formData.append('cartId', cartId);
-        const data = await apiPostRequest('/api/remove-from-cart', formData);
+        if (userLoggedIn) {
+            const formData = new FormData();
+            formData.append('cartId', cartId);
+            const data = await apiPostRequest('/api/remove-from-cart', formData);
 
-        if (data?.success) {
-            notify.success(data.message || 'Item removed.');
-            await loadCartData();
+            if (data?.success) {
+                notify.success(data.message || 'Item removed.');
+                await loadCartData();
+            }
+        } else {
+            let items = getGuestCart();
+            items = items.filter(i => String(i.cartId) !== String(cartId));
+            saveGuestCart(items);
+            notify.success('Item removed from bag.');
+            renderCartUI(getGuestCartData());
         }
     }
 
     async function handleClearCart() {
-        if (!await checkUserSession()) return;
         const btn = getEl('clear-cart-btn');
         if (btn && btn.disabled) return;
 
-        notify.confirm('Remove all items from cart?', async () => {
-            const data = await apiPostRequest('/api/clear-cart', null);
-            if (data?.success) {
-                notify.success(data.message);
-                await loadCartData();
+        notify.confirm('Remove all items from bag?', async () => {
+            if (userLoggedIn) {
+                const data = await apiPostRequest('/api/clear-cart', null);
+                if (data?.success) {
+                    notify.success(data.message);
+                    await loadCartData();
+                }
+            } else {
+                saveGuestCart([]);
+                notify.success('Bag cleared.');
+                renderCartUI(getGuestCartData());
             }
         });
     }
@@ -504,23 +612,67 @@ function initCartController() {
 
             if (target.closest('#checkout-btn')) {
                 const checkoutBtn = target.closest('#checkout-btn');
-                if (!checkoutBtn.disabled) window.location.href = 'checkout.html';
+                if (!checkoutBtn.disabled) {
+                    if (userLoggedIn) {
+                        window.location.href = 'checkout.html';
+                    } else {
+                        sessionStorage.setItem('returnUrl', 'checkout.html');
+                        closeCartPanelFunc();
+                        redirectToLogin({
+                            message: 'Please login or create an account to proceed to checkout.',
+                            stateFlags: { openCartAfterLogin: false },
+                            delay: 300
+                        });
+                    }
+                }
                 return;
             }
         });
     }
 
-    window.enhancedAddToCart = async (itemId, name, price, image, quantity, isCollection) => {
-        if (!await checkUserSession()) return;
+    window.enhancedAddToCart = async (itemId, name, price, image, quantity = 1, isCollection = false) => {
+        const qty = parseInt(quantity) || 1;
+        const numericPrice = typeof price === 'number' ? price : (parseFloat(String(price).replace(/[^0-9.]/g, '')) || 0);
 
-        const formData = new FormData();
-        formData.append(isCollection ? 'collectionId' : 'varianceId', itemId);
-        formData.append('qty', quantity);
+        if (userLoggedIn) {
+            const formData = new FormData();
+            formData.append(isCollection ? 'collectionId' : 'varianceId', itemId);
+            formData.append('qty', qty);
 
-        const data = await apiPostRequest('/api/add-to-cart', formData);
-        if (data?.success) {
-            notify.success(data.message || 'Added to cart!');
-            await loadCartData();
+            const data = await apiPostRequest('/api/add-to-cart', formData);
+            if (data?.success) {
+                notify.success(data.message || 'Added to bag!');
+                await loadCartData();
+            }
+        } else {
+            // Guest user local storage handling
+            const items = getGuestCart();
+            const idKey = isCollection ? 'collectionId' : 'varianceId';
+            const existing = items.find(i => String(i[idKey]) === String(itemId));
+
+            if (existing) {
+                existing.quantity += qty;
+                if (name) existing.name = name;
+                if (image && (!existing.image || existing.image.includes('placeholder'))) existing.image = image;
+                if (numericPrice > 0) existing.finalPrice = numericPrice;
+            } else {
+                items.push({
+                    cartId: 'guest_' + (isCollection ? 'c_' : 'v_') + itemId,
+                    varianceId: !isCollection ? parseInt(itemId) : null,
+                    collectionId: isCollection ? parseInt(itemId) : null,
+                    name: name || (isCollection ? 'Collection' : 'Jewelry Piece'),
+                    finalPrice: numericPrice,
+                    regularPrice: numericPrice,
+                    discountPercentage: 0,
+                    image: image || 'images/placeholder-jewelry.jpg',
+                    quantity: qty,
+                    availableStock: 99
+                });
+            }
+
+            saveGuestCart(items);
+            notify.success('Added to bag!');
+            renderCartUI(getGuestCartData());
         }
     };
 

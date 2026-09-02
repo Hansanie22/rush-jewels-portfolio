@@ -1,5 +1,6 @@
 package lk.dio.rush_jewels.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lk.dio.rush_jewels.model.BlogPost;
@@ -218,7 +219,7 @@ public class AdminBlogController {
             }
 
             JsonNode textNode = candidates.get(0).path("content").path("parts").get(0).path("text");
-            List<String> tags = mapper.readValue(textNode.asText(), List.class);
+            List<String> tags = mapper.readValue(textNode.asText(), new TypeReference<List<String>>() {});
 
             TagResponse resp = new TagResponse();
             resp.tags = tags;

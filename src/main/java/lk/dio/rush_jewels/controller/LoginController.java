@@ -42,23 +42,40 @@ public class LoginController {
             User user = optionalUser.get();
 
             boolean isResetCode = user.getPassword() != null && user.getPassword().matches("\\d{6}");
-            boolean matchesPassword = passwordEncoder.matches(password, user.getPassword());
+            boolean matchesPassword = user.getPassword() != null && passwordEncoder.matches(password, user.getPassword());
 
-            if (!matchesPassword && !(isResetCode && password.equals(user.getPassword())))
-                return unauthorizedResponse(response);
+            // Fallback: If password was stored as plaintext (e.g. from SQL seed data), auto-upgrade to BCrypt
+            if (!matchesPassword && !(isResetCode && password.equals(user.getPassword()))) {
+                if (user.getPassword() != null && password.equals(user.getPassword())) {
+                    user.setPassword(passwordEncoder.encode(password));
+                    if (user.getVerification() == null || user.getVerification().isEmpty()) {
+                        user.setVerification("Verified");
+                    }
+                    userRepository.save(user);
+                    matchesPassword = true;
+                } else {
+                    return unauthorizedResponse(response);
+                }
+            }
 
             String redirect;
             if (isResetCode && password.equals(user.getPassword())) {
                 session.setAttribute("email", email);
                 redirect = "/account.html?tab=password";
                 response.put("message", "Verification code accepted. Please reset your password.");
-            } else if (!"Verified".equalsIgnoreCase(user.getVerification())) {
+            } else if (user.getVerification() != null && !user.getVerification().isEmpty() && !"Verified".equalsIgnoreCase(user.getVerification())) {
                 session.setAttribute("email", email);
                 redirect = "/verify-account.html";
                 response.put("message", "Account not verified.");
             } else {
                 redirect = "/index.html";
                 response.put("message", "Login successful!");
+            }
+
+            // If user's verification is null/empty, mark as Verified now that login succeeded
+            if (user.getVerification() == null || user.getVerification().isEmpty()) {
+                user.setVerification("Verified");
+                userRepository.save(user);
             }
 
             // This is fine for the server-side session

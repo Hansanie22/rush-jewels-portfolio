@@ -997,6 +997,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadOrderSummary() {
         try {
+            // If guest cart items are still in localStorage, sync them first
+            const guestCart = localStorage.getItem('guest_cart');
+            if (guestCart) {
+                try {
+                    const items = JSON.parse(guestCart);
+                    if (items && Array.isArray(items) && items.length > 0) {
+                        const payload = items.map(item => ({
+                            varianceId: item.varianceId || null,
+                            collectionId: item.collectionId || null,
+                            quantity: item.quantity || 1
+                        }));
+                        await fetch(`${API_BASE_URL}/cart/sync`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            credentials: 'include',
+                            body: JSON.stringify(payload)
+                        });
+                        localStorage.removeItem('guest_cart');
+                    }
+                } catch (e) { console.warn('Checkout guest cart sync error:', e); }
+            }
+
             const res = await fetch(`${API_BASE_URL}/cart`, { credentials: 'include' });
             if(res.status === 401) {
                 sessionStorage.setItem('returnUrl', window.location.href);
@@ -1009,6 +1031,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cartSubtotal = result.subtotal || 0;
                 cartTax = result.tax || 0;
                 displayOrderItems();
+                calculateAndDisplayTotals();
             }
         } catch(e) { console.error(e); }
     }
