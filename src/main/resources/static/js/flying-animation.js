@@ -109,25 +109,33 @@
                 // --- RESTORED ORIGINAL CART LOGIC ---
                 let id = btn.dataset.productId || btn.dataset.collectionId;
                 let isCollection = !!btn.dataset.collectionId;
-                let name = btn.dataset.productName;
-                let qty = 1;
-                let imageSrc = btn.dataset.productImage;
+                let name = btn.dataset.productName || '';
+                let qty = parseInt(btn.dataset.qty || '1') || 1;
+                let imageSrc = btn.dataset.productImage || '';
+
+                // Extract actual price from data attribute
+                let price = parseFloat(btn.dataset.productPrice || btn.dataset.price || '0') || 0;
 
                 if (!imageSrc) {
                     const container = btn.closest('.product-card') || btn.closest('.group');
-                    if(container) {
+                    if (container) {
                         const img = container.querySelector('img');
-                        if(img) imageSrc = img.src;
+                        if (img) imageSrc = img.src;
+                        // Try to get name from card title if not set
+                        if (!name) {
+                            const titleEl = container.querySelector('.product-title, h3, h4');
+                            if (titleEl) name = titleEl.textContent.trim();
+                        }
                     }
                 }
 
-                if(!id) {
+                if (!id) {
                     const urlParams = new URLSearchParams(window.location.search);
                     id = urlParams.get('id');
                 }
 
                 if (id && typeof window.enhancedAddToCart === 'function') {
-                    await window.enhancedAddToCart(id, name, '0', imageSrc, qty, isCollection);
+                    await window.enhancedAddToCart(id, name, price, imageSrc, qty, isCollection);
                 }
             });
         });
@@ -147,6 +155,7 @@
 
     injectAnimationStyles();
     window.attachFlyingAnimation = attachCartFunctionality;
+    window.attachCartFunctionality = attachCartFunctionality; // alias for home-data-loader.js
 
     document.addEventListener('DOMContentLoaded', attachCartFunctionality);
     document.addEventListener('navbar-loaded', attachCartFunctionality);

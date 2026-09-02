@@ -338,7 +338,7 @@ function buildFeaturedCardHtml(product) {
             ${iconHtml} ${finalBtnText}
         </button>`;
     } else {
-        actionButtonHtml = `<button class="add-to-cart-btn" onclick="event.stopPropagation()" data-product-id="${product.varianceId}" data-product-name="${productName}" data-product-price="${product.price}" data-product-image="${imgUrl}" data-stock-status="${product.stockStatus}" data-stock-qty="${product.currentStockQty}">
+        actionButtonHtml = `<button class="add-to-cart-btn" onclick="event.stopPropagation()" data-product-id="${product.varianceId}" data-product-name="${productName}" data-product-price="${product.price || product.minPrice || 0}" data-product-image="${imgUrl}" data-stock-status="${product.stockStatus}" data-stock-qty="${product.currentStockQty}">
             <i class="fas fa-shopping-bag mr-2"></i> Add to Cart
         </button>`;
     }
